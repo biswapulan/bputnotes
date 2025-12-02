@@ -405,6 +405,7 @@
                         class="email-input" 
                         placeholder="Enter your email" 
                         required
+                        name="Email"
                     >
                     <button type="submit" class="notify-btn">Notify Me</button>
                 </form>
@@ -434,11 +435,47 @@
         }
 
         // Handle form submission
-        function handleSubmit(event) {
-            event.preventDefault();
-            const email = event.target.querySelector('.email-input').value;
-            alert('Thanks for subscribing! We\'ll notify you at ' + email + ' when we launch! 🎉');
-            event.target.reset();
+        // function handleSubmit(event) {
+        //     event.preventDefault();
+        //     const email = event.target.querySelector('.email-input').value;
+        //     alert('Thanks for subscribing! We\'ll notify you at ' + email + ' when we launch! 🎉');
+        //     event.target.reset();
+        // }
+        // 🚨 IMPORTANT: Replace THIS_IS_YOUR_DEPLOYED_WEB_APP_URL with the URL you copied in Step 2.
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzq60C3vRTypPRCjCM2ppCT1ackHaUuFJneI8qV5tFoTUaag8JbmrOGKUCB1UgZ1q8I/exec'; 
+
+    function handleSubmit(event) {
+        event.preventDefault(); // Stop the default form submission
+    
+        const form = event.target;
+        const emailInput = form.querySelector('.email-input');
+        const email = emailInput.value;
+
+        // 1. Prepare the data to send.
+        // The keys here (e.g., 'Email') must match the 'name' attribute in your HTML
+        const data = new FormData(form); 
+
+    // 2. Send the data using the Fetch API.
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: data, // FormData correctly formats the data for the Apps Script
+        // mode: 'no-cors' is sometimes needed but often unnecessary for Apps Script
+        })
+        .then(response => {
+        // The Apps Script returns a simple 'Success!' text response
+            if (response.ok) {
+             // 3. Success Feedback
+                 alert(`Thanks for subscribing! We'll notify you at ${email} when we launch! 🎉`);
+                 form.reset(); // Clear the form after successful submission
+            } else {
+                throw new Error('Form submission failed.');
+            }
+        })
+        .catch(error => {
+        // 4. Error Handling
+            console.error('Submission Error:', error);
+            alert('Oops! Something went wrong. Please try again later.');
+        });
         }
     </script>
 </body>
