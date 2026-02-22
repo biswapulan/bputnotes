@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subject Notes — BPUT Notes</title>
+  <meta name="description" content="Branch-wise, semester-wise notes for all BPUT engineering students. Free PDF notes on Google Drive." />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/components.css" />
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="10" fill="#2563eb"/><path d="M10 26V10h8.5c2 0 3.5.5 4.5 1.5S24.5 14 24.5 15.5c0 1-.3 1.8-.8 2.4-.5.6-1.1 1-1.8 1.2.9.2 1.7.7 2.2 1.4.6.7.9 1.6.9 2.7 0 1.6-.6 2.9-1.7 3.8-1.1.9-2.7 1-4.8 1H10zm3.5-9.5h4.7c1 0 1.8-.2 2.3-.7.5-.4.8-1 .8-1.8 0-.8-.3-1.4-.8-1.8-.5-.4-1.3-.7-2.3-.7h-4.7v5zm0 6.7h5.2c1.1 0 1.9-.3 2.5-.8.6-.5.8-1.2.8-2.1 0-.9-.3-1.6-.8-2.1-.6-.5-1.4-.7-2.5-.7h-5.2v5.7z" fill="white"/></svg>
+      <span class="nav-logo-text">BPUT<span>Notes</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="notes.html" class="active">Notes</a></li>
+      <li><a href="pyq.html">PYQs</a></li>
+      <li><a href="scholarship.html">Scholarships</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="internship.html" class="nav-cta">Internship & Training</a></li>
+    </ul>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ── PAGE HERO ── -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="section-tag" style="background:rgba(255,255,255,0.15); color:#bfdbfe; border-color:rgba(255,255,255,0.2);">📚 Study Materials</div>
+    <h1>Subject-Wise Notes</h1>
+    <p>Original, handcrafted notes for all BPUT branches — organized by semester. Access via Google Drive, completely free.</p>
+  </div>
+</div>
+
+<!-- ── NOTES SECTION ── -->
+<section class="section">
+  <div class="container">
+
+    <!-- Branch Filter -->
+    <div style="margin-bottom: 12px;">
+      <p style="font-size: 0.875rem; color: var(--gray-400); margin-bottom: 10px; font-family: var(--font-display); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">Filter by Branch</p>
+      <div class="filter-tabs" data-target=".notes-grid">
+        <button class="filter-tab active" data-filter="all">All Branches</button>
+        <button class="filter-tab" data-filter="cse">CSE</button>
+        <button class="filter-tab" data-filter="ece">ECE</button>
+        <button class="filter-tab" data-filter="eee">EEE</button>
+        <button class="filter-tab" data-filter="mech">Mechanical</button>
+        <button class="filter-tab" data-filter="civil">Civil</button>
+      </div>
+    </div>
+
+    <!-- Semester Filter -->
+    <div style="margin-bottom: 40px;">
+      <p style="font-size: 0.875rem; color: var(--gray-400); margin-bottom: 10px; font-family: var(--font-display); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">Filter by Semester</p>
+      <div class="filter-tabs" id="sem-filter">
+        <button class="filter-tab active" data-filter="all" data-target=".notes-grid" onclick="filterSem('all')">All</button>
+        <button class="filter-tab" onclick="filterSem('1')">Sem 1</button>
+        <button class="filter-tab" onclick="filterSem('2')">Sem 2</button>
+        <button class="filter-tab" onclick="filterSem('3')">Sem 3</button>
+        <button class="filter-tab" onclick="filterSem('4')">Sem 4</button>
+        <button class="filter-tab" onclick="filterSem('5')">Sem 5</button>
+        <button class="filter-tab" onclick="filterSem('6')">Sem 6</button>
+        <button class="filter-tab" onclick="filterSem('7')">Sem 7</button>
+        <button class="filter-tab" onclick="filterSem('8')">Sem 8</button>
+      </div>
+    </div>
+
+    <!-- Notes Grid -->
+    <!-- 
+      HOW TO ADD YOUR OWN NOTES:
+      Each .note-card div has:
+        data-category="cse"   → branch filter
+        data-sem="3"          → semester filter
+      Just copy a card and update the subject name, Drive link, and data attributes.
+    -->
+    <div class="notes-grid grid-3" id="notesGrid">
+
+      <!-- CSE NOTES -->
+      <div class="card note-card reveal" data-category="cse" data-sem="3">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+          <div>
+            <span class="chip">CSE</span>
+            <span class="chip" style="margin-left:6px;">Sem 3</span>
+          </div>
+          <span class="badge badge-blue">New</span>
+        </div>
+        <h3 style="font-size:1.05rem;margin-bottom:8px;">Data Structures & Algorithms</h3>
+        <p style="font-size:0.875rem;margin-bottom:18px;">Covers arrays, linked lists, trees, graphs, sorting and searching algorithms with examples.</p>
+        <a href="https://drive.google.com/your-link-here" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;">
+          📄 Open in Drive
+        </a>
+      </div>
+
+      <div class="card note-card reveal" data-category="cse" data-sem="3">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+          <span class="chip">CSE — Sem 3</span>
+        </div>
+        <h3 style="font-size:1.05rem;margin-bottom:8px;">Digital Electronics</h3>
+        <p style="font-size:0.875rem;margin-bottom:18px;">Logic gates, Boolean algebra, flip flops, counters, registers and combinational circuits.</p>
+        <a href="https://drive.google.com/your-link-here" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;">📄 Open in Drive</a>
+      </div>
+
+      <div class="card note-card reveal" data-category="cse" data-sem="4">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+          <span class="chip">CSE — Sem 4</span>
+        </div>
+        <h3 style="font-size:1.05rem;margin-bottom:8px;">Operating Systems</h3>
+        <p style="font-size:0.875rem;margin-bottom:18px;">Process management, memory management, file systems, deadlock and scheduling algorithms.</p>
+        <a href="https://drive.google.com/your-link-here" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;">📄 Open in Drive</a>
+      </div>
+
+      <div class="card note-card reveal" data-category="cse" data-sem="5">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+          <span class="chip">CSE — Sem 5</span>
+        </div>
+        <h3 style="font-size:1.05rem;margin-bottom:8px;">Database Management Systems</h3>
+        <p style="font-size:0.875rem;margin-bottom:18px;">ER diagrams, SQL, normalization, transactions, concurrency control and indexing.</p>
+        <a href="https://drive.google.com/your-link-here" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;">📄 Open in Drive</a>
+      </div>
+
+      <!-- ECE NOTES -->
+      <div class="card note-card reveal" data-category="ece" data-sem="3">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+          <span class="chip">ECE — Sem 3</span>
+        </div>
+        <h3 style="font-size:1.05rem;margin-bottom:8px;">Analog Electronics</h3>
+        <p style="font-size:0.875rem;margin-bottom:18px;">Diodes, BJT, FET, amplifiers, feedback and oscillator circuits with derivations.</p>
+        <a href="https://drive.google.com/your-link-here" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;">📄 Open in Drive</a>
+      </div>
+
+      <div class="card note-card reveal" data-category="ece" data-sem="4">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+          <span class="chip">ECE — Sem 4</span>
+        </div>
+        <h3 style="font-size:1.05rem;margin-bottom:8px;">Signals & Systems</h3>
+        <p style="font-size:0.875rem;margin-bottom:18px;">Continuous and discrete signals, Fourier, Laplace, Z transforms and system analysis.</p>
+        <a href="https://drive.google.com/your-link-here" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;">📄 Open in Drive</a>
+      </div>
+
+      <!-- MECH NOTES -->
+      <div class="card note-card reveal" data-category="mech" data-sem="3">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+          <span class="chip">MECH — Sem 3</span>
+        </div>
+        <h3 style="font-size:1.05rem;margin-bottom:8px;">Engineering Thermodynamics</h3>
+        <p style="font-size:0.875rem;margin-bottom:18px;">Laws of thermodynamics, cycles, entropy, enthalpy and thermodynamic properties.</p>
+        <a href="https://drive.google.com/your-link-here" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;">📄 Open in Drive</a>
+      </div>
+
+      <!-- CIVIL NOTES -->
+      <div class="card note-card reveal" data-category="civil" data-sem="3">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+          <span class="chip">CIVIL — Sem 3</span>
+        </div>
+        <h3 style="font-size:1.05rem;margin-bottom:8px;">Fluid Mechanics</h3>
+        <p style="font-size:0.875rem;margin-bottom:18px;">Fluid properties, hydrostatics, Bernoulli equation, flow through pipes and pumps.</p>
+        <a href="https://drive.google.com/your-link-here" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;">📄 Open in Drive</a>
+      </div>
+
+      <!-- EEE -->
+      <div class="card note-card reveal" data-category="eee" data-sem="3">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+          <span class="chip">EEE — Sem 3</span>
+        </div>
+        <h3 style="font-size:1.05rem;margin-bottom:8px;">Electrical Machines</h3>
+        <p style="font-size:0.875rem;margin-bottom:18px;">DC machines, transformers, induction motors, synchronous machines and characteristics.</p>
+        <a href="https://drive.google.com/your-link-here" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;">📄 Open in Drive</a>
+      </div>
+
+    </div>
+
+    <!-- Add More Notice -->
+    <div style="text-align:center; margin-top:48px;" class="reveal">
+      <p style="color:var(--gray-400); font-size:0.9rem; margin-bottom:16px;">Can't find your subject? More notes are being added every week.</p>
+      <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="btn btn-outline">📱 Request a Subject</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer same as index -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="display:inline-flex;">
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="10" fill="#2563eb"/><path d="M10 26V10h8.5c2 0 3.5.5 4.5 1.5S24.5 14 24.5 15.5c0 1-.3 1.8-.8 2.4-.5.6-1.1 1-1.8 1.2.9.2 1.7.7 2.2 1.4.6.7.9 1.6.9 2.7 0 1.6-.6 2.9-1.7 3.8-1.1.9-2.7 1-4.8 1H10zm3.5-9.5h4.7c1 0 1.8-.2 2.3-.7.5-.4.8-1 .8-1.8 0-.8-.3-1.4-.8-1.8-.5-.4-1.3-.7-2.3-.7h-4.7v5zm0 6.7h5.2c1.1 0 1.9-.3 2.5-.8.6-.5.8-1.2.8-2.1 0-.9-.3-1.6-.8-2.1-.6-.5-1.4-.7-2.5-.7h-5.2v5.7z" fill="white"/></svg>
+          <span class="nav-logo-text" style="color:var(--white);">BPUT<span style="color:var(--accent);">Notes</span></span>
+        </a>
+        <p>Your one-stop platform for BPUT study materials, previous year questions, scholarships and career programs.</p>
+      </div>
+      <div class="footer-col"><h4>Resources</h4><a href="notes.html">Subject Notes</a><a href="pyq.html">Previous Year QP</a><a href="scholarship.html">Scholarships</a></div>
+      <div class="footer-col"><h4>Programs</h4><a href="internship.html">Internship Program</a><a href="internship.html">Training Courses</a></div>
+      <div class="footer-col"><h4>Info</h4><a href="about.html">About Us</a><a href="about.html#contact">Contact</a></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 BPUTNotes.in — Made with ❤️ for BPUT students</span>
+      <span>Not affiliated with BPUT University</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/91XXXXXXXXXX" class="wa-float" target="_blank">💬</a>
+<button class="scroll-top">↑</button>
+
+<script src="js/main.js"></script>
+<script>
+  let activeSem = 'all';
+  function filterSem(sem) {
+    activeSem = sem;
+    document.querySelectorAll('#sem-filter .filter-tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    document.querySelectorAll('.note-card').forEach(card => {
+      const semMatch = sem === 'all' || card.dataset.sem === sem;
+      card.style.display = semMatch ? '' : 'none';
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Careers — BPUT Notes</title>
+  <meta name="description" content="Join the BPUTNotes.in team. Open positions: Backend Developer, Batch Coordinator, Sales & Marketing." />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <style>
+    .job-card {
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-xl);
+      padding: 36px;
+      transition: all var(--transition);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .job-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--blue-500), var(--blue-300));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .job-card:hover { border-color: var(--blue-300); box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+    .job-card:hover::before { transform: scaleX(1); }
+    .job-card.active { border-color: var(--blue-500); box-shadow: var(--shadow-blue); }
+    .job-card.active::before { transform: scaleX(1); }
+
+    .job-detail-panel {
+      display: none;
+      margin-top: 24px;
+      padding: 32px;
+      background: var(--blue-50);
+      border: 1px solid var(--blue-100);
+      border-radius: var(--radius-lg);
+      animation: fadeUp 0.3s ease forwards;
+    }
+    .job-detail-panel.open { display: block; }
+
+    .detail-section { margin-bottom: 24px; }
+    .detail-section h4 {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--blue-700);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 12px;
+    }
+    .detail-list { list-style: none; }
+    .detail-list li {
+      font-size: 0.9rem;
+      color: var(--gray-700);
+      padding: 5px 0;
+      padding-left: 18px;
+      position: relative;
+    }
+    .detail-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--blue-500);
+      font-size: 0.8rem;
+    }
+
+    .perk-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--white);
+      border: 1px solid var(--blue-200, #bfdbfe);
+      color: var(--blue-700);
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: var(--font-display);
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin: 4px 4px 4px 0;
+    }
+
+    .form-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 22, 40, 0.6);
+      z-index: 2000;
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .form-overlay.open { display: flex; }
+
+    .form-modal {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      width: 100%;
+      max-width: 620px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: fadeUp 0.3s ease forwards;
+    }
+    .modal-close {
+      position: absolute;
+      top: 20px; right: 20px;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: var(--gray-100);
+      color: var(--gray-700);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all var(--transition);
+    }
+    .modal-close:hover { background: var(--gray-200); }
+
+    @media(max-width: 768px) {
+      .job-card { padding: 24px; }
+      .form-modal { padding: 28px 20px; }
+      .jobs-layout { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="10" fill="#2563eb"/><path d="M10 26V10h8.5c2 0 3.5.5 4.5 1.5S24.5 14 24.5 15.5c0 1-.3 1.8-.8 2.4-.5.6-1.1 1-1.8 1.2.9.2 1.7.7 2.2 1.4.6.7.9 1.6.9 2.7 0 1.6-.6 2.9-1.7 3.8-1.1.9-2.7 1-4.8 1H10zm3.5-9.5h4.7c1 0 1.8-.2 2.3-.7.5-.4.8-1 .8-1.8 0-.8-.3-1.4-.8-1.8-.5-.4-1.3-.7-2.3-.7h-4.7v5zm0 6.7h5.2c1.1 0 1.9-.3 2.5-.8.6-.5.8-1.2.8-2.1 0-.9-.3-1.6-.8-2.1-.6-.5-1.4-.7-2.5-.7h-5.2v5.7z" fill="white"/></svg>
+      <span class="nav-logo-text">BPUT<span>Notes</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="notes.html">Notes</a></li>
+      <li><a href="pyq.html">PYQs</a></li>
+      <li><a href="scholarship.html">Scholarships</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="careers.html" class="active">Careers</a></li>
+      <li><a href="internship.html" class="nav-cta">Internship & Training</a></li>
+    </ul>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section style="padding: 130px 24px 80px; background: linear-gradient(160deg, #eff6ff 0%, #ffffff 55%, #f0f9ff 100%); position: relative; overflow: hidden;">
+  <div class="blob-bg" style="width:500px;height:500px;background:#bfdbfe;top:-200px;right:-150px;"></div>
+  <div class="blob-bg" style="width:300px;height:300px;background:#dbeafe;bottom:-80px;left:-80px;"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div style="max-width:680px;">
+      <div class="section-tag animate-fadeUp">💼 We're Hiring</div>
+      <h1 style="font-size:clamp(2.2rem,4.5vw,3.4rem);color:var(--gray-900);margin-bottom:20px;margin-top:12px;" class="animate-fadeUp animate-delay-1">
+        Build Something<br/>
+        <span style="background:linear-gradient(135deg,#2563eb,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Meaningful With Us</span>
+      </h1>
+      <p style="font-size:1.05rem;color:var(--gray-500);line-height:1.9;margin-bottom:32px;" class="animate-fadeUp animate-delay-2">
+        BPUTNotes.in is a student-built platform helping thousands of BPUT students study better and grow their careers. We're looking for passionate people to join our small but driven team.
+      </p>
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;" class="animate-fadeUp animate-delay-3">
+        <span class="perk-pill">🎓 Student-friendly</span>
+        <span class="perk-pill">🏡 Work from Home</span>
+        <span class="perk-pill">📈 Grow with us</span>
+        <span class="perk-pill">🤝 Collaborative team</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── OPEN POSITIONS ── -->
+<section class="section">
+  <div class="container">
+
+    <div style="margin-bottom:52px;" class="reveal">
+      <div class="section-tag">Open Positions</div>
+      <h2 class="section-title">3 Roles Available Right Now</h2>
+      <p class="section-sub">Click any role to read the full job description and apply directly from this page.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px;">
+
+      <!-- ─── JOB 1: BACKEND DEVELOPER ─── -->
+      <div>
+        <div class="job-card reveal" id="card-1" onclick="toggleJob(1)">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;">
+            <div style="display:flex;gap:18px;align-items:flex-start;">
+              <div class="icon-wrap icon-wrap-blue" style="margin:0;flex-shrink:0;">
+                <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+              </div>
+              <div>
+                <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+                  <span class="badge badge-blue">Technical</span>
+                  <span class="badge badge-green">Remote</span>
+                  <span class="badge" style="background:#fef3c7;color:#b45309;border:1px solid #fde68a;">Part-time / Freelance</span>
+                </div>
+                <h3 style="font-size:1.2rem;margin-bottom:6px;">Backend Developer</h3>
+                <p style="font-size:0.875rem;color:var(--gray-400);">Help us build and maintain the technical infrastructure of BPUTNotes.in</p>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;flex-shrink:0;">
+              <span style="font-family:var(--font-display);font-size:0.8rem;color:var(--gray-400);">₹ Stipend-based</span>
+              <span class="toggle-arrow" id="arrow-1" style="font-size:1.2rem;color:var(--blue-400);transition:transform 0.3s;">▼</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="job-detail-panel" id="panel-1">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:28px;" class="jobs-layout">
+            <div>
+              <div class="detail-section">
+                <h4>About the Role</h4>
+                <p style="font-size:0.9rem;color:var(--gray-700);line-height:1.8;">We're looking for a backend developer to help us build scalable infrastructure for BPUTNotes.in — think user management, Google Sheets API integrations, automated email/WhatsApp workflows, and eventually a proper backend for our registration and content systems.</p>
+              </div>
+              <div class="detail-section">
+                <h4>What You'll Do</h4>
+                <ul class="detail-list">
+                  <li>Build and maintain Google Apps Script automations for form submissions and email triggers</li>
+                  <li>Develop and integrate REST APIs for the internship registration and contact systems</li>
+                  <li>Set up automated WhatsApp/email notification workflows for new registrations</li>
+                  <li>Manage and optimize the website's backend performance and uptime</li>
+                  <li>Implement a simple CMS or admin panel for the team to manage content</li>
+                  <li>Help with database design as we scale to a proper backend</li>
+                </ul>
+              </div>
+            </div>
+            <div>
+              <div class="detail-section">
+                <h4>What We're Looking For</h4>
+                <ul class="detail-list">
+                  <li>Solid knowledge of JavaScript / Node.js or Python</li>
+                  <li>Experience with Google Apps Script is a big plus</li>
+                  <li>Familiar with REST APIs, JSON and basic database concepts</li>
+                  <li>Understanding of HTML/CSS to collaborate with frontend</li>
+                  <li>Self-motivated — we're a remote team, you'll need to manage your own time</li>
+                  <li>BPUT student or recent graduate preferred but not required</li>
+                </ul>
+              </div>
+              <div class="detail-section">
+                <h4>Perks & Details</h4>
+                <div>
+                  <span class="perk-pill">🏡 100% Remote</span>
+                  <span class="perk-pill">⏰ Flexible Hours</span>
+                  <span class="perk-pill">📜 Experience Letter</span>
+                  <span class="perk-pill">📈 Equity Potential</span>
+                  <span class="perk-pill">💰 Stipend (performance-based)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="openModal('Backend Developer')">Apply for this Role →</button>
+        </div>
+      </div>
+
+      <!-- ─── JOB 2: BATCH COORDINATOR ─── -->
+      <div>
+        <div class="job-card reveal" id="card-2" onclick="toggleJob(2)">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;">
+            <div style="display:flex;gap:18px;align-items:flex-start;">
+              <div class="icon-wrap icon-wrap-green" style="margin:0;flex-shrink:0;">
+                <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              </div>
+              <div>
+                <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+                  <span class="badge badge-green">Operations</span>
+                  <span class="badge badge-green">Remote</span>
+                  <span class="badge" style="background:#fef3c7;color:#b45309;border:1px solid #fde68a;">Part-time</span>
+                </div>
+                <h3 style="font-size:1.2rem;margin-bottom:6px;">Batch Management / Coordinator</h3>
+                <p style="font-size:0.875rem;color:var(--gray-400);">Manage internship batches, student communication and program operations end-to-end</p>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;flex-shrink:0;">
+              <span style="font-family:var(--font-display);font-size:0.8rem;color:var(--gray-400);">₹ Stipend-based</span>
+              <span class="toggle-arrow" id="arrow-2" style="font-size:1.2rem;color:var(--blue-400);transition:transform 0.3s;">▼</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="job-detail-panel" id="panel-2">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:28px;" class="jobs-layout">
+            <div>
+              <div class="detail-section">
+                <h4>About the Role</h4>
+                <p style="font-size:0.9rem;color:var(--gray-700);line-height:1.8;">The Batch Coordinator is the backbone of our internship programs. You'll be the primary point of contact for registered students, manage batch schedules, ensure smooth Google Meet sessions, and make sure every student has a great experience from registration to certificate.</p>
+              </div>
+              <div class="detail-section">
+                <h4>What You'll Do</h4>
+                <ul class="detail-list">
+                  <li>Manage incoming registrations via Google Sheet — follow up with students on WhatsApp and email</li>
+                  <li>Organize students into batches based on branch, availability and program</li>
+                  <li>Coordinate with trainers to schedule and share Google Meet links on time</li>
+                  <li>Send session reminders, attendance tracking and post-session follow-ups</li>
+                  <li>Handle student queries, doubts and complaints promptly and professionally</li>
+                  <li>Prepare and dispatch certificates after program completion</li>
+                  <li>Maintain batch reports and communicate weekly updates to the team</li>
+                </ul>
+              </div>
+            </div>
+            <div>
+              <div class="detail-section">
+                <h4>What We're Looking For</h4>
+                <ul class="detail-list">
+                  <li>Excellent communication skills in English and Hindi/Odia</li>
+                  <li>Very comfortable with WhatsApp, Google Sheets and Google Meet</li>
+                  <li>Organized, detail-oriented — you won't let things fall through the cracks</li>
+                  <li>Empathetic and patient — you're dealing with students who may be confused</li>
+                  <li>Able to dedicate 2–3 hours/day consistently</li>
+                  <li>Prior experience managing a group, event or team is a big plus</li>
+                  <li>BPUT student preferred — you understand the audience better than anyone</li>
+                </ul>
+              </div>
+              <div class="detail-section">
+                <h4>Perks & Details</h4>
+                <div>
+                  <span class="perk-pill">🏡 100% Remote</span>
+                  <span class="perk-pill">⏰ 2–3 hrs/day</span>
+                  <span class="perk-pill">📜 Experience Letter</span>
+                  <span class="perk-pill">🎓 Great for resume</span>
+                  <span class="perk-pill">💰 Per-batch stipend</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="openModal('Batch Management / Coordinator')">Apply for this Role →</button>
+        </div>
+      </div>
+
+      <!-- ─── JOB 3: SALES & MARKETING ─── -->
+      <div>
+        <div class="job-card reveal" id="card-3" onclick="toggleJob(3)">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;">
+            <div style="display:flex;gap:18px;align-items:flex-start;">
+              <div class="icon-wrap icon-wrap-amber" style="margin:0;flex-shrink:0;">
+                <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+              </div>
+              <div>
+                <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+                  <span class="badge badge-amber">Marketing</span>
+                  <span class="badge badge-green">Remote</span>
+                  <span class="badge" style="background:#fef3c7;color:#b45309;border:1px solid #fde68a;">Part-time</span>
+                </div>
+                <h3 style="font-size:1.2rem;margin-bottom:6px;">Sales & Marketing Executive</h3>
+                <p style="font-size:0.875rem;color:var(--gray-400);">Drive registrations, grow our student community and handle outreach across colleges</p>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;flex-shrink:0;">
+              <span style="font-family:var(--font-display);font-size:0.8rem;color:var(--gray-400);">₹ Commission + Stipend</span>
+              <span class="toggle-arrow" id="arrow-3" style="font-size:1.2rem;color:var(--blue-400);transition:transform 0.3s;">▼</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="job-detail-panel" id="panel-3">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:28px;" class="jobs-layout">
+            <div>
+              <div class="detail-section">
+                <h4>About the Role</h4>
+                <p style="font-size:0.9rem;color:var(--gray-700);line-height:1.8;">We're growing fast across BPUT colleges and we need a driven, people-first Sales & Marketing executive to help us reach more students. You'll spread the word about BPUTNotes.in through WhatsApp, college groups, Instagram and on-campus outreach — and earn a commission for every internship registration you drive.</p>
+              </div>
+              <div class="detail-section">
+                <h4>What You'll Do</h4>
+                <ul class="detail-list">
+                  <li>Promote BPUTNotes.in internship programs in college WhatsApp groups and social media</li>
+                  <li>Create engaging posts, reels and stories for Instagram targeting BPUT students</li>
+                  <li>Identify and reach out to student communities, tech clubs and college groups</li>
+                  <li>Conduct peer-to-peer outreach and on-campus word-of-mouth campaigns</li>
+                  <li>Track referral conversions and share weekly reports with the team</li>
+                  <li>Collect student feedback and testimonials after program completion</li>
+                  <li>Assist in creating promotional material (text, banners, video scripts)</li>
+                </ul>
+              </div>
+            </div>
+            <div>
+              <div class="detail-section">
+                <h4>What We're Looking For</h4>
+                <ul class="detail-list">
+                  <li>Highly social — you know people, people know you</li>
+                  <li>Confident communicator — both written and verbal</li>
+                  <li>Basic knowledge of Instagram / social media content creation</li>
+                  <li>Target-driven mindset with a positive attitude</li>
+                  <li>Able to dedicate 1–2 hours/day for outreach and content</li>
+                  <li>Currently enrolled in a BPUT college — you are the target audience</li>
+                  <li>Prior experience in sales, marketing or brand ambassador roles is a plus</li>
+                </ul>
+              </div>
+              <div class="detail-section">
+                <h4>Perks & Details</h4>
+                <div>
+                  <span class="perk-pill">🏡 100% Remote</span>
+                  <span class="perk-pill">💸 Commission per referral</span>
+                  <span class="perk-pill">📜 Experience Letter</span>
+                  <span class="perk-pill">📱 Flexible timing</span>
+                  <span class="perk-pill">🏆 Performance bonuses</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="openModal('Sales & Marketing Executive')">Apply for this Role →</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY JOIN US ── -->
+<section class="section" style="background:var(--gray-50);">
+  <div class="container">
+    <div class="section-center" style="margin-bottom:48px;">
+      <div class="section-tag">Why BPUTNotes</div>
+      <h2 class="section-title">Why Join Our Team?</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card reveal" style="text-align:center;padding:32px 24px;">
+        <div style="font-size:2.2rem;margin-bottom:14px;">🚀</div>
+        <h3 style="font-size:1rem;margin-bottom:10px;">Real Impact, Fast</h3>
+        <p style="font-size:0.875rem;">You won't be a cog in a machine. At our size, your work directly affects thousands of BPUT students. You'll see results within days.</p>
+      </div>
+      <div class="card reveal" style="text-align:center;padding:32px 24px;">
+        <div style="font-size:2.2rem;margin-bottom:14px;">🎓</div>
+        <h3 style="font-size:1rem;margin-bottom:10px;">Resume Gold</h3>
+        <p style="font-size:0.875rem;">Working on a live product used by real users beats any college project. You'll have an experience letter and real metrics to show recruiters.</p>
+      </div>
+      <div class="card reveal" style="text-align:center;padding:32px 24px;">
+        <div style="font-size:2.2rem;margin-bottom:14px;">🤝</div>
+        <h3 style="font-size:1rem;margin-bottom:10px;">A Team That Gets It</h3>
+        <p style="font-size:0.875rem;">We're students and fresh grads ourselves. No corporate nonsense — just honest work, open communication and shared goals.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── APPLICATION MODAL ── -->
+<div class="form-overlay" id="applyModal">
+  <div class="form-modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <div style="margin-bottom:28px;">
+      <div class="section-tag" style="margin-bottom:10px;">Apply Now</div>
+      <h2 style="font-size:1.5rem;margin-bottom:4px;">Application Form</h2>
+      <p id="modalRoleLabel" style="font-size:0.9rem;color:var(--blue-500);font-weight:600;font-family:var(--font-display);"></p>
+    </div>
+
+    <div id="appSuccess" class="alert alert-success" style="display:none;">
+      🎉 Application submitted! We'll review it and reach out to you on WhatsApp within 3–5 days.
+    </div>
+    <div id="appError" class="alert alert-error" style="display:none;"></div>
+
+    <form id="applicationForm" novalidate>
+      <input type="hidden" name="role" id="hiddenRole" />
+
+      <div class="grid-2" style="gap:14px;">
+        <div class="form-group">
+          <label class="form-label">Full Name *</label>
+          <input class="form-input" type="text" name="name" placeholder="Your full name" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">WhatsApp Number *</label>
+          <input class="form-input" type="tel" name="phone" placeholder="10-digit number" required maxlength="10" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email Address *</label>
+        <input class="form-input" type="email" name="email" placeholder="yourname@example.com" required />
+      </div>
+
+      <div class="grid-2" style="gap:14px;">
+        <div class="form-group">
+          <label class="form-label">College Name *</label>
+          <input class="form-input" type="text" name="college" placeholder="Your college" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Branch & Year *</label>
+          <input class="form-input" type="text" name="branch_year" placeholder="e.g. CSE, 3rd Year" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Why do you want this role? *</label>
+        <textarea class="form-textarea" name="why" placeholder="Tell us in 2–4 sentences why you're a good fit and what excites you about this role..." required style="min-height:110px;"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Relevant Skills / Experience</label>
+        <textarea class="form-textarea" name="skills" placeholder="Any skills, projects, part-time work, clubs or activities relevant to this role..." style="min-height:90px;"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">LinkedIn / Portfolio / GitHub (optional)</label>
+        <input class="form-input" type="url" name="portfolio" placeholder="https://..." />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">How many hours/week can you commit?</label>
+        <select class="form-select" name="hours">
+          <option value="">Select</option>
+          <option>Less than 5 hours/week</option>
+          <option>5–10 hours/week</option>
+          <option>10–15 hours/week</option>
+          <option>15+ hours/week</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary" id="appSubmitBtn" style="width:100%;justify-content:center;padding:14px;">
+        <span id="appBtnText">Submit Application →</span>
+        <span id="appBtnSpinner" class="spinner" style="display:none;"></span>
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="display:inline-flex;">
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="10" fill="#2563eb"/><path d="M10 26V10h8.5c2 0 3.5.5 4.5 1.5S24.5 14 24.5 15.5c0 1-.3 1.8-.8 2.4-.5.6-1.1 1-1.8 1.2.9.2 1.7.7 2.2 1.4.6.7.9 1.6.9 2.7 0 1.6-.6 2.9-1.7 3.8-1.1.9-2.7 1-4.8 1H10zm3.5-9.5h4.7c1 0 1.8-.2 2.3-.7.5-.4.8-1 .8-1.8 0-.8-.3-1.4-.8-1.8-.5-.4-1.3-.7-2.3-.7h-4.7v5zm0 6.7h5.2c1.1 0 1.9-.3 2.5-.8.6-.5.8-1.2.8-2.1 0-.9-.3-1.6-.8-2.1-.6-.5-1.4-.7-2.5-.7h-5.2v5.7z" fill="white"/></svg>
+          <span class="nav-logo-text" style="color:var(--white);">BPUT<span style="color:var(--accent);">Notes</span></span>
+        </a>
+        <p>Built by BPUT students, for BPUT students.</p>
+      </div>
+      <div class="footer-col"><h4>Resources</h4><a href="notes.html">Notes</a><a href="pyq.html">PYQs</a><a href="scholarship.html">Scholarships</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="about.html">About Us</a><a href="careers.html">Careers</a><a href="about.html#contact">Contact</a></div>
+      <div class="footer-col"><h4>Programs</h4><a href="internship.html">Internship & Training</a></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 BPUTNotes.in — Made with ❤️ for BPUT students</span>
+      <span>Not affiliated with BPUT University</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/91XXXXXXXXXX" class="wa-float" target="_blank">💬</a>
+<button class="scroll-top">↑</button>
+
+<script src="js/main.js"></script>
+<script>
+  // ── JOB TOGGLE ──
+  function toggleJob(id) {
+    const panel = document.getElementById('panel-' + id);
+    const card  = document.getElementById('card-' + id);
+    const arrow = document.getElementById('arrow-' + id);
+    const isOpen = panel.classList.contains('open');
+
+    // Close all
+    [1,2,3].forEach(i => {
+      document.getElementById('panel-' + i).classList.remove('open');
+      document.getElementById('card-'  + i).classList.remove('active');
+      document.getElementById('arrow-' + i).style.transform = 'rotate(0deg)';
+    });
+
+    if (!isOpen) {
+      panel.classList.add('open');
+      card.classList.add('active');
+      arrow.style.transform = 'rotate(180deg)';
+      setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+    }
+  }
+
+  // ── MODAL ──
+  function openModal(role) {
+    document.getElementById('hiddenRole').value = role;
+    document.getElementById('modalRoleLabel').textContent = '→ ' + role;
+    document.getElementById('appSuccess').style.display = 'none';
+    document.getElementById('appError').style.display = 'none';
+    document.getElementById('applyModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('applyModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Close on backdrop click
+  document.getElementById('applyModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // ── FORM SUBMIT ──
+  // Replace with your Google Apps Script URL
+  const CAREERS_SHEET_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+
+  document.getElementById('applicationForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const required = this.querySelectorAll('[required]');
+    let valid = true;
+    required.forEach(f => {
+      f.style.borderColor = '';
+      if (!f.value.trim()) { f.style.borderColor = '#ef4444'; valid = false; }
+    });
+    if (!valid) return;
+
+    const phone = this.querySelector('[name="phone"]');
+    if (!/^[6-9]\d{9}$/.test(phone.value.trim())) {
+      phone.style.borderColor = '#ef4444';
+      document.getElementById('appError').textContent = 'Please enter a valid 10-digit mobile number.';
+      document.getElementById('appError').style.display = 'block';
+      return;
+    }
+
+    const btn  = document.getElementById('appSubmitBtn');
+    const text = document.getElementById('appBtnText');
+    const spin = document.getElementById('appBtnSpinner');
+    btn.disabled = true;
+    text.style.display = 'none';
+    spin.style.display = 'inline-block';
+    document.getElementById('appSuccess').style.display = 'none';
+    document.getElementById('appError').style.display = 'none';
+
+    const data = new FormData(this);
+    data.append('type', 'career_application');
+    data.append('timestamp', new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
+    data.append('source', 'bputnotes.in/careers');
+
+    try {
+      await fetch(CAREERS_SHEET_URL, { method: 'POST', mode: 'no-cors', body: data });
+      document.getElementById('appSuccess').style.display = 'block';
+      this.reset();
+      document.querySelector('.form-modal').scrollTo({ top: 0, behavior: 'smooth' });
+    } catch(err) {
+      document.getElementById('appError').textContent = 'Something went wrong. Please WhatsApp us directly.';
+      document.getElementById('appError').style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      text.style.display = 'inline';
+      spin.style.display = 'none';
+    }
+  });
+
+  // Clear error borders on input
+  document.getElementById('applicationForm').querySelectorAll('input,select,textarea').forEach(el => {
+    el.addEventListener('input', () => el.style.borderColor = '');
+  });
+</script>
+</body>
+</html>
