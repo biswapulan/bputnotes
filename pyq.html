@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Previous Year Questions — BPUT Notes</title>
+  <meta name="description" content="BPUT Regular & Back paper PYQs for all branches. Filter by branch, semester and exam type." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/components.css" />
+
+  <style>
+    /* ══════════════════════════════════════
+       PYQ DASHBOARD — amber/red personality
+    ══════════════════════════════════════ */
+
+    /* Accent overrides for PYQ page */
+    :root {
+      --pyq-accent:   #d97706;   /* amber */
+      --pyq-accent2:  #b45309;
+      --pyq-back:     #dc2626;   /* red for back paper */
+      --pyq-back2:    #b91c1c;
+      --pyq-sidebar:  #1c1917;   /* warm dark instead of gray-900 */
+    }
+
+    /* ════ DASHBOARD LAYOUT ════ */
+    .pyq-dashboard {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 0;
+      min-height: 72vh;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* ════ SIDEBAR ════ */
+    .pyq-sidebar {
+      background: var(--pyq-sidebar);
+      padding: 24px 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Exam type toggle at top of sidebar */
+    .exam-toggle {
+      margin: 0 16px 20px;
+      background: rgba(255,255,255,0.06);
+      border-radius: var(--radius-md);
+      padding: 4px;
+      display: flex;
+      gap: 2px;
+    }
+    .exam-toggle-btn {
+      flex: 1;
+      padding: 8px 6px;
+      border: none;
+      border-radius: 8px;
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: transparent;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      line-height: 1.3;
+    }
+    .exam-toggle-btn.active-regular {
+      background: var(--pyq-accent);
+      color: var(--white);
+      box-shadow: 0 2px 8px rgba(217,119,6,0.4);
+    }
+    .exam-toggle-btn.active-back {
+      background: var(--pyq-back);
+      color: var(--white);
+      box-shadow: 0 2px 8px rgba(220,38,38,0.4);
+    }
+
+    .sidebar-label {
+      font-family: var(--font-display);
+      font-size: 0.67rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+      padding: 0 20px;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-branch {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-left: 3px solid transparent;
+    }
+    .sidebar-branch:hover { background: rgba(255,255,255,0.05); }
+    .sidebar-branch.active {
+      background: rgba(217,119,6,0.15);
+      border-left-color: var(--pyq-accent);
+    }
+    .sidebar-branch.active-back {
+      background: rgba(220,38,38,0.15);
+      border-left-color: var(--pyq-back);
+    }
+    .branch-emoji { font-size: 1.15rem; flex-shrink: 0; width: 26px; text-align: center; }
+    .branch-info { flex: 1; min-width: 0; }
+    .branch-name {
+      font-family: var(--font-display);
+      font-size: 0.85rem; font-weight: 600;
+      color: rgba(255,255,255,0.75);
+      display: block; transition: color 0.2s;
+    }
+    .sidebar-branch.active .branch-name,
+    .sidebar-branch.active-back .branch-name { color: var(--white); }
+    .branch-sub { font-size: 0.68rem; color: rgba(255,255,255,0.3); display: block; margin-top: 1px; }
+    .branch-count {
+      font-family: var(--font-display); font-size: 0.66rem; font-weight: 700;
+      background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.35);
+      padding: 2px 7px; border-radius: 100px; flex-shrink: 0;
+    }
+    .sidebar-branch.active .branch-count { background: rgba(217,119,6,0.3); color: #fcd34d; }
+    .sidebar-branch.active-back .branch-count { background: rgba(220,38,38,0.3); color: #fca5a5; }
+
+    .sidebar-stats {
+      margin-top: auto;
+      padding: 18px 20px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .sidebar-stat-row {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 7px;
+    }
+    .sidebar-stat-row span:first-child { font-size: 0.7rem; color: rgba(255,255,255,0.3); font-family: var(--font-display); }
+    .sidebar-stat-row span:last-child { font-size: 0.7rem; color: rgba(255,255,255,0.55); font-weight: 700; font-family: var(--font-display); }
+
+    /* ════ MAIN PANEL ════ */
+    .pyq-main { background: var(--gray-50); display: flex; flex-direction: column; }
+
+    /* Topbar */
+    .pyq-topbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+    /* Exam type badge in topbar */
+    .exam-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--font-display); font-size: 0.75rem; font-weight: 700;
+      padding: 4px 12px; border-radius: 100px;
+      transition: all 0.25s ease;
+    }
+    .exam-badge.regular {
+      background: #fef3c7; color: var(--pyq-accent2);
+      border: 1px solid #fde68a;
+    }
+    .exam-badge.back {
+      background: #fee2e2; color: var(--pyq-back2);
+      border: 1px solid #fca5a5;
+    }
+    .topbar-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      animation: pulse 2s ease infinite;
+    }
+    .topbar-dot.regular { background: var(--pyq-accent); }
+    .topbar-dot.back    { background: var(--pyq-back); }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(1.3)} }
+
+    .topbar-branch {
+      font-family: var(--font-display); font-size: 0.85rem;
+      font-weight: 700; color: var(--gray-800);
+    }
+    .topbar-sep { color: var(--gray-300); font-size: 0.8rem; }
+    .topbar-sem { font-size: 0.78rem; color: var(--gray-400); font-family: var(--font-display); }
+
+    /* Subject code search in topbar */
+    .code-search-wrap {
+      position: relative;
+      min-width: 200px;
+    }
+    .code-search-wrap input {
+      width: 100%;
+      padding: 8px 14px 8px 34px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 100px;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      color: var(--gray-900);
+      outline: none;
+      background: var(--gray-50);
+      transition: all 0.2s ease;
+    }
+    .code-search-wrap input:focus {
+      border-color: var(--pyq-accent);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(217,119,6,0.1);
+    }
+    .code-search-wrap .si {
+      position: absolute; left: 11px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.82rem; color: var(--gray-400); pointer-events: none;
+    }
+
+    /* ════ SEMESTER TABS ════ */
+    .sem-tabs-wrap {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0 24px;
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .sem-tabs-wrap::-webkit-scrollbar { display: none; }
+    .sem-tab {
+      font-family: var(--font-display);
+      font-size: 0.82rem; font-weight: 600;
+      color: var(--gray-400);
+      padding: 13px 18px;
+      border: none; background: none; cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s ease;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .sem-tab:hover { color: var(--gray-700); }
+    .sem-tab.active {
+      color: var(--pyq-accent2);
+      border-bottom-color: var(--pyq-accent);
+    }
+    .sem-tab.active-back {
+      color: var(--pyq-back2);
+      border-bottom-color: var(--pyq-back);
+    }
+
+    /* ════ PYQ CARDS ════ */
+    .pyq-content { padding: 22px 24px; flex: 1; overflow-y: auto; }
+
+    .pyq-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .pyq-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .pyq-card::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+    .pyq-card.regular-card::after { background: linear-gradient(90deg, var(--pyq-accent), #fcd34d); }
+    .pyq-card.back-card::after    { background: linear-gradient(90deg, var(--pyq-back), #f87171); }
+    .pyq-card:hover { border-color: #e5e7eb; box-shadow: 0 8px 28px rgba(0,0,0,0.09); transform: translateY(-2px); }
+    .pyq-card:hover::after { transform: scaleX(1); }
+
+    .card-sub-num {
+      font-family: var(--font-display); font-size: 0.63rem;
+      font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--gray-400);
+    }
+    .card-sub-name {
+      font-family: var(--font-display); font-size: 0.9rem;
+      font-weight: 700; color: var(--gray-900); line-height: 1.35;
+    }
+    .card-code {
+      display: inline-block;
+      font-family: var(--font-display); font-size: 0.68rem; font-weight: 700;
+      padding: 2px 9px; border-radius: 100px;
+      letter-spacing: 0.06em;
+    }
+    .card-code.regular { background: #fef3c7; color: var(--pyq-accent2); border: 1px solid #fde68a; }
+    .card-code.back    { background: #fee2e2; color: var(--pyq-back2); border: 1px solid #fca5a5; }
+
+    .card-meta { font-size: 0.75rem; color: var(--gray-400); }
+
+    .card-dl-btn {
+      display: flex; align-items: center; justify-content: center;
+      gap: 6px; padding: 9px 14px; border-radius: 100px;
+      font-family: var(--font-display); font-size: 0.78rem; font-weight: 700;
+      text-decoration: none; transition: all 0.2s ease; margin-top: 4px;
+    }
+    .card-dl-btn.regular-btn { background: var(--pyq-accent); color: var(--white); }
+    .card-dl-btn.regular-btn:hover { background: var(--pyq-accent2); }
+    .card-dl-btn.back-btn    { background: var(--pyq-back); color: var(--white); }
+    .card-dl-btn.back-btn:hover { background: var(--pyq-back2); }
+    .card-dl-btn.soon-btn {
+      background: var(--gray-100); color: var(--gray-400);
+      pointer-events: none; cursor: default;
+    }
+
+    /* Global search results overlay */
+    .search-results-panel {
+      display: none;
+      padding: 20px 24px;
+      flex: 1; overflow-y: auto;
+    }
+    .search-results-panel.active { display: block; }
+    .search-results-label {
+      font-family: var(--font-display); font-size: 0.8rem;
+      font-weight: 600; color: var(--gray-400); margin-bottom: 16px;
+    }
+
+    /* Empty state */
+    .pyq-empty {
+      grid-column: 1 / -1; text-align: center;
+      padding: 44px 24px; color: var(--gray-400);
+    }
+    .pyq-empty .e-icon { font-size: 2.6rem; margin-bottom: 10px; }
+    .pyq-empty p { font-size: 0.87rem; }
+
+    /* Mobile toggle */
+    .mobile-branch-toggle {
+      display: none; width: 100%;
+      padding: 14px 20px;
+      background: var(--pyq-sidebar);
+      color: var(--white);
+      font-family: var(--font-display); font-size: 0.88rem; font-weight: 600;
+      border: none; cursor: pointer; text-align: left;
+      align-items: center; justify-content: space-between;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+    .toggle-hint { font-size: 0.68rem; color: rgba(255,255,255,0.4); font-weight: 400; margin-left: 8px; }
+
+    /* ════ RESPONSIVE ════ */
+    @media (max-width: 900px) {
+      .pyq-dashboard { grid-template-columns: 1fr; border-radius: var(--radius-lg); }
+      .pyq-sidebar { display: none; padding: 0; max-height: 340px; overflow-y: auto; }
+      .pyq-sidebar.open { display: flex; }
+      .mobile-branch-toggle { display: flex; }
+      .pyq-grid { grid-template-columns: repeat(2, 1fr); }
+      .pyq-topbar { padding: 12px 14px; flex-direction: column; align-items: flex-start; gap: 10px; }
+      .code-search-wrap { width: 100%; min-width: unset; }
+      .pyq-content { padding: 14px; }
+
+      /* Sem tabs wrap to 2 rows on mobile */
+      .sem-tabs-wrap {
+        flex-wrap: wrap;
+        padding: 6px 10px;
+        gap: 4px;
+        overflow-x: visible;
+        border-bottom: 1px solid var(--gray-200);
+      }
+      .sem-tab {
+        flex: 1 0 calc(25% - 4px);
+        text-align: center;
+        padding: 10px 4px;
+        font-size: 0.78rem;
+        border-bottom: none;
+        border-radius: var(--radius-md);
+        background: var(--gray-50);
+        border: 1.5px solid var(--gray-200);
+      }
+      .sem-tab.active {
+        background: #fef3c7;
+        border-color: var(--pyq-accent);
+        color: var(--pyq-accent2);
+      }
+      .sem-tab.active-back {
+        background: #fee2e2;
+        border-color: var(--pyq-back);
+        color: var(--pyq-back2);
+      }
+    }
+    @media (max-width: 520px) {
+      .pyq-grid { grid-template-columns: 1fr; }
+      .sem-tab { flex: 1 0 calc(25% - 4px); font-size: 0.74rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="10" fill="#2563eb"/><path d="M10 26V10h8.5c2 0 3.5.5 4.5 1.5S24.5 14 24.5 15.5c0 1-.3 1.8-.8 2.4-.5.6-1.1 1-1.8 1.2.9.2 1.7.7 2.2 1.4.6.7.9 1.6.9 2.7 0 1.6-.6 2.9-1.7 3.8-1.1.9-2.7 1-4.8 1H10zm3.5-9.5h4.7c1 0 1.8-.2 2.3-.7.5-.4.8-1 .8-1.8 0-.8-.3-1.4-.8-1.8-.5-.4-1.3-.7-2.3-.7h-4.7v5zm0 6.7h5.2c1.1 0 1.9-.3 2.5-.8.6-.5.8-1.2.8-2.1 0-.9-.3-1.6-.8-2.1-.6-.5-1.4-.7-2.5-.7h-5.2v5.7z" fill="white"/></svg>
+      <span class="nav-logo-text">BPUT<span>Notes</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="notes.html">Notes</a></li>
+      <li><a href="pyq.html" class="active">PYQs</a></li>
+      <li><a href="scholarship.html">Scholarships</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="careers.html">Careers</a></li>
+      <li><a href="internship.html" class="nav-cta">Internship & Training</a></li>
+    </ul>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ── PAGE HERO ── -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="section-tag" style="background:rgba(255,255,255,0.15);color:#fde68a;border-color:rgba(255,255,255,0.2);">📝 Exam Prep</div>
+    <h1>Previous Year Questions</h1>
+    <p>Regular &amp; Back paper PYQs for all BPUT branches. Switch exam type from the sidebar — search by subject code in the top bar.</p>
+  </div>
+</div>
+
+<!-- ── DASHBOARD ── -->
+<section class="section" style="padding-top:40px;padding-bottom:64px;">
+  <div class="container">
+
+    <!-- Info banner -->
+    <div style="background:linear-gradient(135deg,#92400e,#d97706);border-radius:var(--radius-lg);padding:16px 24px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-size:1.4rem;">💡</span>
+        <div>
+          <div style="font-family:var(--font-display);font-size:0.88rem;font-weight:700;color:var(--white);">University swapped your semester subjects?</div>
+          <div style="font-size:0.75rem;color:rgba(255,255,255,0.65);">Use the subject code search in the top-right of the dashboard to find any paper instantly</div>
+        </div>
+      </div>
+      <div style="font-family:var(--font-display);font-size:0.75rem;color:rgba(255,255,255,0.5);">Regular &amp; Back · 7 branches · 8 sems</div>
+    </div>
+
+    <!-- Mobile branch toggle -->
+    <button class="mobile-branch-toggle" id="mobileBranchToggle" onclick="toggleMobileSidebar()">
+      <span>
+        <span id="mobileBranchLabel">💻 Computer Science (CSE)</span>
+        <span class="toggle-hint">tap to change branch</span>
+      </span>
+      <span id="mobileToggleArrow" style="transition:transform 0.3s;">▼</span>
+    </button>
+
+    <!-- DASHBOARD -->
+    <div class="pyq-dashboard">
+
+      <!-- ══ SIDEBAR ══ -->
+      <div class="pyq-sidebar" id="pyqSidebar">
+
+        <!-- Exam type toggle -->
+        <div class="exam-toggle">
+          <button class="exam-toggle-btn active-regular" id="toggleRegular" onclick="setExamType('regular')">
+            📋 Regular<br>Exam
+          </button>
+          <button class="exam-toggle-btn" id="toggleBack" onclick="setExamType('back')">
+            🔁 Back<br>Paper
+          </button>
+        </div>
+
+        <div class="sidebar-label">Departments</div>
+
+        <div class="sidebar-branch active" id="sb-cse"        onclick="selectBranch('cse')">
+          <span class="branch-emoji">💻</span>
+          <div class="branch-info"><span class="branch-name">Computer Science</span><span class="branch-sub">CSE</span></div>
+          <span class="branch-count">48</span>
+        </div>
+        <div class="sidebar-branch" id="sb-civil"       onclick="selectBranch('civil')">
+          <span class="branch-emoji">🏗️</span>
+          <div class="branch-info"><span class="branch-name">Civil Engineering</span><span class="branch-sub">Civil</span></div>
+          <span class="branch-count">48</span>
+        </div>
+        <div class="sidebar-branch" id="sb-electrical"  onclick="selectBranch('electrical')">
+          <span class="branch-emoji">⚡</span>
+          <div class="branch-info"><span class="branch-name">Electrical Engg.</span><span class="branch-sub">EEE</span></div>
+          <span class="branch-count">48</span>
+        </div>
+        <div class="sidebar-branch" id="sb-mechanical"  onclick="selectBranch('mechanical')">
+          <span class="branch-emoji">⚙️</span>
+          <div class="branch-info"><span class="branch-name">Mechanical Engg.</span><span class="branch-sub">Mech</span></div>
+          <span class="branch-count">48</span>
+        </div>
+        <div class="sidebar-branch" id="sb-mining"      onclick="selectBranch('mining')">
+          <span class="branch-emoji">⛏️</span>
+          <div class="branch-info"><span class="branch-name">Mining Engineering</span><span class="branch-sub">Mining</span></div>
+          <span class="branch-count">48</span>
+        </div>
+        <div class="sidebar-branch" id="sb-metallurgy"  onclick="selectBranch('metallurgy')">
+          <span class="branch-emoji">🔩</span>
+          <div class="branch-info"><span class="branch-name">Metallurgy</span><span class="branch-sub">Metal</span></div>
+          <span class="branch-count">48</span>
+        </div>
+        <div class="sidebar-branch" id="sb-mineral"     onclick="selectBranch('mineral')">
+          <span class="branch-emoji">💎</span>
+          <div class="branch-info"><span class="branch-name">Mineral Engineering</span><span class="branch-sub">Mineral</span></div>
+          <span class="branch-count">48</span>
+        </div>
+
+        <div class="sidebar-stats">
+          <div class="sidebar-stat-row"><span>Total Papers</span><span>672</span></div>
+          <div class="sidebar-stat-row"><span>Exam Types</span><span>Regular + Back</span></div>
+          <div class="sidebar-stat-row"><span>Format</span><span>Google Drive PDF</span></div>
+        </div>
+      </div>
+
+      <!-- ══ MAIN PANEL ══ -->
+      <div class="pyq-main">
+
+        <!-- Topbar -->
+        <div class="pyq-topbar">
+          <div class="topbar-left">
+            <span class="exam-badge regular" id="topbarExamBadge">
+              <span class="topbar-dot regular" id="topbarDot"></span>
+              <span id="topbarExamLabel">Regular Exam</span>
+            </span>
+            <span class="topbar-branch" id="topbarBranch">Computer Science (CSE)</span>
+            <span class="topbar-sep">·</span>
+            <span class="topbar-sem" id="topbarSem">Semester 1</span>
+          </div>
+          <!-- Subject code search -->
+          <div class="code-search-wrap">
+            <span class="si">🔍</span>
+            <input type="text" id="codeSearchInput" placeholder="Search by subject / code…" oninput="handleSearch(this.value)" />
+          </div>
+        </div>
+
+        <!-- Semester tabs -->
+        <div class="sem-tabs-wrap" id="semTabsWrap">
+          <button class="sem-tab active" onclick="selectSem(1,this)">Sem 1</button>
+          <button class="sem-tab" onclick="selectSem(2,this)">Sem 2</button>
+          <button class="sem-tab" onclick="selectSem(3,this)">Sem 3</button>
+          <button class="sem-tab" onclick="selectSem(4,this)">Sem 4</button>
+          <button class="sem-tab" onclick="selectSem(5,this)">Sem 5</button>
+          <button class="sem-tab" onclick="selectSem(6,this)">Sem 6</button>
+          <button class="sem-tab" onclick="selectSem(7,this)">Sem 7</button>
+          <button class="sem-tab" onclick="selectSem(8,this)">Sem 8</button>
+        </div>
+
+        <!-- Normal grid view -->
+        <div class="pyq-content" id="pyqContent">
+          <div class="pyq-grid" id="pyqGrid"></div>
+        </div>
+
+        <!-- Search results view -->
+        <div class="search-results-panel" id="searchResultsPanel">
+          <div class="search-results-label" id="searchLabel"></div>
+          <div class="pyq-grid" id="searchGrid"></div>
+          <div id="searchNoResults" style="display:none;" class="pyq-empty">
+            <div class="e-icon">🔎</div>
+            <p>No papers match that search. Try a different subject name or code.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Request CTA -->
+    <div style="text-align:center;margin-top:32px;">
+      <p style="font-size:0.85rem;color:var(--gray-400);margin-bottom:12px;">Can't find a paper? Request it directly.</p>
+      <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="btn btn-outline">📱 Request on WhatsApp</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="display:inline-flex;"><svg width="32" height="32" viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="10" fill="#2563eb"/><path d="M10 26V10h8.5c2 0 3.5.5 4.5 1.5S24.5 14 24.5 15.5c0 1-.3 1.8-.8 2.4-.5.6-1.1 1-1.8 1.2.9.2 1.7.7 2.2 1.4.6.7.9 1.6.9 2.7 0 1.6-.6 2.9-1.7 3.8-1.1.9-2.7 1-4.8 1H10zm3.5-9.5h4.7c1 0 1.8-.2 2.3-.7.5-.4.8-1 .8-1.8 0-.8-.3-1.4-.8-1.8-.5-.4-1.3-.7-2.3-.7h-4.7v5zm0 6.7h5.2c1.1 0 1.9-.3 2.5-.8.6-.5.8-1.2.8-2.1 0-.9-.3-1.6-.8-2.1-.6-.5-1.4-.7-2.5-.7h-5.2v5.7z" fill="white"/></svg><span class="nav-logo-text" style="color:var(--white);">BPUT<span style="color:var(--accent);">Notes</span></span></a>
+        <p>Free BPUT PYQs for all branches and semesters.</p>
+      </div>
+      <div class="footer-col"><h4>Resources</h4><a href="notes.html">Notes</a><a href="pyq.html">PYQs</a><a href="scholarship.html">Scholarships</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="about.html">About Us</a><a href="careers.html">Careers</a></div>
+      <div class="footer-col"><h4>Programs</h4><a href="internship.html">Internship</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 BPUTNotes.in</span><span>Not affiliated with BPUT University</span></div>
+  </div>
+</footer>
+
+<a href="https://wa.me/91XXXXXXXXXX" class="wa-float" target="_blank">💬</a>
+<button class="scroll-top">↑</button>
+
+<script src="js/main.js"></script>
+<script>
+/* ════════════════════════════════════════════════
+   PYQ DATA
+   ─────────────────────────────────────────────
+   HOW TO ADD LINKS:
+
+   In the overrides section below, add your papers like:
+   if (branch==='cse' && sem===3 && type==='regular') {
+     return makePapers(branch, sem, type, {
+       p1: { name:'Data Structures', code:'CS3001', link:'https://drive.google.com/...' },
+       p2: { name:'Digital Electronics', code:'CS3002', link:'#' },
+     });
+   }
+
+   link '#' = Coming Soon button
+   link 'https://...' = Download button
+════════════════════════════════════════════════ */
+
+const BRANCH_NAMES = {
+  cse:'Computer Science (CSE)', civil:'Civil Engineering',
+  electrical:'Electrical Engineering', mechanical:'Mechanical Engineering',
+  mining:'Mining Engineering', metallurgy:'Metallurgical Engineering',
+  mineral:'Mineral Engineering'
+};
+const BRANCH_SHORT = {
+  cse:'CSE', civil:'Civil', electrical:'EEE',
+  mechanical:'Mech', mining:'Mining', metallurgy:'Metal', mineral:'Mineral'
+};
+const BRANCH_EMOJI = {
+  cse:'💻', civil:'🏗️', electrical:'⚡',
+  mechanical:'⚙️', mining:'⛏️', metallurgy:'🔩', mineral:'💎'
+};
+
+function makePapers(branch, sem, type, overrides = {}) {
+  return Array.from({ length: 6 }, (_, i) => {
+    const n = i + 1;
+    const key = `p${n}`;
+    const id = `${branch}-sem${sem}-${type}-sub${n}`;
+    return {
+      id,
+      name: overrides[key]?.name || `${BRANCH_SHORT[branch]}-Sem${sem}-Sub${n}`,
+      code: overrides[key]?.code || id,
+      link: overrides[key]?.link || '#',
+    };
+  });
+}
+
+/* Build all data */
+const pyqData = { regular: {}, back: {} };
+['regular','back'].forEach(type => {
+  Object.keys(BRANCH_NAMES).forEach(branch => {
+    pyqData[type][branch] = {};
+    for (let sem = 1; sem <= 8; sem++) {
+      /* ── ADD YOUR OVERRIDES HERE ──
+         Example:
+         if (branch==='cse' && sem===3 && type==='regular') {
+           pyqData[type][branch][sem] = makePapers(branch, sem, type, {
+             p1: { name:'Data Structures', code:'CS3001', link:'https://drive.google.com/YOUR_LINK' },
+             p2: { name:'Digital Electronics', code:'CS3002', link:'#' },
+           });
+           continue;  // skip the default below
+         }
+      ──────────────────────────────── */
+      pyqData[type][branch][sem] = makePapers(branch, sem, type);
+    }
+  });
+});
+
+/* ════ STATE ════ */
+let state = { examType: 'regular', branch: 'cse', sem: 1 };
+
+/* ════ EXAM TYPE ════ */
+function setExamType(type) {
+  state.examType = type;
+
+  // Toggle buttons
+  document.getElementById('toggleRegular').className = 'exam-toggle-btn' + (type==='regular' ? ' active-regular' : '');
+  document.getElementById('toggleBack').className    = 'exam-toggle-btn' + (type==='back'    ? ' active-back'    : '');
+
+  // Topbar badge
+  const badge = document.getElementById('topbarExamBadge');
+  const dot   = document.getElementById('topbarDot');
+  const label = document.getElementById('topbarExamLabel');
+  badge.className = `exam-badge ${type}`;
+  dot.className   = `topbar-dot ${type}`;
+  label.textContent = type === 'regular' ? 'Regular Exam' : 'Back Paper';
+
+  // Sidebar branch active class
+  updateSidebarActive();
+
+  // Sem tabs active colour
+  document.querySelectorAll('.sem-tab').forEach(t => {
+    if (t.classList.contains('active') || t.classList.contains('active-back')) {
+      t.className = 'sem-tab ' + (type === 'regular' ? 'active' : 'active-back');
+    }
+  });
+
+  clearSearch();
+  renderPYQ();
+}
+
+/* ════ BRANCH ════ */
+function selectBranch(branch) {
+  state.branch = branch;
+  updateSidebarActive();
+  document.getElementById('topbarBranch').textContent = BRANCH_NAMES[branch];
+  document.getElementById('mobileBranchLabel').textContent = `${BRANCH_EMOJI[branch]} ${BRANCH_NAMES[branch]}`;
+  closeMobileSidebar();
+  clearSearch();
+  renderPYQ();
+}
+
+function updateSidebarActive() {
+  document.querySelectorAll('.sidebar-branch').forEach(el => {
+    el.classList.remove('active','active-back');
+  });
+  const el = document.getElementById('sb-' + state.branch);
+  if (el) el.classList.add(state.examType === 'regular' ? 'active' : 'active-back');
+}
+
+/* ════ SEMESTER ════ */
+function selectSem(sem, tabEl) {
+  state.sem = sem;
+  document.querySelectorAll('.sem-tab').forEach(t => t.classList.remove('active','active-back'));
+  tabEl.classList.add(state.examType === 'regular' ? 'active' : 'active-back');
+  document.getElementById('topbarSem').textContent = `Semester ${sem}`;
+  clearSearch();
+  renderPYQ();
+}
+
+/* ════ RENDER CARDS ════ */
+function renderPYQ() {
+  const papers = pyqData[state.examType][state.branch][state.sem] || [];
+  const grid   = document.getElementById('pyqGrid');
+  const type   = state.examType;
+
+  grid.innerHTML = papers.map((p, i) => {
+    const hasLink = p.link && p.link !== '#';
+    const btnClass = hasLink ? `card-dl-btn ${type}-btn` : 'card-dl-btn soon-btn';
+    const btnText  = hasLink ? '📥 Download PDF' : '⏳ Coming Soon';
+    const btnTag   = hasLink
+      ? `<a href="${p.link}" target="_blank" rel="noopener" class="${btnClass}">${btnText}</a>`
+      : `<a class="${btnClass}">${btnText}</a>`;
+
+    return `
+      <div class="pyq-card ${type}-card" style="animation:fadeUp 0.3s ease ${i*0.05}s both;">
+        <div class="card-sub-num">Subject ${i+1}</div>
+        <div class="card-sub-name">${p.name}</div>
+        <div><span class="card-code ${type}">${p.code}</span></div>
+        <div class="card-meta">BPUT · ${type==='regular'?'Regular':'Back Paper'} · End Sem</div>
+        ${btnTag}
+      </div>`;
+  }).join('');
+}
+
+/* ════ SEARCH ════ */
+function handleSearch(val) {
+  const q = val.trim().toLowerCase();
+  const content = document.getElementById('pyqContent');
+  const panel   = document.getElementById('searchResultsPanel');
+
+  if (q.length < 2) {
+    panel.classList.remove('active');
+    content.style.display = 'block';
+    return;
+  }
+
+  content.style.display = 'none';
+  panel.classList.add('active');
+
+  // Search across ALL branches, sems, types
+  const found = [];
+  ['regular','back'].forEach(type => {
+    Object.keys(BRANCH_NAMES).forEach(branch => {
+      for (let sem = 1; sem <= 8; sem++) {
+        (pyqData[type][branch][sem] || []).forEach(p => {
+          if (p.name.toLowerCase().includes(q) || p.code.toLowerCase().includes(q)) {
+            found.push({ ...p, branch, sem, type });
+          }
+        });
+      }
+    });
+  });
+
+  const grid  = document.getElementById('searchGrid');
+  const noRes = document.getElementById('searchNoResults');
+  const label = document.getElementById('searchLabel');
+
+  if (found.length === 0) {
+    grid.innerHTML = '';
+    noRes.style.display = 'block';
+    label.textContent = '';
+    return;
+  }
+
+  noRes.style.display = 'none';
+  label.textContent = `${found.length} result${found.length!==1?'s':''} for "${val}"`;
+
+  grid.innerHTML = found.map((p, i) => {
+    const hasLink  = p.link && p.link !== '#';
+    const btnClass = hasLink ? `card-dl-btn ${p.type}-btn` : 'card-dl-btn soon-btn';
+    const btnTag   = hasLink
+      ? `<a href="${p.link}" target="_blank" rel="noopener" class="${btnClass}">📥 Download PDF</a>`
+      : `<a class="${btnClass}">⏳ Coming Soon</a>`;
+    return `
+      <div class="pyq-card ${p.type}-card" style="animation:fadeUp 0.25s ease ${i*0.04}s both;">
+        <div class="card-sub-num">${BRANCH_NAMES[p.branch]} · Sem ${p.sem}</div>
+        <div class="card-sub-name">${p.name}</div>
+        <div><span class="card-code ${p.type}">${p.code}</span></div>
+        <div class="card-meta">${p.type==='regular'?'Regular Exam':'Back Paper'}</div>
+        ${btnTag}
+      </div>`;
+  }).join('');
+}
+
+function clearSearch() {
+  document.getElementById('codeSearchInput').value = '';
+  document.getElementById('searchResultsPanel').classList.remove('active');
+  document.getElementById('pyqContent').style.display = 'block';
+}
+
+/* ════ MOBILE SIDEBAR ════ */
+function toggleMobileSidebar() {
+  const sidebar = document.getElementById('pyqSidebar');
+  const arrow   = document.getElementById('mobileToggleArrow');
+  const isOpen  = sidebar.classList.contains('open');
+  sidebar.classList.toggle('open', !isOpen);
+  arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+function closeMobileSidebar() {
+  document.getElementById('pyqSidebar').classList.remove('open');
+  document.getElementById('mobileToggleArrow').style.transform = 'rotate(0deg)';
+}
+
+/* ════ INIT ════ */
+renderPYQ();
+</script>
+</body>
+</html>
