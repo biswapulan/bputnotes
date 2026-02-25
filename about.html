@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us — BPUT Notes</title>
+  <meta name="description" content="About BPUTNotes.in — who we are, our mission and how to contact us." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/components.css" />
+
+  <style>
+
+    /* ── ABOUT PAGE SPECIFIC STYLES ── */
+
+    /* Story grid */
+    .about-story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    /* Contact grid */
+    .about-contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* Team grid */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 840px;
+      margin: 0 auto;
+    }
+
+    /* ── TRUST BANNER ── */
+    .trust-banner {
+      background: linear-gradient(135deg, var(--blue-900), var(--blue-700));
+      border-radius: var(--radius-xl);
+      padding: 40px 48px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 32px;
+      margin-bottom: 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .trust-banner::before {
+      content: '';
+      position: absolute;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(37,99,235,0.3) 0%, transparent 70%);
+      top: -100px; right: -60px;
+      border-radius: 50%;
+    }
+    .trust-banner-left { position: relative; z-index: 1; }
+    .trust-banner-left h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      color: var(--white);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .trust-banner-left p {
+      color: rgba(255,255,255,0.65);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      max-width: 500px;
+    }
+    .trust-banner-right { position: relative; z-index: 1; flex-shrink: 0; }
+
+    /* Download brochure button */
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--white);
+      color: var(--blue-600);
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      font-weight: 700;
+      padding: 14px 24px;
+      border-radius: 100px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      transition: all 0.22s ease;
+      white-space: nowrap;
+    }
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.28);
+      background: var(--blue-50);
+    }
+    .download-btn-icon {
+      width: 34px; height: 34px;
+      background: var(--blue-500);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--white);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+    .download-btn:hover .download-btn-icon { transform: translateY(2px); }
+
+    /* Trust stat pills */
+    .trust-pills {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .trust-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.85);
+    }
+    .trust-pill-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+    }
+
+    /* ── STORY ILLUSTRATION ── */
+    .story-illustration {
+      background: linear-gradient(135deg, var(--blue-50), var(--blue-100));
+      border-radius: var(--radius-xl);
+      padding: 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .story-illustration::after {
+      content: '';
+      position: absolute;
+      bottom: -30px; right: -30px;
+      width: 120px; height: 120px;
+      background: rgba(37,99,235,0.08);
+      border-radius: 50%;
+    }
+
+    /* ── NUMBERS STRIP ── */
+    .numbers-strip {
+      background: var(--blue-500);
+      border-radius: var(--radius-xl);
+      padding: 32px 40px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      text-align: center;
+      margin: 56px 0 0;
+    }
+    .numbers-strip-item {
+      padding: 8px 16px;
+      border-right: 1px solid rgba(255,255,255,0.15);
+    }
+    .numbers-strip-item:last-child { border-right: none; }
+    .ns-value {
+      font-family: var(--font-display);
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1;
+    }
+    .ns-label {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.65);
+      margin-top: 5px;
+      font-family: var(--font-display);
+    }
+
+    /* ── WHAT MAKES US DIFFERENT ── */
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .diff-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: all var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+    .diff-card:hover {
+      border-color: var(--blue-200);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-3px);
+    }
+    .diff-icon {
+      width: 46px; height: 46px;
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+    .diff-body h4 {
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 5px;
+    }
+    .diff-body p {
+      font-size: 0.8rem;
+      color: var(--gray-500);
+      line-height: 1.6;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+      max-width: 560px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 10px; top: 6px; bottom: 6px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--blue-500), var(--blue-200));
+      border-radius: 2px;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 28px;
+    }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-dot {
+      position: absolute;
+      left: -26px;
+      top: 4px;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--blue-500);
+      border: 2px solid var(--blue-100);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+    }
+    .timeline-year {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--blue-500);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .timeline-title {
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 3px;
+    }
+    .timeline-desc {
+      font-size: 0.8rem;
+      color: var(--gray-500);
+      line-height: 1.6;
+    }
+
+    /* ── CONTACT INFO ── */
+    .contact-info-item {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .about-story-grid { grid-template-columns: 1fr; gap: 28px; }
+      .about-contact-grid { grid-template-columns: 1fr; gap: 28px; }
+      .team-grid { grid-template-columns: 1fr; max-width: 360px; }
+      .diff-grid { grid-template-columns: 1fr; }
+      .numbers-strip { grid-template-columns: repeat(2, 1fr); gap: 16px; border-radius: var(--radius-lg); padding: 24px 20px; }
+      .numbers-strip-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.12); padding: 12px 8px; }
+      .numbers-strip-item:nth-child(2n) { border-right: none; }
+      .numbers-strip-item:nth-last-child(-n+2) { border-bottom: none; }
+      .trust-banner { grid-template-columns: 1fr; gap: 20px; padding: 28px 22px; }
+      .trust-banner::before { display: none; }
+      .download-btn { width: 100%; justify-content: center; }
+      .trust-pills { gap: 8px; }
+      .story-illustration { padding: 28px 20px; }
+      .section { padding: 52px 16px; }
+      .page-hero h1 { font-size: 1.8rem; }
+      .page-hero p  { font-size: 0.95rem; }
+      .contact-form-card { padding: 22px 18px !important; }
+      .section-title { font-size: 1.6rem; }
+      .about-story-grid > div:last-child { order: -1; }
+    }
+
+    @media (max-width: 480px) {
+      .trust-pill { font-size: 0.7rem; padding: 5px 11px; }
+      .numbers-strip { grid-template-columns: repeat(2,1fr); }
+    }
+
+    @media (max-width: 1024px) and (min-width: 769px) {
+      .about-story-grid { gap: 36px; }
+      .about-contact-grid { gap: 32px; }
+      .story-illustration { padding: 32px; }
+      .diff-grid { gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="10" fill="#2563eb"/>
+        <path d="M10 26V10h8.5c2 0 3.5.5 4.5 1.5S24.5 14 24.5 15.5c0 1-.3 1.8-.8 2.4-.5.6-1.1 1-1.8 1.2.9.2 1.7.7 2.2 1.4.6.7.9 1.6.9 2.7 0 1.6-.6 2.9-1.7 3.8-1.1.9-2.7 1-4.8 1H10zm3.5-9.5h4.7c1 0 1.8-.2 2.3-.7.5-.4.8-1 .8-1.8 0-.8-.3-1.4-.8-1.8-.5-.4-1.3-.7-2.3-.7h-4.7v5zm0 6.7h5.2c1.1 0 1.9-.3 2.5-.8.6-.5.8-1.2.8-2.1 0-.9-.3-1.6-.8-2.1-.6-.5-1.4-.7-2.5-.7h-5.2v5.7z" fill="white"/>
+      </svg>
+      <span class="nav-logo-text">BPUT<span>Notes</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="notes.html">Notes</a></li>
+      <li><a href="pyq.html">PYQs</a></li>
+      <li><a href="books.html">Books</a></li>
+      <li><a href="scholarship.html">Scholarships</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="careers.html">Careers</a></li>
+      <li><a href="internship.html" class="nav-cta">Internship & Training</a></li>
+    </ul>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ══ SOCIAL SIDE RAIL (desktop) ══ -->
+<div class="social-rail">
+  <a href="https://linkedin.com/company/YOUR_HANDLE" target="_blank" class="rail-item rail-li" title="LinkedIn">
+    <svg class="rail-icon" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    <span class="rail-label">LinkedIn</span>
+  </a>
+  <a href="https://instagram.com/YOUR_HANDLE" target="_blank" class="rail-item rail-ig" title="Instagram">
+    <svg class="rail-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    <span class="rail-label">Instagram</span>
+  </a>
+  <a href="https://youtube.com/@YOUR_HANDLE" target="_blank" class="rail-item rail-yt" title="YouTube">
+    <svg class="rail-icon" viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+    <span class="rail-label">YouTube</span>
+  </a>
+  <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="rail-item rail-wa" title="WhatsApp">
+    <svg class="rail-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span class="rail-label">WhatsApp</span>
+  </a>
+</div>
+
+<!-- ══ SOCIAL FAB (mobile) ══ -->
+<div class="social-fab-wrap">
+  <button class="social-fab-toggle" aria-label="Social links">
+    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+  </button>
+  <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="social-fan-item sfi-wa" title="WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+  <a href="https://youtube.com/@YOUR_HANDLE" target="_blank" class="social-fan-item sfi-yt" title="YouTube">
+    <svg viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+  </a>
+  <a href="https://instagram.com/YOUR_HANDLE" target="_blank" class="social-fan-item sfi-ig" title="Instagram">
+    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+  </a>
+  <a href="https://linkedin.com/company/YOUR_HANDLE" target="_blank" class="social-fan-item sfi-li" title="LinkedIn">
+    <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+  </a>
+</div>
+
+<!-- ── PAGE HERO ── -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="section-tag" style="background:rgba(255,255,255,0.15);color:#bfdbfe;border-color:rgba(255,255,255,0.2);">👋 Who We Are</div>
+    <h1>About BPUTNotes.in</h1>
+    <p>Built by BPUT students, for BPUT students — a platform you can actually trust for your academic journey.</p>
+  </div>
+</div>
+
+<!-- ── MAIN SECTION ── -->
+<section class="section">
+  <div class="container">
+
+    <!-- ══ TRUST BANNER with Download ══ -->
+    <div class="trust-banner reveal">
+      <div class="trust-banner-left">
+        <div class="section-tag" style="background:rgba(255,255,255,0.12);color:#93c5fd;border-color:rgba(255,255,255,0.18);margin-bottom:14px;">📄 Official Information</div>
+        <h2>Download Our Info Brochure</h2>
+        <p>Get a complete overview of BPUTNotes — what we offer, how we work, our training programs and scholarship resources. Share it with your classmates too!</p>
+        <div class="trust-pills">
+          <div class="trust-pill"><span class="trust-pill-dot" style="background:#22c55e;"></span>Est. 2024 · Odisha</div>
+          <div class="trust-pill"><span class="trust-pill-dot" style="background:#f59e0b;"></span>2,000+ Students Helped</div>
+          <div class="trust-pill"><span class="trust-pill-dot" style="background:#60a5fa;"></span>100% Free Resources</div>
+          <div class="trust-pill"><span class="trust-pill-dot" style="background:#a78bfa;"></span>BPUT Syllabus Aligned</div>
+        </div>
+      </div>
+      <div class="trust-banner-right">
+        <a href="https://drive.google.com/YOUR_BROCHURE_LINK_HERE" target="_blank" rel="noopener" class="download-btn">
+          <div class="download-btn-icon">⬇</div>
+          Download Brochure (PDF)
+        </a>
+        <p style="font-size:0.7rem;color:rgba(255,255,255,0.4);text-align:center;margin-top:10px;font-family:var(--font-display);">Free · No signup required</p>
+      </div>
+    </div>
+
+    <!-- ══ OUR STORY ══ -->
+    <div class="about-story-grid reveal">
+
+      <!-- Text side -->
+      <div>
+        <div class="section-tag">Our Story</div>
+        <h2 class="section-title">Why We Built This</h2>
+        <div class="divider"></div>
+        <p style="margin-bottom:16px;line-height:1.9;">Every BPUT student knows the struggle — scattered notes, last-minute exam panic, no idea which scholarships exist, and zero guidance on getting real work experience before graduating.</p>
+        <p style="margin-bottom:16px;line-height:1.9;">We were those students. When we couldn't find a single reliable resource made specifically for BPUT, we decided to build it ourselves — from scratch, with zero funding, purely out of need.</p>
+        <p style="margin-bottom:24px;line-height:1.9;">BPUTNotes.in is built and maintained by a team of BPUT students and recent graduates. We write the notes, curate the PYQs, research the scholarships and run the training programs — all with one goal: <strong style="color:var(--blue-500);">making every BPUT student's journey a little easier.</strong></p>
+
+        <!-- Timeline -->
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">2024 — Launch</div>
+            <div class="timeline-title">BPUTNotes.in goes live</div>
+            <div class="timeline-desc">Started with CSE notes and a handful of PYQs. First 100 students in week one.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">2024 — Growth</div>
+            <div class="timeline-title">Expanded to 7 branches</div>
+            <div class="timeline-desc">Added ECE, EEE, Mech, Civil, Mining and Metallurgy. Scholarship hub launched.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">2025 — Training</div>
+            <div class="timeline-title">Internship & Training Program</div>
+            <div class="timeline-desc">Launched live Google Meet training with industry mentors. 100+ students certified so far.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot" style="background:var(--accent);border-color:var(--accent-light);"></div>
+            <div class="timeline-year" style="color:var(--accent);">Now</div>
+            <div class="timeline-title">2,000+ students and growing</div>
+            <div class="timeline-desc">The largest free BPUT-specific platform in Odisha — and we're just getting started.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Illustration side -->
+      <div class="story-illustration">
+        <svg width="180" height="180" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="100" r="80" fill="#dbeafe"/>
+          <rect x="55" y="60" width="90" height="110" rx="8" fill="#2563eb"/>
+          <rect x="65" y="75" width="70" height="8" rx="4" fill="#bfdbfe"/>
+          <rect x="65" y="91" width="50" height="8" rx="4" fill="#bfdbfe"/>
+          <rect x="65" y="107" width="60" height="8" rx="4" fill="#bfdbfe"/>
+          <rect x="65" y="123" width="40" height="8" rx="4" fill="#bfdbfe"/>
+          <circle cx="130" cy="145" r="22" fill="#f59e0b"/>
+          <path d="M122 145l6 6 12-12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <p style="margin-top:18px;font-family:var(--font-display);font-weight:700;color:var(--blue-700);font-size:0.95rem;">Trusted by BPUT students since 2024</p>
+        <p style="font-size:0.8rem;color:var(--blue-500);margin-top:6px;">Odisha · All Branches · All Semesters</p>
+
+        <!-- Mini trust badges -->
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:24px;text-align:left;">
+          <div style="background:var(--white);border:1px solid var(--blue-100);border-radius:var(--radius-md);padding:11px 14px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.1rem;">✅</span>
+            <div>
+              <div style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--gray-900);">BPUT Syllabus Verified</div>
+              <div style="font-size:0.7rem;color:var(--gray-400);">All notes aligned with official curriculum</div>
+            </div>
+          </div>
+          <div style="background:var(--white);border:1px solid var(--blue-100);border-radius:var(--radius-md);padding:11px 14px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.1rem;">🔒</span>
+            <div>
+              <div style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--gray-900);">No Hidden Fees</div>
+              <div style="font-size:0.7rem;color:var(--gray-400);">Notes & PYQs are 100% free forever</div>
+            </div>
+          </div>
+          <div style="background:var(--white);border:1px solid var(--blue-100);border-radius:var(--radius-md);padding:11px 14px;display:flex;align-items:center;gap:10px;">
+            <span style="font-size:1.1rem;">🎓</span>
+            <div>
+              <div style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:var(--gray-900);">Student-Built Platform</div>
+              <div style="font-size:0.7rem;color:var(--gray-400);">Made by people who've been in your shoes</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Numbers strip -->
+    <div class="numbers-strip reveal">
+      <div class="numbers-strip-item">
+        <div class="ns-value">2,000+</div>
+        <div class="ns-label">Students Helped</div>
+      </div>
+      <div class="numbers-strip-item">
+        <div class="ns-value">300+</div>
+        <div class="ns-label">Study Materials</div>
+      </div>
+      <div class="numbers-strip-item">
+        <div class="ns-value">672</div>
+        <div class="ns-label">PYQ Papers</div>
+      </div>
+      <div class="numbers-strip-item">
+        <div class="ns-value">20+</div>
+        <div class="ns-label">Scholarships Listed</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── WHAT MAKES US DIFFERENT ── -->
+<section class="section" style="background:var(--gray-50);">
+  <div class="container">
+    <div class="section-center" style="margin-bottom:48px;">
+      <div class="section-tag" data-aos="fade-up">Why Choose Us</div>
+      <h2 class="section-title reveal">What Makes Us Different</h2>
+      <p class="section-sub reveal">We're not just another notes site. Here's why thousands of BPUT students trust us.</p>
+    </div>
+    <div class="diff-grid reveal">
+      <div class="diff-card">
+        <div class="diff-icon" style="background:#eff6ff;">📚</div>
+        <div class="diff-body">
+          <h4>100% BPUT-Specific Content</h4>
+          <p>Every note and PYQ is aligned with the BPUT syllabus — not generic engineering content. Made by students who studied the same subjects.</p>
+        </div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon" style="background:#f0fdf4;">🆓</div>
+        <div class="diff-body">
+          <h4>Always Free, No Login Needed</h4>
+          <p>Notes and PYQs are free forever. No account, no paywall, no ads blocking your content. Just click and access.</p>
+        </div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon" style="background:#fef3c7;">🏛️</div>
+        <div class="diff-body">
+          <h4>Scholarship Hub for Odisha Students</h4>
+          <p>We research and list 20+ Central, State, Private and NGO scholarships specifically relevant to BPUT engineering students.</p>
+        </div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon" style="background:#ede9fe;">🚀</div>
+        <div class="diff-body">
+          <h4>Live Industry Training at ₹499</h4>
+          <p>Our internship program runs on Google Meet with real mentors. You get hands-on projects, a certificate, and resume help — no gimmicks.</p>
+        </div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon" style="background:#fff7ed;">📱</div>
+        <div class="diff-body">
+          <h4>WhatsApp-First Support</h4>
+          <p>Got a question? We respond on WhatsApp — fast. No email black holes or ticket systems. Real humans, real responses.</p>
+        </div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon" style="background:#fdf2f8;">🔄</div>
+        <div class="diff-body">
+          <h4>Regularly Updated Content</h4>
+          <p>We add new notes, PYQs and scholarship info regularly. The site isn't abandoned — it's actively maintained by students like you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── OUR MISSION ── -->
+<section class="section">
+  <div class="container">
+    <div class="section-center" style="margin-bottom:48px;">
+      <div class="section-tag">Our Mission</div>
+      <h2 class="section-title reveal">What We Stand For</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card reveal" style="text-align:center;">
+        <div style="font-size:2.5rem;margin-bottom:16px;">📖</div>
+        <h3 style="font-size:1.05rem;margin-bottom:10px;">Free Education</h3>
+        <p style="font-size:0.875rem;">Notes and PYQs are and will always be free. We believe no student should fail because they couldn't afford study materials.</p>
+      </div>
+      <div class="card reveal" style="text-align:center;">
+        <div style="font-size:2.5rem;margin-bottom:16px;">🎯</div>
+        <h3 style="font-size:1.05rem;margin-bottom:10px;">BPUT-Specific</h3>
+        <p style="font-size:0.875rem;">Everything we create is aligned with the BPUT syllabus. No generic content — every note, every PYQ is made for our university.</p>
+      </div>
+      <div class="card reveal" style="text-align:center;">
+        <div style="font-size:2.5rem;margin-bottom:16px;">🚀</div>
+        <h3 style="font-size:1.05rem;margin-bottom:10px;">Career Ready</h3>
+        <p style="font-size:0.875rem;">Our internship programs give you real skills and a certificate that actually helps in placements and job applications.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TEAM ── -->
+<section class="section" style="background:var(--gray-50);">
+  <div class="container">
+    <div class="section-center" style="margin-bottom:44px;">
+      <div class="section-tag">The Team</div>
+      <h2 class="section-title reveal">Who's Behind This</h2>
+      <p class="section-sub reveal">A small, passionate team of BPUT students and alumni building something meaningful for their community.</p>
+    </div>
+
+    <div class="team-grid">
+      <div class="card reveal" style="text-align:center;padding:28px 20px;">
+        <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--blue-500),var(--blue-300));margin:0 auto 16px;display:flex;align-items:center;justify-content:center;color:var(--white);font-family:var(--font-display);font-size:1.5rem;font-weight:800;">YN</div>
+        <h4 style="font-family:var(--font-display);font-size:1rem;margin-bottom:4px;">Your Name</h4>
+        <p style="font-size:0.8rem;color:var(--blue-500);margin-bottom:8px;font-weight:600;">Founder & Content Lead</p>
+        <p style="font-size:0.8rem;color:var(--gray-500);">CSE, [Your College], BPUT</p>
+      </div>
+      <div class="card reveal" style="text-align:center;padding:28px 20px;">
+        <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#059669,#34d399);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;color:var(--white);font-family:var(--font-display);font-size:1.5rem;font-weight:800;">TN</div>
+        <h4 style="font-family:var(--font-display);font-size:1rem;margin-bottom:4px;">Team Member</h4>
+        <p style="font-size:0.8rem;color:var(--blue-500);margin-bottom:8px;font-weight:600;">Operations & Outreach</p>
+        <p style="font-size:0.8rem;color:var(--gray-500);">ECE, [College], BPUT</p>
+      </div>
+      <div class="card reveal" style="text-align:center;padding:28px 20px;">
+        <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#fcd34d);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;color:var(--white);font-family:var(--font-display);font-size:1.5rem;font-weight:800;">TM</div>
+        <h4 style="font-family:var(--font-display);font-size:1rem;margin-bottom:4px;">Team Member</h4>
+        <p style="font-size:0.8rem;color:var(--blue-500);margin-bottom:8px;font-weight:600;">Trainer & Program Lead</p>
+        <p style="font-size:0.8rem;color:var(--gray-500);">Industry Professional</p>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:28px;" class="reveal">
+      <p style="font-size:0.82rem;color:var(--gray-400);">🔒 Real names and photos coming soon — trust-building in progress!</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="about-contact-grid">
+
+      <!-- Left: Contact info -->
+      <div class="reveal">
+        <div class="section-tag">Get In Touch</div>
+        <h2 class="section-title">Contact Us</h2>
+        <div class="divider"></div>
+        <p style="margin-bottom:28px;line-height:1.9;color:var(--gray-500);">Have a question, suggestion or want to collaborate? We'd love to hear from you. Reach us on WhatsApp for the fastest response — usually within 2 hours.</p>
+
+        <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:32px;">
+          <div class="contact-info-item">
+            <div class="icon-wrap icon-wrap-green" style="width:46px;height:46px;margin:0;flex-shrink:0;">
+              <span style="font-size:1.1rem;">💬</span>
+            </div>
+            <div>
+              <div style="font-family:var(--font-display);font-size:0.85rem;font-weight:600;color:var(--gray-700);">WhatsApp (Fastest · 2hr response)</div>
+              <a href="https://wa.me/91XXXXXXXXXX" target="_blank" style="color:var(--blue-500);font-size:0.9rem;">+91 XXXXXXXXXX</a>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="icon-wrap icon-wrap-blue" style="width:46px;height:46px;margin:0;flex-shrink:0;">
+              <span style="font-size:1.1rem;">📧</span>
+            </div>
+            <div>
+              <div style="font-family:var(--font-display);font-size:0.85rem;font-weight:600;color:var(--gray-700);">Email</div>
+              <a href="mailto:hello@bputnotes.in" style="color:var(--blue-500);font-size:0.9rem;">hello@bputnotes.in</a>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="icon-wrap icon-wrap-amber" style="width:46px;height:46px;margin:0;flex-shrink:0;">
+              <span style="font-size:1.1rem;">🌐</span>
+            </div>
+            <div>
+              <div style="font-family:var(--font-display);font-size:0.85rem;font-weight:600;color:var(--gray-700);">Website</div>
+              <span style="color:var(--blue-500);font-size:0.9rem;">bputnotes.in</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="https://wa.me/91XXXXXXXXXX" target="_blank"
+           class="btn"
+           style="background:#25d366;color:var(--white);box-shadow:0 8px 24px rgba(37,211,102,0.3);width:100%;justify-content:center;">
+          💬 WhatsApp Us Now
+        </a>
+
+        <!-- Download brochure shortcut -->
+        <a href="https://drive.google.com/YOUR_BROCHURE_LINK_HERE" target="_blank" rel="noopener"
+           class="btn btn-outline"
+           style="width:100%;justify-content:center;margin-top:12px;">
+          📄 Download Info Brochure
+        </a>
+      </div>
+
+      <!-- Right: Contact form -->
+      <div class="card contact-form-card reveal" style="padding:32px;">
+        <h3 style="font-size:1.1rem;margin-bottom:4px;">Send a Quick Message</h3>
+        <p style="font-size:0.875rem;margin-bottom:22px;color:var(--gray-400);">We typically respond within 24 hours.</p>
+
+        <div id="contactSuccess" class="alert alert-success" style="display:none;">✅ Message sent! We'll get back to you soon.</div>
+        <div id="contactError" class="alert alert-error" style="display:none;">Something went wrong. Please WhatsApp us directly.</div>
+
+        <form id="contactForm" novalidate>
+          <div class="form-group">
+            <label class="form-label">Name *</label>
+            <input class="form-input" type="text" name="name" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">WhatsApp Number *</label>
+            <input class="form-input" type="tel" name="phone" placeholder="10-digit number" required maxlength="10" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Subject</label>
+            <select class="form-select" name="subject">
+              <option>General Inquiry</option>
+              <option>Request Study Material</option>
+              <option>Internship Program Question</option>
+              <option>Scholarship Query</option>
+              <option>Report an Issue</option>
+              <option>Collaborate With Us</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Message *</label>
+            <textarea class="form-textarea" name="message" placeholder="Your message..." required></textarea>
+          </div>
+          <button type="button" class="btn btn-primary" style="width:100%;justify-content:center;" id="contactBtn" onclick="submitContact(this)">
+            Send Message →
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+  <a href="index.html" class="nav-logo" style="display:inline-flex; align-items:center; gap:10px; margin-bottom:12px;">
+    <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+      <rect width="36" height="36" rx="10" fill="#2563eb"/>
+      <path d="M10 26V10h8.5c2 0 3.5.5 4.5 1.5S24.5 14 24.5 15.5c0 1-.3 1.8-.8 2.4-.5.6-1.1 1-1.8 1.2.9.2 1.7.7 2.2 1.4.6.7.9 1.6.9 2.7 0 1.6-.6 2.9-1.7 3.8-1.1.9-2.7 1-4.8 1H10zm3.5-9.5h4.7c1 0 1.8-.2 2.3-.7.5-.4.8-1 .8-1.8 0-.8-.3-1.4-.8-1.8-.5-.4-1.3-.7-2.3-.7h-4.7v5zm0 6.7h5.2c1.1 0 1.9-.3 2.5-.8.6-.5.8-1.2.8-2.1 0-.9-.3-1.6-.8-2.1-.6-.5-1.4-.7-2.5-.7h-5.2v5.7z" fill="white"/>
+    </svg>
+    <span class="nav-logo-text" style="color:var(--white);">BPUT<span style="color:var(--accent);">Notes</span></span>
+  </a>
+  <p>"Master your BPUT exams with the best notes, PYQs, and scholarships—all in one place."
+
+"Empowering BPUT students from first semester to first job."
+
+"Simplified learning for BPUTians. Notes, Previous Papers, and more."</p>
+
+  <div class="footer-social-row">
+    <a href="https://linkedin.com/company/YOUR_HANDLE" target="_blank" class="footer-soc-btn fsb-li" title="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="https://instagram.com/YOUR_HANDLE" target="_blank" class="footer-soc-btn fsb-ig" title="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+    <a href="https://youtube.com/@YOUR_HANDLE" target="_blank" class="footer-soc-btn fsb-yt" title="YouTube">
+      <svg viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+    </a>
+    <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="footer-soc-btn fsb-wa" title="WhatsApp">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+  </div>
+</div>
+      <div class="footer-col"><h4>Resources</h4><a href="notes.html">Notes</a><a href="pyq.html">PYQs</a><a href="scholarship.html">Scholarships</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="about.html">About Us</a><a href="careers.html">Careers</a><a href="about.html#contact">Contact</a></div>
+      <div class="footer-col"><h4>Programs</h4><a href="internship.html">Internship</a></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 BPUTNotes.in — Made with ❤️ for BPUT students</span>
+      <span>Not affiliated with BPUT University</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/91XXXXXXXXXX" class="wa-float" target="_blank">💬</a>
+<button class="scroll-top">↑</button>
+
+<script src="js/main.js"></script>
+<script>
+  const CONTACT_SHEET_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+
+  async function submitContact(btn) {
+    const form = document.getElementById('contactForm');
+    const required = form.querySelectorAll('[required]');
+    let valid = true;
+    required.forEach(f => {
+      f.style.borderColor = '';
+      if (!f.value.trim()) { f.style.borderColor = '#ef4444'; valid = false; }
+    });
+    if (!valid) return;
+
+    // Phone validation
+    const phone = form.querySelector('[name="phone"]');
+    if (phone && !/^[6-9]\d{9}$/.test(phone.value.trim())) {
+      phone.style.borderColor = '#ef4444';
+      document.getElementById('contactError').textContent = 'Please enter a valid 10-digit mobile number.';
+      document.getElementById('contactError').style.display = 'block';
+      return;
+    }
+
+    const origText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    document.getElementById('contactSuccess').style.display = 'none';
+    document.getElementById('contactError').style.display = 'none';
+
+    const data = new FormData(form);
+    data.append('type', 'contact');
+    data.append('timestamp', new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
+    data.append('source', 'bputnotes.in/about');
+
+    try {
+      await fetch(CONTACT_SHEET_URL, { method: 'POST', mode: 'no-cors', body: data });
+      document.getElementById('contactSuccess').style.display = 'block';
+      form.reset();
+    } catch (e) {
+      document.getElementById('contactError').textContent = 'Something went wrong. Please WhatsApp us directly.';
+      document.getElementById('contactError').style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = origText;
+    }
+  }
+
+  document.getElementById('contactForm').querySelectorAll('input, textarea').forEach(el => {
+    el.addEventListener('input', () => {
+      el.style.borderColor = '';
+      document.getElementById('contactError').style.display = 'none';
+    });
+  });
+</script>
+</body>
+</html>
