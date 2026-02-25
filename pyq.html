@@ -245,6 +245,55 @@
       border-bottom-color: var(--pyq-back);
     }
 
+    /* ════ YEAR SELECTOR ════ */
+    .year-selector-wrap {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .year-label {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gray-600);
+    }
+    .year-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .year-btn {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border: 1.5px solid var(--gray-200);
+      background: var(--gray-50);
+      color: var(--gray-600);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .year-btn:hover {
+      border-color: var(--pyq-accent);
+      background: #fef3c7;
+    }
+    .year-btn.active {
+      background: var(--pyq-accent);
+      color: var(--white);
+      border-color: var(--pyq-accent);
+      box-shadow: 0 2px 8px rgba(217,119,6,0.3);
+    }
+    .year-btn.active-back {
+      background: var(--pyq-back);
+      color: var(--white);
+      border-color: var(--pyq-back);
+      box-shadow: 0 2px 8px rgba(220,38,38,0.3);
+    }
+
     /* ════ PYQ CARDS ════ */
     .pyq-content { padding: 22px 24px; flex: 1; overflow-y: auto; }
 
@@ -385,6 +434,23 @@
         border-color: var(--pyq-back);
         color: var(--pyq-back2);
       }
+
+      /* Year selector mobile */
+      .year-selector-wrap {
+        padding: 10px 14px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .year-buttons {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .year-btn {
+        flex: 1;
+        text-align: center;
+        padding: 8px 10px;
+      }
     }
     @media (max-width: 520px) {
       .pyq-grid { grid-template-columns: 1fr; }
@@ -419,7 +485,7 @@
   <div class="page-hero-inner">
     <div class="section-tag" style="background:rgba(255,255,255,0.15);color:#fde68a;border-color:rgba(255,255,255,0.2);">📝 Exam Prep</div>
     <h1>Previous Year Questions</h1>
-    <p>Regular &amp; Back paper PYQs for all BPUT branches. Switch exam type from the sidebar — search by subject code in the top bar.</p>
+    <p>Regular &amp; Back paper PYQs for all BPUT branches. Switch exam type from the sidebar — filter by year and search by subject code.</p>
   </div>
 </div>
 
@@ -436,7 +502,7 @@
           <div style="font-size:0.75rem;color:rgba(255,255,255,0.65);">Use the subject code search in the top-right of the dashboard to find any paper instantly</div>
         </div>
       </div>
-      <div style="font-family:var(--font-display);font-size:0.75rem;color:rgba(255,255,255,0.5);">Regular &amp; Back · 7 branches · 8 sems</div>
+      <div style="font-family:var(--font-display);font-size:0.75rem;color:rgba(255,255,255,0.5);">Regular &amp; Back · 7 branches · 8 sems · 5 years</div>
     </div>
 
     <!-- Mobile branch toggle -->
@@ -469,42 +535,43 @@
         <div class="sidebar-branch active" id="sb-cse"        onclick="selectBranch('cse')">
           <span class="branch-emoji">💻</span>
           <div class="branch-info"><span class="branch-name">Computer Science</span><span class="branch-sub">CSE</span></div>
-          <span class="branch-count">48</span>
+          <span class="branch-count">240</span>
         </div>
         <div class="sidebar-branch" id="sb-civil"       onclick="selectBranch('civil')">
           <span class="branch-emoji">🏗️</span>
           <div class="branch-info"><span class="branch-name">Civil Engineering</span><span class="branch-sub">Civil</span></div>
-          <span class="branch-count">48</span>
+          <span class="branch-count">240</span>
         </div>
         <div class="sidebar-branch" id="sb-electrical"  onclick="selectBranch('electrical')">
           <span class="branch-emoji">⚡</span>
           <div class="branch-info"><span class="branch-name">Electrical Engg.</span><span class="branch-sub">EEE</span></div>
-          <span class="branch-count">48</span>
+          <span class="branch-count">240</span>
         </div>
         <div class="sidebar-branch" id="sb-mechanical"  onclick="selectBranch('mechanical')">
           <span class="branch-emoji">⚙️</span>
           <div class="branch-info"><span class="branch-name">Mechanical Engg.</span><span class="branch-sub">Mech</span></div>
-          <span class="branch-count">48</span>
+          <span class="branch-count">240</span>
         </div>
         <div class="sidebar-branch" id="sb-mining"      onclick="selectBranch('mining')">
           <span class="branch-emoji">⛏️</span>
           <div class="branch-info"><span class="branch-name">Mining Engineering</span><span class="branch-sub">Mining</span></div>
-          <span class="branch-count">48</span>
+          <span class="branch-count">240</span>
         </div>
         <div class="sidebar-branch" id="sb-metallurgy"  onclick="selectBranch('metallurgy')">
           <span class="branch-emoji">🔩</span>
           <div class="branch-info"><span class="branch-name">Metallurgy</span><span class="branch-sub">Metal</span></div>
-          <span class="branch-count">48</span>
+          <span class="branch-count">240</span>
         </div>
         <div class="sidebar-branch" id="sb-mineral"     onclick="selectBranch('mineral')">
           <span class="branch-emoji">💎</span>
           <div class="branch-info"><span class="branch-name">Mineral Engineering</span><span class="branch-sub">Mineral</span></div>
-          <span class="branch-count">48</span>
+          <span class="branch-count">240</span>
         </div>
 
         <div class="sidebar-stats">
-          <div class="sidebar-stat-row"><span>Total Papers</span><span>672</span></div>
+          <div class="sidebar-stat-row"><span>Total Papers</span><span>3,360</span></div>
           <div class="sidebar-stat-row"><span>Exam Types</span><span>Regular + Back</span></div>
+          <div class="sidebar-stat-row"><span>Years Available</span><span>2020-2024</span></div>
           <div class="sidebar-stat-row"><span>Format</span><span>Google Drive PDF</span></div>
         </div>
       </div>
@@ -522,6 +589,8 @@
             <span class="topbar-branch" id="topbarBranch">Computer Science (CSE)</span>
             <span class="topbar-sep">·</span>
             <span class="topbar-sem" id="topbarSem">Semester 1</span>
+            <span class="topbar-sep">·</span>
+            <span class="topbar-sem" id="topbarYear">2024</span>
           </div>
           <!-- Subject code search -->
           <div class="code-search-wrap">
@@ -540,6 +609,18 @@
           <button class="sem-tab" onclick="selectSem(6,this)">Sem 6</button>
           <button class="sem-tab" onclick="selectSem(7,this)">Sem 7</button>
           <button class="sem-tab" onclick="selectSem(8,this)">Sem 8</button>
+        </div>
+
+        <!-- Year Selector -->
+        <div class="year-selector-wrap">
+          <span class="year-label">📅 Select Year:</span>
+          <div class="year-buttons">
+            <button class="year-btn active" onclick="selectYear(2024, this)">2024</button>
+            <button class="year-btn" onclick="selectYear(2023, this)">2023</button>
+            <button class="year-btn" onclick="selectYear(2022, this)">2022</button>
+            <button class="year-btn" onclick="selectYear(2021, this)">2021</button>
+            <button class="year-btn" onclick="selectYear(2020, this)">2020</button>
+          </div>
         </div>
 
         <!-- Normal grid view -->
@@ -591,13 +672,13 @@
 <script src="js/main.js"></script>
 <script>
 /* ════════════════════════════════════════════════
-   PYQ DATA
+   PYQ DATA WITH YEAR SUPPORT
    ─────────────────────────────────────────────
    HOW TO ADD LINKS:
 
    In the overrides section below, add your papers like:
-   if (branch==='cse' && sem===3 && type==='regular') {
-     return makePapers(branch, sem, type, {
+   if (branch==='cse' && sem===3 && type==='regular' && year===2024) {
+     return makePapers(branch, sem, type, year, {
        p1: { name:'Data Structures', code:'CS3001', link:'https://drive.google.com/...' },
        p2: { name:'Digital Electronics', code:'CS3002', link:'#' },
      });
@@ -622,16 +703,20 @@ const BRANCH_EMOJI = {
   mechanical:'⚙️', mining:'⛏️', metallurgy:'🔩', mineral:'💎'
 };
 
-function makePapers(branch, sem, type, overrides = {}) {
+const YEARS = [2024, 2023, 2022, 2021, 2020];
+
+function makePapers(branch, sem, type, year, overrides = {}) {
   return Array.from({ length: 6 }, (_, i) => {
     const n = i + 1;
     const key = `p${n}`;
-    const id = `${branch}-sem${sem}-${type}-sub${n}`;
+    // Updated file naming: cse-sem1-regular-2024-sub4
+    const id = `${branch}-sem${sem}-${type}-${year}-sub${n}`;
     return {
       id,
       name: overrides[key]?.name || `${BRANCH_SHORT[branch]}-Sem${sem}-Sub${n}`,
       code: overrides[key]?.code || id,
       link: overrides[key]?.link || '#',
+      year: year
     };
   });
 }
@@ -642,23 +727,26 @@ const pyqData = { regular: {}, back: {} };
   Object.keys(BRANCH_NAMES).forEach(branch => {
     pyqData[type][branch] = {};
     for (let sem = 1; sem <= 8; sem++) {
-      /* ── ADD YOUR OVERRIDES HERE ──
-         Example:
-         if (branch==='cse' && sem===3 && type==='regular') {
-           pyqData[type][branch][sem] = makePapers(branch, sem, type, {
-             p1: { name:'Data Structures', code:'CS3001', link:'https://drive.google.com/YOUR_LINK' },
-             p2: { name:'Digital Electronics', code:'CS3002', link:'#' },
-           });
-           continue;  // skip the default below
-         }
-      ──────────────────────────────── */
-      pyqData[type][branch][sem] = makePapers(branch, sem, type);
+      pyqData[type][branch][sem] = {};
+      YEARS.forEach(year => {
+        /* ── ADD YOUR OVERRIDES HERE ──
+           Example:
+           if (branch==='cse' && sem===3 && type==='regular' && year===2024) {
+             pyqData[type][branch][sem][year] = makePapers(branch, sem, type, year, {
+               p1: { name:'Data Structures', code:'CS3001', link:'https://drive.google.com/YOUR_LINK' },
+               p2: { name:'Digital Electronics', code:'CS3002', link:'#' },
+             });
+             return;
+           }
+        ──────────────────────────────── */
+        pyqData[type][branch][sem][year] = makePapers(branch, sem, type, year);
+      });
     }
   });
 });
 
 /* ════ STATE ════ */
-let state = { examType: 'regular', branch: 'cse', sem: 1 };
+let state = { examType: 'regular', branch: 'cse', sem: 1, year: 2024 };
 
 /* ════ EXAM TYPE ════ */
 function setExamType(type) {
@@ -683,6 +771,13 @@ function setExamType(type) {
   document.querySelectorAll('.sem-tab').forEach(t => {
     if (t.classList.contains('active') || t.classList.contains('active-back')) {
       t.className = 'sem-tab ' + (type === 'regular' ? 'active' : 'active-back');
+    }
+  });
+
+  // Year buttons active colour
+  document.querySelectorAll('.year-btn').forEach(t => {
+    if (t.classList.contains('active') || t.classList.contains('active-back')) {
+      t.className = 'year-btn ' + (type === 'regular' ? 'active' : 'active-back');
     }
   });
 
@@ -719,11 +814,31 @@ function selectSem(sem, tabEl) {
   renderPYQ();
 }
 
+/* ════ YEAR SELECTION ════ */
+function selectYear(year, btnEl) {
+  state.year = year;
+  document.querySelectorAll('.year-btn').forEach(t => t.classList.remove('active','active-back'));
+  btnEl.classList.add(state.examType === 'regular' ? 'active' : 'active-back');
+  document.getElementById('topbarYear').textContent = year;
+  clearSearch();
+  renderPYQ();
+}
+
 /* ════ RENDER CARDS ════ */
 function renderPYQ() {
-  const papers = pyqData[state.examType][state.branch][state.sem] || [];
+  const papers = pyqData[state.examType]?.[state.branch]?.[state.sem]?.[state.year] || [];
   const grid   = document.getElementById('pyqGrid');
   const type   = state.examType;
+
+  if (papers.length === 0) {
+    grid.innerHTML = `
+      <div class="pyq-empty">
+        <div class="e-icon">📭</div>
+        <p>No papers available for this combination yet.</p>
+      </div>
+    `;
+    return;
+  }
 
   grid.innerHTML = papers.map((p, i) => {
     const hasLink = p.link && p.link !== '#';
@@ -738,7 +853,7 @@ function renderPYQ() {
         <div class="card-sub-num">Subject ${i+1}</div>
         <div class="card-sub-name">${p.name}</div>
         <div><span class="card-code ${type}">${p.code}</span></div>
-        <div class="card-meta">BPUT · ${type==='regular'?'Regular':'Back Paper'} · End Sem</div>
+        <div class="card-meta">BPUT · ${type==='regular'?'Regular':'Back Paper'} · ${p.year} · End Sem</div>
         ${btnTag}
       </div>`;
   }).join('');
@@ -759,15 +874,17 @@ function handleSearch(val) {
   content.style.display = 'none';
   panel.classList.add('active');
 
-  // Search across ALL branches, sems, types
+  // Search across ALL branches, sems, types, and years
   const found = [];
   ['regular','back'].forEach(type => {
     Object.keys(BRANCH_NAMES).forEach(branch => {
       for (let sem = 1; sem <= 8; sem++) {
-        (pyqData[type][branch][sem] || []).forEach(p => {
-          if (p.name.toLowerCase().includes(q) || p.code.toLowerCase().includes(q)) {
-            found.push({ ...p, branch, sem, type });
-          }
+        YEARS.forEach(year => {
+          (pyqData[type]?.[branch]?.[sem]?.[year] || []).forEach(p => {
+            if (p.name.toLowerCase().includes(q) || p.code.toLowerCase().includes(q)) {
+              found.push({ ...p, branch, sem, type, year });
+            }
+          });
         });
       }
     });
@@ -795,7 +912,7 @@ function handleSearch(val) {
       : `<a class="${btnClass}">⏳ Coming Soon</a>`;
     return `
       <div class="pyq-card ${p.type}-card" style="animation:fadeUp 0.25s ease ${i*0.04}s both;">
-        <div class="card-sub-num">${BRANCH_NAMES[p.branch]} · Sem ${p.sem}</div>
+        <div class="card-sub-num">${BRANCH_NAMES[p.branch]} · Sem ${p.sem} · ${p.year}</div>
         <div class="card-sub-name">${p.name}</div>
         <div><span class="card-code ${p.type}">${p.code}</span></div>
         <div class="card-meta">${p.type==='regular'?'Regular Exam':'Back Paper'}</div>
