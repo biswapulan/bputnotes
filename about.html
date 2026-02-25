@@ -708,8 +708,17 @@
         <h3 style="font-size:1.1rem;margin-bottom:4px;">Send a Quick Message</h3>
         <p style="font-size:0.875rem;margin-bottom:22px;color:var(--gray-400);">We typically respond within 24 hours.</p>
 
-        <div id="contactSuccess" class="alert alert-success" style="display:none;">✅ Message sent! We'll get back to you soon.</div>
-        <div id="contactError" class="alert alert-error" style="display:none;">Something went wrong. Please WhatsApp us directly.</div>
+        <div id="contactSuccess" style="display:none;text-align:center;padding:30px 10px;">
+          <div style="width:60px;height:60px;background:#dcfce7;color:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;border:2px solid #16a34a;">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <h4 style="color:#065f46;margin-bottom:8px;">Message Sent!</h4>
+          <p style="color:#64748b;font-size:0.85rem;">We'll get back to you within 24 hours.</p>
+        </div>
+
+        <div id="contactError" class="alert alert-error" style="display:none;"></div>
 
         <form id="contactForm" novalidate>
           <div class="form-group">
@@ -735,7 +744,7 @@
             <label class="form-label">Message *</label>
             <textarea class="form-textarea" name="message" placeholder="Your message..." required></textarea>
           </div>
-          <button type="button" class="btn btn-primary" style="width:100%;justify-content:center;" id="contactBtn" onclick="submitContact(this)">
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;" id="contactBtn">
             Send Message →
           </button>
         </form>
@@ -794,56 +803,76 @@
 
 <script src="js/main.js"></script>
 <script>
-  const CONTACT_SHEET_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+  const CONTACT_SHEET_URL = 'https://script.google.com/macros/s/AKfycbyP_FsDwXiN3JHMn93CtxlsvkS9qguWZu852yt4yjrZ61W6vSmq-A2OVmO1VkFBn-qQ/exec';
 
-  async function submitContact(btn) {
-    const form = document.getElementById('contactForm');
-    const required = form.querySelectorAll('[required]');
-    let valid = true;
-    required.forEach(f => {
-      f.style.borderColor = '';
-      if (!f.value.trim()) { f.style.borderColor = '#ef4444'; valid = false; }
-    });
-    if (!valid) return;
-
-    // Phone validation
-    const phone = form.querySelector('[name="phone"]');
-    if (phone && !/^[6-9]\d{9}$/.test(phone.value.trim())) {
-      phone.style.borderColor = '#ef4444';
-      document.getElementById('contactError').textContent = 'Please enter a valid 10-digit mobile number.';
-      document.getElementById('contactError').style.display = 'block';
-      return;
-    }
-
-    const origText = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
-    document.getElementById('contactSuccess').style.display = 'none';
-    document.getElementById('contactError').style.display = 'none';
-
-    const data = new FormData(form);
-    data.append('type', 'contact');
-    data.append('timestamp', new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
-    data.append('source', 'bputnotes.in/about');
-
-    try {
-      await fetch(CONTACT_SHEET_URL, { method: 'POST', mode: 'no-cors', body: data });
-      document.getElementById('contactSuccess').style.display = 'block';
-      form.reset();
-    } catch (e) {
-      document.getElementById('contactError').textContent = 'Something went wrong. Please WhatsApp us directly.';
-      document.getElementById('contactError').style.display = 'block';
-    } finally {
-      btn.disabled = false;
-      btn.textContent = origText;
-    }
-  }
-
-  document.getElementById('contactForm').querySelectorAll('input, textarea').forEach(el => {
-    el.addEventListener('input', () => {
+  // ── Clear field errors on input ──
+  document.querySelectorAll('#contactForm input, #contactForm textarea').forEach(function(el) {
+    el.addEventListener('input', function() {
       el.style.borderColor = '';
       document.getElementById('contactError').style.display = 'none';
     });
+  });
+
+  // ── Single submit handler on the form ──
+  document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    var form = this;
+    var btn  = document.getElementById('contactBtn');
+
+    // ── Validate required fields ──
+    var required = form.querySelectorAll('[required]');
+    var valid = true;
+    required.forEach(function(f) {
+      f.style.borderColor = '';
+      if (!f.value.trim()) {
+        f.style.borderColor = '#ef4444';
+        valid = false;
+      }
+    });
+    if (!valid) return;
+
+    // ── Validate phone ──
+    var phone = form.querySelector('[name="phone"]');
+    if (!/^[6-9]\d{9}$/.test(phone.value.trim())) {
+      phone.style.borderColor = '#ef4444';
+      var errBox = document.getElementById('contactError');
+      errBox.textContent = 'Please enter a valid 10-digit mobile number.';
+      errBox.style.display = 'block';
+      return;
+    }
+
+    // ── Disable button & show loading ──
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    document.getElementById('contactSuccess').style.display = 'none';
+    document.getElementById('contactError').style.display   = 'none';
+
+    // ── Build FormData ──
+    var data = new FormData(form);
+    data.append('type',      'contact');
+    data.append('timestamp', new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
+    data.append('source',    'bputnotes.in/about');
+
+    try {
+      await fetch(CONTACT_SHEET_URL, {
+        method: 'POST',
+        mode:   'no-cors',
+        body:   data
+      });
+
+      // ── Success ──
+      form.style.display = 'none';
+      document.getElementById('contactSuccess').style.display = 'block';
+
+    } catch (error) {
+      // ── Error ──
+      var errBox = document.getElementById('contactError');
+      errBox.textContent = 'Something went wrong. Please WhatsApp us directly.';
+      errBox.style.display = 'block';
+      btn.disabled    = false;
+      btn.textContent = 'Send Message →';
+    }
   });
 </script>
 </body>
