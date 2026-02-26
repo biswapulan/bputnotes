@@ -3,6 +3,328 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community Summer Internship 2026 — BPUTNotes</title>
+  <meta name="description" content="BPUTNotes Community Summer Internship 2026 — applications open March 28. Built by students, for students. Live sessions, real projects, certificate — ₹499." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --orange:    #DA7756;
+    --orange-dk: #C5664A;
+    --cream:     #FEFCFB;
+    --ink:       #1A0E08;
+    --ink-60:    rgba(26,14,8,0.6);
+    --ink-12:    rgba(26,14,8,0.12);
+    --white-70:  rgba(254,252,251,0.7);
+    --white-40:  rgba(254,252,251,0.4);
+    --white-15:  rgba(254,252,251,0.15);
+    --white-08:  rgba(254,252,251,0.08);
+  }
+
+  html { font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  body { background: var(--orange); min-height: 100dvh; }
+
+  .page { min-height: 100dvh; display: flex; flex-direction: column; background: var(--orange); }
+  .page.launched { opacity: 0; pointer-events: none; transition: opacity 0.4s; }
+  body.pre-launch > *:not(.page) { display: none !important; }
+
+  /* NAVBAR */
+  .nav {
+    flex-shrink: 0; width: 100%;
+    background: rgba(26,14,8,0.1);
+    border-bottom: 1px solid var(--ink-12);
+    height: 60px; display: flex; align-items: center; padding: 0 24px;
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; margin-right: auto; }
+  .nav-logo-icon { width: 30px; height: 30px; background: var(--ink); border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .nav-logo-text { font-size: 0.95rem; font-weight: 800; color: var(--cream); letter-spacing: -0.02em; }
+  .nav-logo-text span { opacity: 0.55; font-weight: 600; }
+  .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+  .nav-links a { font-size: 0.78rem; font-weight: 500; color: var(--white-70); text-decoration: none; padding: 6px 9px; border-radius: 5px; transition: background 0.15s, color 0.15s; white-space: nowrap; }
+  .nav-links a:hover { background: var(--white-08); color: var(--cream); }
+  .nav-links a.active { background: var(--white-15); color: var(--cream); font-weight: 600; }
+  .nav-hamburger { display: none; flex-direction: column; gap: 4px; background: none; border: none; cursor: pointer; padding: 6px; border-radius: 5px; margin-left: 8px; }
+  .nav-hamburger span { display: block; width: 20px; height: 2px; background: var(--cream); border-radius: 2px; }
+  .nav-drawer { display: none; flex-direction: column; background: var(--orange-dk); border-bottom: 1px solid var(--ink-12); padding: 12px 16px 16px; gap: 2px; position: sticky; top: 60px; z-index: 99; }
+  .nav-drawer.open { display: flex; }
+  .nav-drawer a { font-size: 0.88rem; font-weight: 500; color: var(--white-70); text-decoration: none; padding: 10px 12px; border-radius: 6px; transition: background 0.15s; }
+  .nav-drawer a:hover, .nav-drawer a.active { background: var(--white-08); color: var(--cream); }
+  .nav-drawer a.active { font-weight: 600; }
+
+  /* COMMUNITY BADGE */
+  .community-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--white-15); border: 1px solid var(--white-15);
+    border-radius: 100px; padding: 5px 12px 5px 8px; margin-bottom: 18px;
+  }
+  .community-badge-dot {
+    width: 7px; height: 7px; background: #7BF0A0; border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(123,240,160,0.3); animation: pulse 2s infinite; flex-shrink: 0;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 2px rgba(123,240,160,0.3); }
+    50%       { box-shadow: 0 0 0 5px rgba(123,240,160,0.1); }
+  }
+  .community-badge-text { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--cream); opacity: 0.85; }
+
+  /* MAIN LAYOUT */
+  .main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 48px 24px; }
+  .container { display: grid; grid-template-columns: 1fr 340px; gap: 48px; max-width: 940px; width: 100%; align-items: center; }
+
+  /* LEFT */
+  .eyebrow { display: inline-block; font-size: 0.67rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--white-70); margin-bottom: 14px; }
+  .heading { font-size: clamp(1.8rem, 4vw, 2.7rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.025em; color: var(--cream); margin-bottom: 14px; }
+  .subtext { font-size: 0.94rem; line-height: 1.72; color: var(--white-70); margin-bottom: 32px; max-width: 420px; }
+  .subtext strong { color: var(--cream); font-weight: 600; }
+
+  /* COUNTDOWN */
+  .countdown { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+  .cd-unit { background: var(--white-15); border: 1px solid var(--white-15); border-radius: 8px; padding: 14px 16px 11px; text-align: center; min-width: 70px; flex: 1 1 70px; max-width: 90px; }
+  .cd-num { display: block; font-size: 1.85rem; font-weight: 800; color: var(--cream); line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .cd-num.flip { animation: flip 0.2s ease; }
+  @keyframes flip { 50% { opacity: 0.2; transform: translateY(-3px); } }
+  .cd-lbl { display: block; font-size: 0.55rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: var(--white-40); margin-top: 7px; }
+
+  /* BUTTONS */
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn-solid { display: inline-flex; align-items: center; gap: 7px; background: var(--ink); color: var(--cream); font-family: 'Inter', sans-serif; font-size: 0.84rem; font-weight: 700; padding: 12px 20px; border-radius: 7px; border: none; text-decoration: none; cursor: pointer; transition: opacity 0.15s; white-space: nowrap; }
+  .btn-solid:hover { opacity: 0.82; }
+  .btn-outline { display: inline-flex; align-items: center; gap: 7px; background: transparent; color: var(--cream); font-family: 'Inter', sans-serif; font-size: 0.84rem; font-weight: 600; padding: 11px 18px; border-radius: 7px; border: 1.5px solid rgba(254,252,251,0.4); text-decoration: none; transition: background 0.15s, border-color 0.15s; white-space: nowrap; }
+  .btn-outline:hover { background: var(--white-08); border-color: rgba(254,252,251,0.7); }
+
+  /* CARD */
+  .card { background: var(--cream); border-radius: 14px; padding: 26px 24px; box-shadow: 0 1px 2px rgba(26,14,8,0.06), 0 8px 24px rgba(26,14,8,0.12), 0 24px 56px rgba(26,14,8,0.1); }
+  .card-tag { display: inline-flex; align-items: center; gap: 5px; background: #FDF0EB; border: 1px solid rgba(218,119,86,0.25); border-radius: 100px; padding: 3px 10px; font-size: 0.64rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange-dk); margin-bottom: 12px; }
+  .card-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-60); display: block; margin-bottom: 5px; }
+  .card-date { font-size: 1.1rem; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; display: block; margin-bottom: 20px; }
+  .card-hr { height: 1px; background: var(--ink-12); margin-bottom: 18px; }
+  .card-section { font-size: 0.63rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-60); display: block; margin-bottom: 12px; }
+  .feature-list { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 20px; }
+  .feature-list li { display: flex; align-items: flex-start; gap: 9px; font-size: 0.82rem; color: #3D2416; line-height: 1.5; }
+  .feature-list li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); margin-top: 5px; flex-shrink: 0; }
+  .price-box { background: #FDF0EB; border: 1px solid rgba(218,119,86,0.2); border-radius: 8px; padding: 12px 14px; display: flex; align-items: baseline; gap: 8px; margin-bottom: 14px; }
+  .price-num { font-size: 1.5rem; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; }
+  .price-note { font-size: 0.74rem; color: var(--ink-60); line-height: 1.4; }
+  .card-note { font-size: 0.72rem; color: var(--ink-60); line-height: 1.6; text-align: center; }
+
+  /* FOOTER */
+  .footer { flex-shrink: 0; border-top: 1px solid var(--ink-12); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .footer-left { font-size: 0.7rem; color: var(--white-40); }
+  .footer-right { display: flex; gap: 16px; }
+  .footer-right a { font-size: 0.7rem; color: var(--white-40); text-decoration: none; transition: color 0.15s; }
+  .footer-right a:hover { color: var(--cream); }
+
+  /* RESPONSIVE */
+  @media (max-width: 860px) {
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+    .main { padding: 32px 20px 40px; }
+    .container { grid-template-columns: 1fr; gap: 28px; max-width: 540px; }
+    .subtext { max-width: 100%; }
+    .card { order: 2; }
+    .left { order: 1; }
+  }
+
+  @media (max-width: 600px) {
+    .main { padding: 24px 16px 36px; }
+    .heading { font-size: 1.75rem; }
+    .subtext { font-size: 0.9rem; margin-bottom: 24px; }
+    .countdown { gap: 6px; margin-bottom: 24px; }
+    .cd-unit { min-width: 0; padding: 11px 8px 9px; }
+    .cd-num { font-size: 1.55rem; }
+    .actions { flex-direction: column; }
+    .btn-solid, .btn-outline { width: 100%; justify-content: center; padding: 13px 16px; font-size: 0.88rem; }
+    .card { padding: 22px 18px; }
+    .footer { padding: 14px 16px; flex-direction: column; align-items: flex-start; gap: 6px; }
+    .footer-right { gap: 12px; }
+  }
+
+  @media (max-width: 380px) {
+    .nav { height: 52px; padding: 0 14px; }
+    .nav-logo-text { font-size: 0.88rem; }
+    .heading { font-size: 1.55rem; }
+    .cd-num { font-size: 1.35rem; }
+    .cd-unit { padding: 10px 6px 8px; }
+  }
+  </style>
+</head>
+
+<body class="pre-launch">
+<div class="page" id="page">
+
+  <!-- NAVBAR -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg width="16" height="16" viewBox="0 0 36 36" fill="none">
+          <path d="M10 26V10h8.5c2 0 3.5.5 4.5 1.5S24.5 14 24.5 15.5c0 1-.3 1.8-.8 2.4-.5.6-1.1 1-1.8 1.2.9.2 1.7.7 2.2 1.4.6.7.9 1.6.9 2.7 0 1.6-.6 2.9-1.7 3.8-1.1.9-2.7 1-4.8 1H10zm3.5-9.5h4.7c1 0 1.8-.2 2.3-.7.5-.4.8-1 .8-1.8 0-.8-.3-1.4-.8-1.8-.5-.4-1.3-.7-2.3-.7h-4.7v5zm0 6.7h5.2c1.1 0 1.9-.3 2.5-.8.6-.5.8-1.2.8-2.1 0-.9-.3-1.6-.8-2.1-.6-.5-1.4-.7-2.5-.7h-5.2v5.7z" fill="#FEFCFB"/>
+        </svg>
+      </div>
+      <span class="nav-logo-text">BPUT<span>Notes</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="notes.html">Notes</a></li>
+      <li><a href="pyq.html">PYQs</a></li>
+      <li><a href="books.html">Books</a></li>
+      <li><a href="scholarship.html">Scholarships</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="internship.html" class="active">Internship</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE DRAWER -->
+  <div class="nav-drawer" id="navDrawer">
+    <a href="index.html">Home</a>
+    <a href="notes.html">Notes</a>
+    <a href="pyq.html">PYQs</a>
+    <a href="books.html">Books</a>
+    <a href="scholarship.html">Scholarships</a>
+    <a href="about.html">About</a>
+    <a href="internship.html" class="active">Internship</a>
+  </div>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="container">
+
+      <!-- LEFT -->
+      <div class="left">
+        <div class="community-badge">
+          <span class="community-badge-dot"></span>
+          <span class="community-badge-text">BPUTNotes Community</span>
+        </div>
+
+        <span class="eyebrow">Student Community · Summer 2026</span>
+
+        <h1 class="heading">
+          Community Summer<br>Internship 2026.
+        </h1>
+
+        <p class="subtext">
+          A program built <strong>by BPUT students, for BPUT students.</strong>
+          Learn together through live sessions, ship real projects,
+          and grow as a community — all for <strong>just ₹499.</strong>
+        </p>
+
+        <div class="countdown">
+          <div class="cd-unit"><span class="cd-num" id="cd-d">--</span><span class="cd-lbl">Days</span></div>
+          <div class="cd-unit"><span class="cd-num" id="cd-h">--</span><span class="cd-lbl">Hours</span></div>
+          <div class="cd-unit"><span class="cd-num" id="cd-m">--</span><span class="cd-lbl">Mins</span></div>
+          <div class="cd-unit"><span class="cd-num" id="cd-s">--</span><span class="cd-lbl">Secs</span></div>
+        </div>
+
+        <div class="actions">
+          <a href="https://wa.me/91XXXXXXXXXX?text=Please%20notify%20me%20when%20BPUTNotes%20Community%20Summer%20Internship%202026%20opens%20on%20March%2028." target="_blank" class="btn-solid">
+            Get notified on WhatsApp
+          </a>
+          <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="btn-outline">
+            Ask the community
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT CARD -->
+      <div class="card">
+        <div class="card-tag">🎓 Community Program</div>
+        <span class="card-label">Applications open on</span>
+        <span class="card-date">March 28, 2026</span>
+
+        <div class="card-hr"></div>
+
+        <span class="card-section">What the community gets</span>
+        <ul class="feature-list">
+          <li>Live Google Meet sessions with senior peers &amp; mentors</li>
+          <li>Real projects &amp; community portfolio building</li>
+          <li>BPUTNotes Community internship certificate</li>
+          <li>Exclusive BPUTNotes student WhatsApp group</li>
+          <li>Python, Web Dev &amp; Data Analytics tracks</li>
+          <li>Resume &amp; LinkedIn building guidance</li>
+        </ul>
+
+        <div class="price-box">
+          <span class="price-num">₹499</span>
+          <span class="price-note">community fee<br>one-time · all inclusive</span>
+        </div>
+
+        <p class="card-note">Open to all BPUT students. Limited seats per batch.<br>Register on March 28 to join the community.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span class="footer-left">© 2026 BPUTNotes.in · A student community · Not affiliated with BPUT University</span>
+    <div class="footer-right">
+      <a href="about.html">About</a>
+      <a href="https://wa.me/91XXXXXXXXXX" target="_blank">Contact</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const LAUNCH = new Date('2026-03-27T18:30:00Z');
+  const page   = document.getElementById('page');
+  const D = document.getElementById('cd-d'), H = document.getElementById('cd-h'),
+        M = document.getElementById('cd-m'), S = document.getElementById('cd-s');
+
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function set(el, val){
+    if(!el || el.textContent === val) return;
+    el.classList.remove('flip'); void el.offsetWidth; el.classList.add('flip');
+    el.textContent = val;
+  }
+  function tick(){
+    const diff = LAUNCH - Date.now();
+    if(diff <= 0){
+      document.body.classList.remove('pre-launch');
+      page.classList.add('launched');
+      setTimeout(()=>page.remove(), 500);
+      return;
+    }
+    set(D, pad(Math.floor(diff/86400000)));
+    set(H, pad(Math.floor((diff%86400000)/3600000)));
+    set(M, pad(Math.floor((diff%3600000)/60000)));
+    set(S, pad(Math.floor((diff%60000)/1000)));
+  }
+  tick(); setInterval(tick, 1000);
+
+  const btn = document.getElementById('hamburger');
+  const drawer = document.getElementById('navDrawer');
+  if(btn && drawer){
+    btn.addEventListener('click', function(){
+      const open = drawer.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open);
+    });
+    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      drawer.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }));
+  }
+})();
+</script>
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Internship & Training — BPUT Notes</title>
   <meta name="description" content="Live internship and training programs via Google Meet for BPUT students. Register for just ₹499 processing fee." />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
@@ -937,4 +1259,4 @@
 </script>
 
 </body>
-</html>
+</html> -->
