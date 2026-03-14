@@ -5,28 +5,25 @@ document.addEventListener("DOMContentLoaded", () => {
   if (typeof AOS !== 'undefined') {
     AOS.init({ duration: 600, once: true, offset: 60 });
   }
+
   // ── NAVBAR SCROLL ──
   const navbar = document.querySelector(".navbar");
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 30) navbar.classList.add("scrolled");
-    else navbar.classList.remove("scrolled");
-    // Scroll-to-top visibility
-    const btn = document.querySelector(".scroll-top");
-    if (btn) {
-      if (window.scrollY > 400) btn.classList.add("visible");
-      else btn.classList.remove("visible");
-    }
-  });
+  if (navbar) {
+    window.addEventListener("scroll", () => {
+      navbar.classList.toggle("scrolled", window.scrollY > 30);
+      const btn = document.querySelector(".scroll-top");
+      if (btn) btn.classList.toggle("visible", window.scrollY > 400);
+    });
+  }
 
   // ── HAMBURGER MENU ──
   const hamburger = document.querySelector(".hamburger");
-  const navLinks = document.querySelector(".nav-links");
+  const navLinks  = document.querySelector(".nav-links");
   if (hamburger && navLinks) {
     hamburger.addEventListener("click", () => {
       hamburger.classList.toggle("open");
       navLinks.classList.toggle("open");
     });
-    // Close on link click
     navLinks.querySelectorAll("a").forEach((a) => {
       a.addEventListener("click", () => {
         hamburger.classList.remove("open");
