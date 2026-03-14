@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel — BPUTNotes</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+
+<!-- ══ LOGIN ══ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-icon">
+        <svg width="20" height="20" viewBox="0 0 36 36" fill="none"><path d="M10 26V10h8.5c2 0 3.5.5 4.5 1.5S24.5 14 24.5 15.5c0 1-.3 1.8-.8 2.4-.5.6-1.1 1-1.8 1.2.9.2 1.7.7 2.2 1.4.6.7.9 1.6.9 2.7 0 1.6-.6 2.9-1.7 3.8-1.1.9-2.7 1-4.8 1H10zm3.5-9.5h4.7c1 0 1.8-.2 2.3-.7.5-.4.8-1 .8-1.8 0-.8-.3-1.4-.8-1.8-.5-.4-1.3-.7-2.3-.7h-4.7v5zm0 6.7h5.2c1.1 0 1.9-.3 2.5-.8.6-.5.8-1.2.8-2.1 0-.9-.3-1.6-.8-2.1-.6-.5-1.4-.7-2.5-.7h-5.2v5.7z" fill="white"/></svg>
+      </div>
+      <span class="login-logo-text">BPUT<span>Notes</span></span>
+    </div>
+    <div class="login-title">Admin Panel</div>
+    <div class="login-sub">Restricted access — authorized personnel only</div>
+    <div class="field-group">
+      <label class="field-label">Username</label>
+      <input type="text" id="login-user" class="field-input" placeholder="admin" autocomplete="username" />
+    </div>
+    <div class="field-group">
+      <label class="field-label">Password</label>
+      <input type="password" id="login-pass" class="field-input" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+    <button class="login-btn" onclick="doLogin()">Sign In →</button>
+    <div class="login-error" id="login-error">Incorrect credentials.</div>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="app">
+  <div class="topbar">
+    <a href="index.html" class="topbar-logo">
+      <div class="topbar-logo-icon"><svg width="16" height="16" viewBox="0 0 36 36" fill="none"><path d="M10 26V10h8.5c2 0 3.5.5 4.5 1.5S24.5 14 24.5 15.5c0 1-.3 1.8-.8 2.4-.5.6-1.1 1-1.8 1.2.9.2 1.7.7 2.2 1.4.6.7.9 1.6.9 2.7 0 1.6-.6 2.9-1.7 3.8-1.1.9-2.7 1-4.8 1H10zm3.5-9.5h4.7c1 0 1.8-.2 2.3-.7.5-.4.8-1 .8-1.8 0-.8-.3-1.4-.8-1.8-.5-.4-1.3-.7-2.3-.7h-4.7v5zm0 6.7h5.2c1.1 0 1.9-.3 2.5-.8.6-.5.8-1.2.8-2.1 0-.9-.3-1.6-.8-2.1-.6-.5-1.4-.7-2.5-.7h-5.2v5.7z" fill="white"/></svg></div>
+      <span class="topbar-logo-text">BPUT<span>Notes</span></span>
+    </a>
+    <span class="topbar-badge">Admin</span>
+    <div class="topbar-right">
+      <span class="topbar-user" id="topbar-user-label"></span>
+      <button class="topbar-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="main-layout">
+    <div class="sidebar">
+      <div class="nav-section-label">Overview</div>
+      <div class="nav-item active" onclick="showPanel('dashboard')" id="nav-dashboard"><span class="nav-icon">📊</span><span>Dashboard</span></div>
+      <div class="nav-section-label">Content</div>
+      <div class="nav-item" onclick="showPanel('notes')" id="nav-notes"><span class="nav-icon">📝</span><span>Notes</span><span class="nav-count" id="cnt-notes">—</span></div>
+      <div class="nav-item" onclick="showPanel('pyqs')" id="nav-pyqs"><span class="nav-icon">📋</span><span>PYQs</span><span class="nav-count" id="cnt-pyqs">—</span></div>
+      <div class="nav-item" onclick="showPanel('books')" id="nav-books"><span class="nav-icon">📚</span><span>Books</span><span class="nav-count" id="cnt-books">—</span></div>
+      <div class="nav-item" onclick="showPanel('scholarships')" id="nav-scholarships"><span class="nav-icon">🏛️</span><span>Scholarships</span><span class="nav-count" id="cnt-scholar">—</span></div>
+      <div class="nav-item" onclick="showPanel('popup')" id="nav-popup"><span class="nav-icon">🪟</span><span>Popup</span></div>
+      <div class="nav-section-label">System</div>
+      <div class="nav-item" onclick="showPanel('setup')" id="nav-setup"><span class="nav-icon">⚙️</span><span>Setup Guide</span></div>
+    </div>
+
+    <div class="content">
+
+      <!-- ══ DASHBOARD ══ -->
+      <div class="panel active" id="panel-dashboard">
+        <div class="panel-header">
+          <div><div class="panel-title">Dashboard</div><div class="panel-sub">Overview of all content on BPUTNotes</div></div>
+          <button class="btn-outline" onclick="refreshAll()">🔄 Refresh from Sheets</button>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-icon">📝</div><div class="stat-label">Notes Entries</div><div class="stat-value" id="stat-notes">—</div><div class="stat-sub">Across all branches</div></div>
+          <div class="stat-card"><div class="stat-icon">📋</div><div class="stat-label">PYQ Entries</div><div class="stat-value" id="stat-pyqs">—</div><div class="stat-sub">All years & types</div></div>
+          <div class="stat-card"><div class="stat-icon">📚</div><div class="stat-label">Books</div><div class="stat-value" id="stat-books">—</div><div class="stat-sub">All branches</div></div>
+          <div class="stat-card"><div class="stat-icon">🏛️</div><div class="stat-label">Scholarships</div><div class="stat-value" id="stat-scholar">—</div><div class="stat-sub">Active schemes</div></div>
+        </div>
+        <div class="setup-card">
+          <h3>🚀 Quick Actions</h3>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn-primary" onclick="showPanel('notes');openAddModal('notes')">+ Add Note Link</button>
+            <button class="btn-primary" onclick="showPanel('pyqs');openAddModal('pyqs')" style="background:linear-gradient(135deg,#f59e0b,#d97706);">+ Add PYQ Link</button>
+            <button class="btn-primary" onclick="showPanel('books');openAddModal('books')" style="background:linear-gradient(135deg,#22c55e,#16a34a);">+ Add Book Link</button>
+            <button class="btn-primary" onclick="showPanel('scholarships');openAddModal('scholarships')" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);">+ Add Scholarship</button>
+          </div>
+        </div>
+        <div class="setup-card">
+          <h3>🔗 Site Links</h3>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <a href="notes.html" target="_blank" class="btn-outline">📝 Notes Page</a>
+            <a href="pyq.html" target="_blank" class="btn-outline">📋 PYQ Page</a>
+            <a href="books.html" target="_blank" class="btn-outline">📚 Books Page</a>
+            <a href="scholarship.html" target="_blank" class="btn-outline">🏛️ Scholarships</a>
+            <a href="index.html" target="_blank" class="btn-outline">🏠 Home</a>
+          </div>
+        </div>
+        <div class="setup-card" id="sheetStatusCard">
+          <h3>📡 Sheet Connection</h3>
+          <div id="sheetStatus" style="font-size:0.82rem;color:var(--text-dim);">Testing connection...</div>
+        </div>
+      </div>
+
+      <!-- ══ NOTES PANEL ══ -->
+      <div class="panel" id="panel-notes">
+        <div class="panel-header">
+          <div><div class="panel-title">📝 Notes</div><div class="panel-sub">Manage subject notes links — branch, semester, subject</div></div>
+          <button class="btn-primary" onclick="openAddModal('notes')">+ Add Entry</button>
+        </div>
+        <div class="filter-bar">
+          <select id="notes-branch-filter" onchange="loadPanel('notes')">
+            <option value="">All Branches</option>
+            <option value="cse">CSE</option><option value="civil">Civil</option>
+            <option value="electrical">EEE</option><option value="mechanical">Mech</option>
+            <option value="mining">Mining</option><option value="metallurgy">Metallurgy</option>
+            <option value="mineral">Mineral</option>
+          </select>
+          <select id="notes-sem-filter" onchange="loadPanel('notes')">
+            <option value="">All Semesters</option>
+            <option value="1">Sem 1</option><option value="2">Sem 2</option>
+            <option value="3">Sem 3</option><option value="4">Sem 4</option>
+            <option value="5">Sem 5</option><option value="6">Sem 6</option>
+            <option value="7">Sem 7</option><option value="8">Sem 8</option>
+          </select>
+          <input type="text" id="notes-search" placeholder="Search subject name…" oninput="loadPanel('notes')" />
+        </div>
+        <div class="table-wrap">
+          <div class="table-inner">
+          <div class="table-head row-notes"><div>Branch</div><div>Sem</div><div>#</div><div>Subject Name</div><div>Drive Link</div><div>Status</div><div>Actions</div></div>
+          <div id="notes-table-body"><div class="loading-row"><div class="spinner"></div> Loading from Sheets...</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ PYQs PANEL ══ -->
+      <div class="panel" id="panel-pyqs">
+        <div class="panel-header">
+          <div><div class="panel-title">📋 PYQs</div><div class="panel-sub">Manage previous year papers — branch, sem, year, exam type</div></div>
+          <button class="btn-primary" style="background:linear-gradient(135deg,#f59e0b,#d97706);" onclick="openAddModal('pyqs')">+ Add Entry</button>
+        </div>
+        <div class="filter-bar">
+          <select id="pyqs-branch-filter" onchange="loadPanel('pyqs')">
+            <option value="">All Branches</option>
+            <option value="cse">CSE</option><option value="civil">Civil</option>
+            <option value="electrical">EEE</option><option value="mechanical">Mech</option>
+            <option value="mining">Mining</option><option value="metallurgy">Metallurgy</option>
+            <option value="mineral">Mineral</option>
+          </select>
+          <select id="pyqs-sem-filter" onchange="loadPanel('pyqs')">
+            <option value="">All Semesters</option>
+            <option value="1">Sem 1</option><option value="2">Sem 2</option>
+            <option value="3">Sem 3</option><option value="4">Sem 4</option>
+            <option value="5">Sem 5</option><option value="6">Sem 6</option>
+            <option value="7">Sem 7</option><option value="8">Sem 8</option>
+          </select>
+          <select id="pyqs-type-filter" onchange="loadPanel('pyqs')">
+            <option value="">All Types</option>
+            <option value="regular">Regular</option>
+            <option value="back">Back Paper</option>
+          </select>
+          <select id="pyqs-year-filter" onchange="loadPanel('pyqs')">
+            <option value="">All Years</option>
+            <option value="2024">2024</option><option value="2023">2023</option>
+            <option value="2022">2022</option><option value="2021">2021</option>
+            <option value="2020">2020</option>
+          </select>
+          <input type="text" id="pyqs-search" placeholder="Search subject…" oninput="loadPanel('pyqs')" />
+        </div>
+        <div class="table-wrap">
+          <div class="table-inner">
+          <div class="table-head row-pyqs"><div>Branch</div><div>Sem</div><div>#</div><div>Subject</div><div>Type</div><div>Year</div><div>Link</div><div>Status</div><div>Actions</div></div>
+          <div id="pyqs-table-body"><div class="loading-row"><div class="spinner"></div> Loading...</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ BOOKS PANEL ══ -->
+      <div class="panel" id="panel-books">
+        <div class="panel-header">
+          <div><div class="panel-title">📚 Books</div><div class="panel-sub">Manage textbook links by branch & semester</div></div>
+          <button class="btn-primary" style="background:linear-gradient(135deg,#22c55e,#16a34a);" onclick="openAddModal('books')">+ Add Entry</button>
+        </div>
+        <div class="filter-bar">
+          <select id="books-branch-filter" onchange="loadPanel('books')">
+            <option value="">All Branches</option>
+            <option value="cse">CSE</option><option value="civil">Civil</option>
+            <option value="electrical">EEE</option><option value="mechanical">Mech</option>
+            <option value="mining">Mining</option><option value="metallurgy">Metallurgy</option>
+            <option value="mineral">Mineral</option>
+          </select>
+          <select id="books-sem-filter" onchange="loadPanel('books')">
+            <option value="">All Semesters</option>
+            <option value="1">Sem 1</option><option value="2">Sem 2</option>
+            <option value="3">Sem 3</option><option value="4">Sem 4</option>
+            <option value="5">Sem 5</option><option value="6">Sem 6</option>
+            <option value="7">Sem 7</option><option value="8">Sem 8</option>
+          </select>
+          <input type="text" id="books-search" placeholder="Search book name…" oninput="loadPanel('books')" />
+        </div>
+        <div class="table-wrap">
+          <div class="table-inner">
+          <div class="table-head row-notes"><div>Branch</div><div>Sem</div><div>#</div><div>Book / Subject Name</div><div>Drive Link</div><div>Status</div><div>Actions</div></div>
+          <div id="books-table-body"><div class="loading-row"><div class="spinner"></div> Loading...</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ SCHOLARSHIPS PANEL ══ -->
+      <div class="panel" id="panel-scholarships">
+        <div class="panel-header">
+          <div><div class="panel-title">🏛️ Scholarships</div><div class="panel-sub">Manage scholarship listings with full details</div></div>
+          <button class="btn-primary" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);" onclick="openAddModal('scholarships')">+ Add Scholarship</button>
+        </div>
+        <div class="filter-bar">
+          <select id="scholar-cat-filter" onchange="loadPanel('scholarships')">
+            <option value="">All Categories</option>
+            <option value="central">Central Govt.</option>
+            <option value="state">Odisha State</option>
+            <option value="private">Private</option>
+            <option value="ngo">NGO / Foundation</option>
+          </select>
+          <input type="text" id="scholar-search" placeholder="Search scholarship…" oninput="loadPanel('scholarships')" />
+        </div>
+        <div class="table-wrap">
+          <div class="table-inner">
+          <div class="table-head row-scholar"><div>Title</div><div>Category</div><div>Amount</div><div>Status</div><div>Actions</div></div>
+          <div id="scholarships-table-body"><div class="loading-row"><div class="spinner"></div> Loading...</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ POPUP PANEL ══ -->
+      <div class="panel" id="panel-popup">
+        <div class="panel-header">
+          <div><div class="panel-title">🪟 Popup Manager</div><div class="panel-sub">Controls the announcement popup on the homepage. Changes sync to Google Sheets.</div></div>
+          <div style="display:flex;gap:10px;">
+            <button class="btn-outline" onclick="previewPopup()">👁️ Preview</button>
+            <button class="btn-primary" onclick="savePopupToSheet()">💾 Save to Sheet</button>
+          </div>
+        </div>
+        <div class="setup-card" style="margin-bottom:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+            <div>
+              <div style="font-size:0.9rem;font-weight:700;margin-bottom:4px;">Popup Status</div>
+              <div style="font-size:0.78rem;color:var(--text-dim);">When disabled, the popup will not appear for any visitor</div>
+            </div>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <span style="font-size:0.82rem;color:var(--text-dim);" id="popup-status-label">Enabled</span>
+              <div style="position:relative;width:44px;height:24px;">
+                <input type="checkbox" id="popup-enabled" checked style="opacity:0;width:0;height:0;position:absolute;">
+                <div id="popup-toggle-track" onclick="togglePopupEnabled()" style="position:absolute;inset:0;border-radius:100px;background:var(--green);cursor:pointer;transition:background 0.2s;">
+                  <div id="popup-toggle-thumb" style="position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform 0.2s;transform:translateX(20px);"></div>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="setup-card" style="margin-bottom:0;">
+            <h3 style="margin-bottom:16px;">📝 Popup Text</h3>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div class="form-group"><label class="form-label">Eyebrow Tag</label><input type="text" class="form-input" id="pop-eyebrow" value="Now Open · 2026" /></div>
+              <div class="form-group"><label class="form-label">Heading Line 1</label><input type="text" class="form-input" id="pop-heading" value="We're looking for" /></div>
+              <div class="form-group"><label class="form-label">Heading Highlight (golden text)</label><input type="text" class="form-input" id="pop-heading-highlight" value="passionate BPUTians" /></div>
+              <div class="form-group"><label class="form-label">Subtitle</label><textarea class="form-textarea" id="pop-subtitle" style="min-height:64px;">BPUTNotes is 100% student-run. Join our growing community — no experience needed, just passion.</textarea></div>
+              <div class="form-group"><label class="form-label">Footer Text</label><input type="text" class="form-input" id="pop-footer-text" value="Applications close soon" /></div>
+              <div class="form-group"><label class="form-label">CTA Button Text</label><input type="text" class="form-input" id="pop-cta-text" value="✦ Apply Now — It's Free" /></div>
+              <div class="form-group"><label class="form-label">CTA Button Link</label><input type="text" class="form-input" id="pop-cta-link" value="careers.html" /></div>
+            </div>
+          </div>
+          <div class="setup-card" style="margin-bottom:0;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+              <h3 style="margin-bottom:0;">🃏 Program Cards</h3>
+              <button class="btn-outline" onclick="addPopupCard()" style="font-size:0.75rem;padding:6px 12px;">+ Add Card</button>
+            </div>
+            <div id="popup-cards-list" style="display:flex;flex-direction:column;gap:12px;"></div>
+          </div>
+        </div>
+        <div class="setup-card" style="margin-top:16px;display:none;" id="popup-preview-box">
+          <h3>👁️ Live Preview</h3>
+          <div id="popup-preview-inner" style="margin-top:16px;background:#0a1628;border-radius:18px;padding:28px;max-width:520px;"></div>
+        </div>
+        <div class="setup-card" style="margin-top:16px;">
+          <h3>📋 How to Edit via Sheet Directly</h3>
+          <p style="font-size:0.82rem;color:var(--text-dim);line-height:1.7;">Open your Google Sheet → go to the <strong>Popup</strong> tab → each row has a <code style="background:rgba(59,130,246,0.1);padding:2px 6px;border-radius:4px;color:#93c5fd;">key</code> and a <code style="background:rgba(59,130,246,0.1);padding:2px 6px;border-radius:4px;color:#93c5fd;">value</code> column. Edit the values in column B. Keys like <code style="background:rgba(59,130,246,0.1);padding:2px 6px;border-radius:4px;color:#93c5fd;">enabled</code>, <code style="background:rgba(59,130,246,0.1);padding:2px 6px;border-radius:4px;color:#93c5fd;">heading</code>, <code style="background:rgba(59,130,246,0.1);padding:2px 6px;border-radius:4px;color:#93c5fd;">card_1_title</code> etc. The site reads this live on each page load.</p>
+        </div>
+      </div>
+
+      <!-- ══ SETUP PANEL ══ -->
+      <div class="panel" id="panel-setup">
+        <div class="panel-header">
+          <div><div class="panel-title">⚙️ Setup Guide</div><div class="panel-sub">Sheet structure & Apps Script deployment instructions</div></div>
+        </div>
+        <div class="setup-card">
+          <h3>📋 Google Sheet Tab Names (exact)</h3>
+          <div class="setup-steps">
+            <div class="setup-step"><div class="setup-num">1</div><div><strong>Notes</strong> — branch, semester, subject_number, subject_name, drive_link, tags, status</div></div>
+            <div class="setup-step"><div class="setup-num">2</div><div><strong>PYQs</strong> — branch, semester, subject_number, subject_name, exam_type, year, drive_link, tags, status</div></div>
+            <div class="setup-step"><div class="setup-num">3</div><div><strong>Books</strong> — branch, semester, subject_number, subject_name, drive_link, tags, status</div></div>
+            <div class="setup-step"><div class="setup-num">4</div><div><strong>Scholarships</strong> — title, description, category, amount, amount_sublabel, deadline, urgent, status, apply_link, eligibility, tags</div></div>
+            <div class="setup-step"><div class="setup-num">5</div><div><strong>Popup</strong> — key (col A), value (col B). Keys: enabled, eyebrow, heading, heading_highlight, subtitle, footer_text, cta_text, cta_link, card_1_icon, card_1_title, card_1_desc, card_1_link, card_1_color, card_1_badge, card_1_enabled, card_2_… etc.</div></div>
+          </div>
+        </div>
+        <div class="setup-card">
+          <h3>📄 Apps Script — Paste this in script.google.com</h3>
+          <pre style="background:var(--bg3);border-radius:9px;padding:16px;font-family:var(--mono);font-size:0.74rem;color:var(--text-dim);overflow-x:auto;line-height:1.7;white-space:pre-wrap;"><code>const SHEET_ID = '1hXXQusycfE6CxpwlkeNtAcHgk1TeHeo1MkBacD5NaB4';
+
+function doPost(e) {
+  try {
+    const data  = JSON.parse(e.postData.contents);
+    const ss    = SpreadsheetApp.openById(SHEET_ID);
+    const sheet = ss.getSheetByName(data.tab);
+    if (!sheet) throw new Error('Tab not found: ' + data.tab);
+
+    if (data.action === 'append') {
+      sheet.appendRow(data.row);
+    } else if (data.action === 'update') {
+      sheet.getRange(data.rowIndex, 1, 1, data.row.length).setValues([data.row]);
+    } else if (data.action === 'delete') {
+      sheet.deleteRow(data.rowIndex);
+    } else if (data.action === 'setPopupKey') {
+      const vals = sheet.getDataRange().getValues();
+      for (let i = 0; i < vals.length; i++) {
+        if (vals[i][0] === data.key) {
+          sheet.getRange(i + 1, 2).setValue(data.value);
+          break;
+        }
+      }
+    } else {
+      throw new Error('Unknown action: ' + data.action);
+    }
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ success: true }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ success: false, error: err.message }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet() {
+  return ContentService
+    .createTextOutput('BPUTNotes Apps Script OK')
+    .setMimeType(ContentService.MimeType.TEXT);
+}</code></pre>
+        </div>
+        <div class="setup-card">
+          <h3>🔑 Current Configuration</h3>
+          <div style="font-size:0.82rem;color:var(--text-dim);line-height:1.9;">
+            <div><strong style="color:var(--text);">Sheet ID:</strong> <code style="font-family:var(--mono);color:var(--blue);">1hXXQusycfE6CxpwlkeNtAcHgk1TeHeo1MkBacD5NaB4</code></div>
+            <div><strong style="color:var(--text);">Apps Script URL:</strong> <code style="font-family:var(--mono);color:var(--blue);font-size:0.7rem;">AKfycbwP-06kbFILzt5Hj2KMb5ddd_RD0QEY-yP...</code></div>
+            <div><strong style="color:var(--text);">API Key:</strong> <code style="font-family:var(--mono);color:var(--blue);">AIzaSyDlzWcJnH3iDKyIRAzI8_bMShfxPcnMs1Q</code></div>
+          </div>
+          <button class="btn-primary" style="margin-top:16px;" onclick="testSheetConnection()">🔌 Test Sheet Connection</button>
+          <div id="test-result" style="margin-top:12px;font-size:0.82rem;"></div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main-layout -->
+</div><!-- /app -->
+
+<!-- ══ ADD / EDIT MODAL ══ -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalIfOutside(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Add Entry</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" id="modal-save-btn" onclick="saveModalData()">Save Entry</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script src="js/sheets.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

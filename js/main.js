@@ -1,6 +1,10 @@
 // main.js — global JS for bputnotes.in
 
 document.addEventListener("DOMContentLoaded", () => {
+  // ── AOS (scroll animations) ──
+  if (typeof AOS !== 'undefined') {
+    AOS.init({ duration: 600, once: true, offset: 60 });
+  }
   // ── NAVBAR SCROLL ──
   const navbar = document.querySelector(".navbar");
   window.addEventListener("scroll", () => {
