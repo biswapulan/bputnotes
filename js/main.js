@@ -139,3 +139,144 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// ── HAMBURGER ONBOARDING TOUR (mobile first-time visitors) ──
+function _showHamburgerTour() {
+  // Only on mobile
+  if (window.innerWidth > 768) return;
+  // Only once per user
+  if (localStorage.getItem('bputnotes_nav_toured') === '1') return;
+
+  const hamburger = document.querySelector('.hamburger');
+  if (!hamburger) return;
+
+  // Create overlay
+  const overlay = document.createElement('div');
+  overlay.id = 'nav-tour-overlay';
+  overlay.innerHTML = `
+    <div id="nav-tour-backdrop"></div>
+    <div id="nav-tour-pulse"></div>
+    <div id="nav-tour-tooltip">
+      <div id="nav-tour-arrow">👆</div>
+      <div id="nav-tour-text">Tap here to see<br><strong>all pages & features</strong></div>
+      <button id="nav-tour-dismiss">Got it!</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  // Position pulse ring exactly over hamburger button
+  function positionTour() {
+    const rect = hamburger.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+
+    const pulse = document.getElementById('nav-tour-pulse');
+    const tooltip = document.getElementById('nav-tour-tooltip');
+
+    pulse.style.cssText = `
+      position: fixed;
+      left: ${cx - 28}px;
+      top: ${cy - 28}px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 3px solid #f59e0b;
+      animation: navTourPulse 1.2s ease-out infinite;
+      pointer-events: none;
+      z-index: 99999;
+    `;
+
+    tooltip.style.cssText = `
+      position: fixed;
+      right: 12px;
+      top: ${cy + 36}px;
+      background: #0f172a;
+      color: #fff;
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      z-index: 99999;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      border: 1.5px solid rgba(245,158,11,0.4);
+      max-width: 220px;
+      text-align: center;
+      animation: navTourFadeIn 0.4s ease both;
+    `;
+  }
+
+  positionTour();
+
+  // Backdrop style
+  const backdrop = document.getElementById('nav-tour-backdrop');
+  backdrop.style.cssText = `
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 99998;
+    animation: navTourFadeIn 0.3s ease both;
+  `;
+
+  // Arrow style
+  document.getElementById('nav-tour-arrow').style.cssText = `
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+    animation: navTourBounce 0.8s ease infinite alternate;
+  `;
+
+  // Dismiss button style
+  const dismissBtn = document.getElementById('nav-tour-dismiss');
+  dismissBtn.style.cssText = `
+    margin-top: 10px;
+    background: #f59e0b;
+    color: #0f172a;
+    border: none;
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+  `;
+
+  // Inject keyframes
+  if (!document.getElementById('nav-tour-styles')) {
+    const style = document.createElement('style');
+    style.id = 'nav-tour-styles';
+    style.textContent = `
+      @keyframes navTourPulse {
+        0%   { transform: scale(1);   opacity: 1; }
+        70%  { transform: scale(1.8); opacity: 0; }
+        100% { transform: scale(1.8); opacity: 0; }
+      }
+      @keyframes navTourFadeIn {
+        from { opacity: 0; transform: translateY(-8px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes navTourBounce {
+        from { transform: translateY(0px); }
+        to   { transform: translateY(-6px); }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function dismissTour() {
+    localStorage.setItem('bputnotes_nav_toured', '1');
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 0.3s ease';
+    setTimeout(() => overlay.remove(), 300);
+  }
+
+  // Dismiss on: Got it button, backdrop tap, hamburger tap, or after 5 seconds
+  dismissBtn.addEventListener('click', dismissTour);
+  backdrop.addEventListener('click', dismissTour);
+  hamburger.addEventListener('click', dismissTour, { once: true });
+  setTimeout(dismissTour, 5000);
+}
+
+// Show tour after a short delay so page feels loaded first
+setTimeout(_showHamburgerTour, 1500);
