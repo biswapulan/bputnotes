@@ -142,17 +142,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ── SHARED TOUR ENGINE ──
 // Provides window._runPageTour(steps) used by notes/pyq/books loaders
+// Each step: { targetId, title, body, clickToAdvance? }
+// clickToAdvance:true — backdrop has hole over element, user taps it to advance
 (function() {
   window._runPageTour = function(steps) {
     if (window.innerWidth > 900) return;
     if (!steps || !steps.length) return;
     let current = 0;
+    let clickHandler = null;
 
     if (!document.getElementById('_tour-engine-styles')) {
       const s = document.createElement('style');
       s.id = '_tour-engine-styles';
       s.textContent = `
         #_tour-backdrop{position:fixed;inset:0;z-index:88888;background:rgba(0,0,0,0.62);transition:opacity 0.3s;}
+        #_tour-backdrop.passthrough{pointer-events:none;}
         #_tour-box{position:fixed;z-index:88890;background:#0f172a;color:#fff;border-radius:16px;padding:16px 18px;
           left:16px;right:16px;box-shadow:0 12px 40px rgba(0,0,0,0.5);border:1.5px solid rgba(245,158,11,0.5);
           font-family:'Sora',sans-serif;animation:_tourFadeIn 0.3s ease both;}
@@ -166,6 +170,9 @@ document.addEventListener("DOMContentLoaded", () => {
           font-family:'Sora',sans-serif;padding:4px;}
         ._tour-highlight{position:relative;z-index:88889!important;border-radius:12px;
           animation:_tourPulseRing 1.5s ease infinite!important;}
+        ._tour-tap-hint::after{content:'👆 Tap to try it';position:absolute;bottom:-28px;left:50%;
+          transform:translateX(-50%);background:#f59e0b;color:#0f172a;font-family:'Sora',sans-serif;
+          font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:100px;white-space:nowrap;z-index:88891;}
         @keyframes _tourFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
         @keyframes _tourPulseRing{
           0%{box-shadow:0 0 0 4px #f59e0b,0 0 0 8px rgba(245,158,11,0.3)}
@@ -195,33 +202,72 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let lastHL = null;
 
+    function advanceOrEnd() {
+      current < steps.length - 1 ? showStep(++current) : endTour();
+    }
+
     function showStep(i) {
       const step = steps[i];
       const target = document.getElementById(step.targetId);
-      if (lastHL) { lastHL.classList.remove('_tour-highlight'); lastHL = null; }
+
+      // Remove previous highlight and click handler
+      if (lastHL) {
+        lastHL.classList.remove('_tour-highlight', '_tour-tap-hint');
+        lastHL = null;
+      }
+      if (clickHandler) {
+        // remove old listener — stored element cleans up via flag
+        clickHandler = null;
+      }
+
       if (target) {
         target.classList.add('_tour-highlight');
-        target.scrollIntoView({ behavior:'smooth', block:'center' });
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
         lastHL = target;
+
+        if (step.clickToAdvance) {
+          // Make backdrop passthrough so user can tap the element
+          backdrop.classList.add('passthrough');
+          target.classList.add('_tour-tap-hint');
+          // Hide Next button — element tap is the only way to advance
+          document.getElementById('_tour-next').style.display = 'none';
+
+          // Listen for tap on highlighted element → advance
+          const handler = () => {
+            target.removeEventListener('click', handler);
+            target.classList.remove('_tour-tap-hint');
+            backdrop.classList.remove('passthrough');
+            document.getElementById('_tour-next').style.display = '';
+            // Small delay so user sees their action complete
+            setTimeout(advanceOrEnd, 500);
+          };
+          target.addEventListener('click', handler);
+          clickHandler = handler;
+        } else {
+          backdrop.classList.remove('passthrough');
+          document.getElementById('_tour-next').style.display = '';
+        }
       }
+
       document.getElementById('_tour-box-title').textContent = step.title;
       document.getElementById('_tour-box-body').innerHTML = step.body;
       document.getElementById('_tour-progress').textContent = `${i+1} / ${steps.length}`;
-      document.getElementById('_tour-next').textContent = i === steps.length-1 ? '✓ Got it!' : 'Next →';
+      document.getElementById('_tour-next').textContent = i === steps.length - 1 ? '✓ Got it!' : 'Next →';
 
+      // Position tooltip above or below target
       setTimeout(() => {
         if (!target) return;
         const rect = target.getBoundingClientRect();
         const bh = box.offsetHeight || 140;
         const spaceBelow = window.innerHeight - rect.bottom;
         box.style.top = spaceBelow > bh + 24
-          ? (rect.bottom + 12) + 'px'
-          : Math.max(8, rect.top - bh - 12) + 'px';
+          ? (rect.bottom + 16) + 'px'
+          : Math.max(8, rect.top - bh - 16) + 'px';
       }, 380);
     }
 
     function endTour() {
-      if (lastHL) { lastHL.classList.remove('_tour-highlight'); }
+      if (lastHL) { lastHL.classList.remove('_tour-highlight', '_tour-tap-hint'); }
       [backdrop, box].forEach(el => {
         el.style.transition = 'opacity 0.3s';
         el.style.opacity = '0';
@@ -229,11 +275,12 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => { backdrop.remove(); box.remove(); }, 320);
     }
 
-    document.getElementById('_tour-next').addEventListener('click', () => {
-      current < steps.length-1 ? showStep(++current) : endTour();
-    });
+    document.getElementById('_tour-next').addEventListener('click', advanceOrEnd);
     document.getElementById('_tour-skip').addEventListener('click', endTour);
-    backdrop.addEventListener('click', endTour);
+    backdrop.addEventListener('click', (e) => {
+      // Only dismiss if not passthrough step
+      if (!backdrop.classList.contains('passthrough')) endTour();
+    });
     showStep(0);
   };
 })();
@@ -335,14 +382,13 @@ function _showHamburgerTour() {
 function _initHamburgerTour() {
   if (window.innerWidth > 768) return;
 
-  // Only show spotlight tour on homepage
+  // Only on homepage
   const page = window.location.pathname.split('/').pop() || 'index.html';
   const isHome = page === 'index.html' || page === '';
+  if (!isHome) return;
 
-  // Start permanent pulse on ALL pages until tapped
+  // Start permanent pulse on homepage only
   _startHamburgerPulse();
-
-  if (!isHome) return; // spotlight tooltip only on homepage
 
   const popupOverlay = document.getElementById('bput-popup-overlay');
   if (popupOverlay) {

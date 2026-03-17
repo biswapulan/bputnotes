@@ -100,8 +100,12 @@ window.setExamType = function(type) {
   window._pyqState.examType = type;
   const { branch, sem, year } = window._pyqState;
 
+  // Sync sidebar toggle (desktop)
   document.getElementById('toggleRegular')?.classList.toggle('active-regular', type === 'regular');
   document.getElementById('toggleBack')?.classList.toggle('active-back', type === 'back');
+  // Sync mobile standalone toggle
+  document.getElementById('mobileToggleRegular')?.classList.toggle('active-regular', type === 'regular');
+  document.getElementById('mobileToggleBack')?.classList.toggle('active-back', type === 'back');
 
   document.querySelectorAll('.sidebar-branch').forEach(el => el.classList.remove('active', 'active-back'));
   document.getElementById('sb-' + branch)?.classList.add(type === 'regular' ? 'active' : 'active-back');
@@ -192,22 +196,25 @@ function _runPYQTour() {
     {
       targetId: 'mobileBranchToggle',
       title: 'Step 1 of 4 — Pick your Branch',
-      body: 'Tap here to choose your engineering branch (CSE, Civil, EEE…)',
+      body: 'Tap the button below to choose your engineering branch.',
+      clickToAdvance: true,
     },
     {
-      targetId: 'toggleRegular',
+      targetId: 'mobileExamToggle',
       title: 'Step 2 of 4 — Regular or Back Paper?',
-      body: '<strong>Regular</strong> = main semester exam papers.<br><strong>Back</strong> = supplementary/back paper exams.<br>Tap to switch between them.',
+      body: '<strong>Regular</strong> = main semester exam.<br><strong>Back</strong> = supplementary exam.<br>Tap one to select.',
+      clickToAdvance: true,
     },
     {
       targetId: 'semTabsWrap',
       title: 'Step 3 of 4 — Choose Semester',
-      body: 'Select which semester you need previous year papers for.',
+      body: 'Tap the semester you want papers for.',
+      clickToAdvance: true,
     },
     {
       targetId: 'pyqGrid',
-      title: 'Step 4 of 4 — Download Papers',
-      body: 'All available papers appear here. Tap <strong>📄 Open Paper</strong> to view or download the PDF.',
+      title: 'Step 4 of 4 — Download Papers ✓',
+      body: 'Your papers appear here. Tap <strong>📄 Open Paper</strong> on any subject to view the PDF.',
     },
   ]);
 }

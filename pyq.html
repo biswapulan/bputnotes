@@ -55,6 +55,30 @@
       display: flex;
       gap: 2px;
     }
+    /* Mobile standalone toggle — shown outside sidebar */
+    #mobileExamToggle {
+      display: none;
+      margin: 0 0 12px 0;
+      background: var(--gray-100);
+      border-radius: var(--radius-md);
+      padding: 4px;
+    }
+    #mobileExamToggle .exam-toggle-btn {
+      color: var(--gray-500);
+      font-size: 0.8rem;
+      padding: 9px 10px;
+      line-height: 1;
+    }
+    #mobileExamToggle .exam-toggle-btn.active-regular {
+      background: var(--pyq-accent);
+      color: var(--white);
+      box-shadow: 0 2px 8px rgba(217,119,6,0.3);
+    }
+    #mobileExamToggle .exam-toggle-btn.active-back {
+      background: var(--pyq-back);
+      color: var(--white);
+      box-shadow: 0 2px 8px rgba(220,38,38,0.3);
+    }
     .exam-toggle-btn {
       flex: 1;
       padding: 8px 6px;
@@ -401,6 +425,7 @@
       .pyq-sidebar { display: none; padding: 0; max-height: 340px; overflow-y: auto; }
       .pyq-sidebar.open { display: flex; }
       .mobile-branch-toggle { display: flex; }
+      #mobileExamToggle { display: flex; }
       .pyq-grid { grid-template-columns: repeat(2, 1fr); }
       .pyq-topbar { padding: 12px 14px; flex-direction: column; align-items: flex-start; gap: 10px; }
       .code-search-wrap { width: 100%; min-width: unset; }
@@ -554,21 +579,21 @@
       <span id="mobileToggleArrow" style="transition:transform 0.3s;">▼</span>
     </button>
 
+    <!-- Exam type toggle — always visible on mobile, outside sidebar -->
+    <div class="exam-toggle" id="mobileExamToggle">
+      <button class="exam-toggle-btn active-regular" id="mobileToggleRegular" onclick="setExamType('regular')">
+        📋 Regular Exam
+      </button>
+      <button class="exam-toggle-btn" id="mobileToggleBack" onclick="setExamType('back')">
+        🔁 Back Paper
+      </button>
+    </div>
+
     <!-- DASHBOARD -->
     <div class="pyq-dashboard">
 
       <!-- ══ SIDEBAR ══ -->
       <div class="pyq-sidebar" id="pyqSidebar">
-
-        <!-- Exam type toggle -->
-        <div class="exam-toggle">
-          <button class="exam-toggle-btn active-regular" id="toggleRegular" onclick="setExamType('regular')">
-            📋 Regular<br>Exam
-          </button>
-          <button class="exam-toggle-btn" id="toggleBack" onclick="setExamType('back')">
-            🔁 Back<br>Paper
-          </button>
-        </div>
 
         <div class="sidebar-label">Departments</div>
 

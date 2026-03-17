@@ -288,17 +288,19 @@ function _runBooksTour() {
     {
       targetId: 'bp-cse',
       title: 'Step 1 of 3 — Pick your Branch',
-      body: 'Choose your engineering branch from the list on the left (CSE, Civil, EEE…)',
+      body: 'Tap your engineering branch from the list below.',
+      clickToAdvance: true,
     },
     {
       targetId: 'semGrid',
       title: 'Step 2 of 3 — Choose Semester',
-      body: 'Tap which semester you want textbooks for (Sem 1 to Sem 8).',
+      body: 'Tap which semester you want textbooks for.',
+      clickToAdvance: true,
     },
     {
       targetId: 'subjectList',
-      title: 'Step 3 of 3 — Select Subject',
-      body: 'Your subjects appear here. Tap any subject to see the recommended textbook and open it.',
+      title: 'Step 3 of 3 — Select Subject ✓',
+      body: 'Tap any subject below to see the recommended textbook and open it.',
     },
   ]);
 }

@@ -152,16 +152,18 @@ function _runNotesTour() {
     {
       targetId: 'mobileBranchToggle',
       title: 'Step 1 of 3 — Pick your Branch',
-      body: 'Tap this button to choose your engineering branch (CSE, Civil, EEE…)',
+      body: 'Tap the button below to choose your branch (CSE, Civil, EEE…)',
+      clickToAdvance: true,
     },
     {
       targetId: 'semTabsWrap',
       title: 'Step 2 of 3 — Choose Semester',
-      body: 'Select which semester you want notes for (Sem 1 to Sem 8).',
+      body: 'Tap the semester you want notes for (Sem 1 to Sem 8).',
+      clickToAdvance: true,
     },
     {
       targetId: 'notesGrid',
-      title: 'Step 3 of 3 — Open Your Notes',
+      title: 'Step 3 of 3 — Open Your Notes ✓',
       body: 'Your subjects appear here. Tap <strong>📖 Open Notes</strong> on any subject to access the PDF.',
     },
   ]);
