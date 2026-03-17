@@ -335,12 +335,17 @@ function _showHamburgerTour() {
 function _initHamburgerTour() {
   if (window.innerWidth > 768) return;
 
-  // Start permanent pulse immediately
+  // Only show spotlight tour on homepage
+  const page = window.location.pathname.split('/').pop() || 'index.html';
+  const isHome = page === 'index.html' || page === '';
+
+  // Start permanent pulse on ALL pages until tapped
   _startHamburgerPulse();
+
+  if (!isHome) return; // spotlight tooltip only on homepage
 
   const popupOverlay = document.getElementById('bput-popup-overlay');
   if (popupOverlay) {
-    // Wait for popup to close, then show spotlight tour
     const obs = new MutationObserver(() => {
       if (!document.getElementById('bput-popup-overlay')) {
         obs.disconnect();
@@ -348,7 +353,6 @@ function _initHamburgerTour() {
       }
     });
     obs.observe(document.body, { childList: true });
-    // Safety fallback after 15s
     setTimeout(() => {
       obs.disconnect();
       if (!document.getElementById('nav-tour-overlay')) _showHamburgerTour();
