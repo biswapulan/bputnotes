@@ -144,8 +144,6 @@ document.addEventListener("DOMContentLoaded", () => {
 function _showHamburgerTour() {
   // Only on mobile
   if (window.innerWidth > 768) return;
-  // Only once per user
-  if (localStorage.getItem('bputnotes_nav_toured') === '1') return;
 
   const hamburger = document.querySelector('.hamburger');
   if (!hamburger) return;
@@ -265,7 +263,6 @@ function _showHamburgerTour() {
   }
 
   function dismissTour() {
-    localStorage.setItem('bputnotes_nav_toured', '1');
     overlay.style.opacity = '0';
     overlay.style.transition = 'opacity 0.3s ease';
     setTimeout(() => overlay.remove(), 300);
@@ -278,5 +275,33 @@ function _showHamburgerTour() {
   setTimeout(dismissTour, 5000);
 }
 
-// Show tour after a short delay so page feels loaded first
-setTimeout(_showHamburgerTour, 1500);
+// Wait for popup to close before showing the tour
+function _initHamburgerTour() {
+  if (window.innerWidth > 768) return; // desktop — skip
+
+  const popupOverlay = document.getElementById('bput-popup-overlay');
+
+  if (popupOverlay) {
+    // Popup exists — watch for it to be removed from DOM, then show tour
+    const observer = new MutationObserver(() => {
+      if (!document.getElementById('bput-popup-overlay')) {
+        observer.disconnect();
+        setTimeout(_showHamburgerTour, 800); // small delay after popup closes
+      }
+    });
+    observer.observe(document.body, { childList: true });
+
+    // Safety fallback — if popup never closes after 15s, show tour anyway
+    setTimeout(() => {
+      observer.disconnect();
+      if (!document.getElementById('nav-tour-overlay')) {
+        _showHamburgerTour();
+      }
+    }, 15000);
+  } else {
+    // No popup on this page — show tour after short delay
+    setTimeout(_showHamburgerTour, 1500);
+  }
+}
+
+setTimeout(_initHamburgerTour, 1000);
