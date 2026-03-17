@@ -100,7 +100,7 @@ window.setExamType = function(type) {
   window._pyqState.examType = type;
   const { branch, sem, year } = window._pyqState;
 
-  // Sync sidebar toggle (desktop)
+  // Sync desktop sidebar toggle
   document.getElementById('toggleRegular')?.classList.toggle('active-regular', type === 'regular');
   document.getElementById('toggleBack')?.classList.toggle('active-back', type === 'back');
   // Sync mobile standalone toggle

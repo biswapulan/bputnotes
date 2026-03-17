@@ -595,6 +595,16 @@
       <!-- ══ SIDEBAR ══ -->
       <div class="pyq-sidebar" id="pyqSidebar">
 
+        <!-- Exam type toggle — desktop (inside sidebar) -->
+        <div class="exam-toggle">
+          <button class="exam-toggle-btn active-regular" id="toggleRegular" onclick="setExamType('regular')">
+            📋 Regular<br>Exam
+          </button>
+          <button class="exam-toggle-btn" id="toggleBack" onclick="setExamType('back')">
+            🔁 Back<br>Paper
+          </button>
+        </div>
+
         <div class="sidebar-label">Departments</div>
 
         <div class="sidebar-branch active" id="sb-cse"        onclick="selectBranch('cse')">
