@@ -5,7 +5,7 @@
 
 /* ════════════════ AUTH ════════════════ */
 const ADMIN_USER = 'admin';
-const ADMIN_PASS = 'bputnotes@admin2024';
+const ADMIN_PASS = 'admin@bputnotes.in';
 
 document.getElementById('login-pass')?.addEventListener('keydown', e => {
   if (e.key === 'Enter') doLogin();
