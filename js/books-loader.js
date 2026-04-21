@@ -278,33 +278,3 @@ if (document.readyState === 'loading') {
 } else {
   _booksInit();
 }
-
-// ── BOOKS PAGE TOUR (mobile 3-step guide) ──
-function _runBooksTour() {
-  if (window.innerWidth > 900) return;
-  if (typeof window._runPageTour !== 'function') return;
-
-  window._runPageTour([
-    {
-      targetId: 'bp-cse',
-      title: 'Step 1 of 3 — Pick your Branch',
-      body: 'Tap your engineering branch from the list below.',
-      clickToAdvance: true,
-    },
-    {
-      targetId: 'semGrid',
-      title: 'Step 2 of 3 — Choose Semester',
-      body: 'Tap which semester you want textbooks for.',
-      clickToAdvance: true,
-    },
-    {
-      targetId: 'subjectList',
-      title: 'Step 3 of 3 — Select Subject ✓',
-      body: 'Tap any subject below to see the recommended textbook and open it.',
-    },
-  ]);
-}
-
-setTimeout(() => {
-  if (window.innerWidth <= 900) setTimeout(_runBooksTour, 2000);
-}, 500);

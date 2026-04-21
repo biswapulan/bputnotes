@@ -186,39 +186,3 @@ if (document.readyState === 'loading') {
 } else {
   _pyqInit();
 }
-
-// ── PYQ PAGE TOUR (mobile 4-step guide) ──
-function _runPYQTour() {
-  if (window.innerWidth > 900) return;
-  if (typeof window._runPageTour !== 'function') return;
-
-  window._runPageTour([
-    {
-      targetId: 'mobileBranchToggle',
-      title: 'Step 1 of 4 — Pick your Branch',
-      body: 'Tap the button below to choose your engineering branch.',
-      clickToAdvance: true,
-    },
-    {
-      targetId: 'mobileExamToggle',
-      title: 'Step 2 of 4 — Regular or Back Paper?',
-      body: '<strong>Regular</strong> = main semester exam.<br><strong>Back</strong> = supplementary exam.<br>Tap one to select.',
-      clickToAdvance: true,
-    },
-    {
-      targetId: 'semTabsWrap',
-      title: 'Step 3 of 4 — Choose Semester',
-      body: 'Tap the semester you want papers for.',
-      clickToAdvance: true,
-    },
-    {
-      targetId: 'pyqGrid',
-      title: 'Step 4 of 4 — Download Papers ✓',
-      body: 'Your papers appear here. Tap <strong>📄 Open Paper</strong> on any subject to view the PDF.',
-    },
-  ]);
-}
-
-setTimeout(() => {
-  if (window.innerWidth <= 900) setTimeout(_runPYQTour, 2000);
-}, 500);

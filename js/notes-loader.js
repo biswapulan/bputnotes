@@ -142,34 +142,3 @@ if (document.readyState === 'loading') {
 } else {
   _notesInit();
 }
-
-// ── NOTES PAGE TOUR (mobile 3-step guide) ──
-function _runNotesTour() {
-  if (window.innerWidth > 900) return;
-  if (typeof window._runPageTour !== 'function') return;
-
-  window._runPageTour([
-    {
-      targetId: 'mobileBranchToggle',
-      title: 'Step 1 of 3 — Pick your Branch',
-      body: 'Tap the button below to choose your branch (CSE, Civil, EEE…)',
-      clickToAdvance: true,
-    },
-    {
-      targetId: 'semTabsWrap',
-      title: 'Step 2 of 3 — Choose Semester',
-      body: 'Tap the semester you want notes for (Sem 1 to Sem 8).',
-      clickToAdvance: true,
-    },
-    {
-      targetId: 'notesGrid',
-      title: 'Step 3 of 3 — Open Your Notes ✓',
-      body: 'Your subjects appear here. Tap <strong>📖 Open Notes</strong> on any subject to access the PDF.',
-    },
-  ]);
-}
-
-// Run tour 2 seconds after page loads (after notes grid renders)
-setTimeout(() => {
-  if (window.innerWidth <= 900) setTimeout(_runNotesTour, 2000);
-}, 500);
