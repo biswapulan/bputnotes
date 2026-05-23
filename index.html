@@ -1124,7 +1124,7 @@
 <!-- Wave -->
 <div class="wave-divider" style="background:var(--blue-500);">
   <svg viewBox="0 0 1200 56" preserveAspectRatio="none" style="height:44px;width:100%;display:block;">
-    <path d="M0,0 C300,56 900,56 1200,0 L1200,56 L0,56 Z" fill="#ffffff"/>
+    <path d="M0,0 C300,56 900,56 1200,0 L1200,56 L0,56 Z" fill="var(--bg-primary)"/>
   </svg>
 </div>
 
@@ -1489,8 +1489,6 @@ window.addEventListener('scroll', () => {
     setTimeout(() => {
       bar.style.display = 'none';
       document.body.classList.remove('has-announcement');
-      // adjust navbar top
-      document.querySelector('.navbar').style.top = '0';
     }, 320);
   });
 })();

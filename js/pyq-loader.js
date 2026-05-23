@@ -44,8 +44,11 @@ async function _renderPYQ() {
     const hasLink = p.link && p.link !== '#';
     const btnCls = hasLink ? `card-dl-btn ${examType}-btn` : 'card-dl-btn soon-btn';
     const btn = hasLink
-      ? `<a href="${p.link}" target="_blank" rel="noopener" class="${btnCls}">📥 Download PDF</a>`
-      : `<span class="${btnCls}">⏳ Coming Soon</span>`;
+      ? `<div style="display:flex;flex-direction:column;gap:6px;width:100%;margin-top:4px;">
+           <a href="${p.link}" target="_blank" rel="noopener" class="${btnCls}" style="margin-top:0;">📥 Download PDF</a>
+           <button class="btn-share" onclick="window.shareResource('${p.name.replace(/'/g, "\\'")}', '${p.link}', 'pyq')"><span>📤</span> Share</button>
+         </div>`
+      : `<span class="${btnCls}" style="margin-top:4px;">⏳ Coming Soon</span>`;
     return `<div class="pyq-card ${examType}-card" style="animation:_pFadeUp 0.3s ease ${i * 0.05}s both;">
       <div class="card-sub-num">Subject ${p.num}</div>
       <div class="card-sub-name">${p.name}</div>

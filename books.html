@@ -42,33 +42,7 @@
       align-items: center;
       gap: 14px;
     }
-    .selector-step-badges {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .step-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--font-display);
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.5);
-      letter-spacing: 0.04em;
-    }
-    .step-badge.done { color: rgba(255,255,255,0.9); }
-    .step-badge.active { color: #f59e0b; }
-    .step-badge-num {
-      width: 20px; height: 20px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.1);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.65rem; font-weight: 800;
-    }
-    .step-badge.done .step-badge-num { background: rgba(34,197,94,0.3); color: #4ade80; }
-    .step-badge.active .step-badge-num { background: rgba(245,158,11,0.3); color: #f59e0b; }
-    .step-sep { color: rgba(255,255,255,0.2); font-size: 0.7rem; }
+
 
     /* Search bar in header */
     .books-global-search {
@@ -582,7 +556,7 @@
       .books-global-search { min-width: 180px; }
     }
     @media (max-width: 600px) {
-      .selector-header { flex-direction: column; align-items: flex-start; }
+      .selector-header { flex-direction: column; align-items: flex-start; padding: 16px; }
       .books-global-search { width: 100%; }
       .books-stats-row { grid-template-columns: repeat(2, 1fr); }
       .sem-grid { grid-template-columns: repeat(4, 1fr); }
@@ -691,24 +665,9 @@
     <!-- ══ SELECTOR CARD ══ -->
     <div class="books-selector-wrap">
 
-      <!-- Header with step indicators + search -->
-      <div class="selector-header">
-        <div class="selector-header-left">
-          <div class="selector-step-badges">
-            <div class="step-badge active" id="step1badge">
-              <div class="step-badge-num">1</div> Branch
-            </div>
-            <div class="step-sep">›</div>
-            <div class="step-badge" id="step2badge">
-              <div class="step-badge-num">2</div> Semester
-            </div>
-            <div class="step-sep">›</div>
-            <div class="step-badge" id="step3badge">
-              <div class="step-badge-num">3</div> Subject
-            </div>
-          </div>
-        </div>
-        <div class="books-global-search">
+      <!-- Header with search -->
+      <div class="selector-header" style="justify-content: center;">
+        <div class="books-global-search" style="width: 100%; max-width: 480px; min-width: unset;">
           <span class="search-icon">🔍</span>
           <input type="text" id="globalSearchInput" placeholder="Search by subject name or code…" oninput="handleGlobalSearch(this.value)" autocomplete="off" />
           <button class="search-clear" id="searchClearBtn" onclick="clearSearch()">✕</button>

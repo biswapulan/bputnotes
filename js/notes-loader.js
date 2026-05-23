@@ -76,8 +76,11 @@ async function _renderNotesGrid(searchTerm = '') {
     const hasLink = s.link && s.link !== '#';
     const tagHTML = s.tags.map(t => `<span class="note-tag">${t}</span>`).join('');
     const btn = hasLink
-      ? `<a href="${s.link}" target="_blank" rel="noopener" class="note-btn note-btn-active">📖 Open Notes</a>`
-      : `<span class="note-btn note-btn-soon">⏳ Coming Soon</span>`;
+      ? `<div style="display:flex;flex-direction:column;gap:6px;width:100%;margin-top:4px;">
+           <a href="${s.link}" target="_blank" rel="noopener" class="note-btn note-btn-active" style="margin-top:0;">📖 Open Notes</a>
+           <button class="btn-share" onclick="window.shareResource('${s.name.replace(/'/g, "\\'")}', '${s.link}', 'note')"><span>📤</span> Share</button>
+         </div>`
+      : `<span class="note-btn note-btn-soon" style="margin-top:4px;">⏳ Coming Soon</span>`;
     return `<div class="note-card" style="animation:_nFadeUp 0.3s ease ${i * 0.05}s both;">
       <div class="note-num">Subject ${s.num}</div>
       <div class="note-name">${s.name}</div>

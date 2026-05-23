@@ -118,6 +118,10 @@ async function _renderBookResult() {
   const spineColors = ['linear-gradient(90deg,#2563eb,#60a5fa)', 'linear-gradient(90deg,#f59e0b,#fcd34d)', 'linear-gradient(90deg,#22c55e,#4ade80)'];
   const idx = (subject - 1) % 3;
 
+  const shareBtn = hasLink
+    ? `<button class="btn-share" onclick="window.shareResource('${book.name.replace(/'/g, "\\'")}', '${book.link}', 'book')" style="margin-top:0;"><span>📤</span> Share</button>`
+    : '';
+
   grid.innerHTML = `
     <div class="book-card" style="animation:_bkFade 0.35s ease both;">
       <div class="book-card-spine" style="background:${spineColors[idx]};"></div>
@@ -126,11 +130,14 @@ async function _renderBookResult() {
         <div class="book-title">${book.name}</div>
         <div class="book-meta">${tagHTML}</div>
       </div>
-      <div class="book-card-footer">
-        <span class="book-file-name">${hasLink ? 'Google Drive PDF' : 'Not uploaded yet'}</span>
-        ${hasLink
-          ? `<a href="${book.link}" target="_blank" rel="noopener" class="book-dl-btn book-dl-active">📥 Open Book</a>`
-          : `<span class="book-dl-btn book-dl-soon">⏳ Coming Soon</span>`}
+      <div class="book-card-footer" style="flex-direction:column;align-items:stretch;gap:8px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+          <span class="book-file-name" style="margin-bottom:0;">${hasLink ? 'Google Drive PDF' : 'Not uploaded yet'}</span>
+          ${hasLink
+            ? `<a href="${book.link}" target="_blank" rel="noopener" class="book-dl-btn book-dl-active">📥 Open Book</a>`
+            : `<span class="book-dl-btn book-dl-soon">⏳ Coming Soon</span>`}
+        </div>
+        ${shareBtn}
       </div>
     </div>`;
 }
@@ -238,14 +245,18 @@ window.handleGlobalSearch = function(val) {
 
   listEl.innerHTML = results.map(b => {
     const hasLink = b.link && b.link !== '#';
-    return `<div class="search-result-item">
-      <div class="sri-left">
-        <div class="sri-breadcrumb"><span class="sri-code">${(_BK_BRANCH_NAMES[b.branch]||b.branch).split(' ')[0]}</span> · Sem ${b.sem}</div>
-        <div class="sri-subject">${b.name}</div>
+    const shareAction = hasLink ? `<button class="btn-share" onclick="window.shareResource('${b.name.replace(/'/g, "\\'")}', '${b.link}', 'book')" style="margin-top:0;"><span>📤</span> Share</button>` : '';
+    return `<div class="search-result-item" style="flex-direction:column;gap:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:start;width:100%;gap:12px;">
+        <div class="sri-left">
+          <div class="sri-breadcrumb"><span class="sri-code">${(_BK_BRANCH_NAMES[b.branch]||b.branch).split(' ')[0]}</span> · Sem ${b.sem}</div>
+          <div class="sri-subject">${b.name}</div>
+        </div>
+        ${hasLink
+          ? `<a href="${b.link}" target="_blank" rel="noopener" class="sri-view-btn">📥 Open</a>`
+          : `<span class="sri-view-btn" style="opacity:0.4;cursor:default;">⏳ Soon</span>`}
       </div>
-      ${hasLink
-        ? `<a href="${b.link}" target="_blank" rel="noopener" class="sri-view-btn">📥 Open</a>`
-        : `<span class="sri-view-btn" style="opacity:0.4;cursor:default;">⏳ Soon</span>`}
+      ${shareAction}
     </div>`;
   }).join('');
 };
