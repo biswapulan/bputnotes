@@ -12,7 +12,7 @@
  *   Row 7: cta_text | ✦ Apply Now — It's Free
  *   Row 8: cta_link | careers.html
  *   Row 9:  card_1_icon | 🌟
- *   Row 10: card_1_title | Campus Ambassador
+ *   Row 10: card_1_title | Join Student Team
  *   Row 11: card_1_desc | Represent BPUTNotes at your college.
  *   Row 12: card_1_link | careers.html
  *   Row 13: card_1_color | amber
@@ -29,12 +29,14 @@
     const overlay = document.getElementById('bput-popup-overlay');
     if (!overlay) return;
 
-    // Try loading config from Sheet first (need it for version check)
-    let cfg = _defaultConfig();
+    // Load config from Sheet — if unavailable, hide popup entirely
+    let cfg;
     try {
       cfg = await window.SheetsDB.getPopupConfig();
     } catch (e) {
-      console.warn('Popup config load failed, using defaults:', e);
+      console.warn('Popup config load failed, hiding popup:', e);
+      overlay.remove();
+      return;
     }
 
     // If disabled by admin, always remove
@@ -83,26 +85,9 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(false); });
   }
 
-  function _defaultConfig() {
-    return {
-      enabled: true,
-      eyebrow: 'Now Open · 2026',
-      heading: "We're looking for",
-      headingHighlight: 'passionate BPUTians',
-      subtitle: 'BPUTNotes is 100% student-run. Join our growing community — no experience needed, just passion.',
-      footerText: 'Applications close soon',
-      ctaText: '✦ Apply Now — It\'s Free',
-      ctaLink: 'careers.html',
-      cards: [
-        { icon: '🌟', title: 'Campus Ambassador', desc: 'Represent BPUTNotes at your college. Lead, network & grow.', link: 'careers.html', color: 'amber', badge: 'Open', enabled: true },
-        { icon: '✍️', title: 'Content Contributor', desc: 'Share notes, write summaries & help students study smarter.', link: 'careers.html', color: 'blue',  badge: 'Open', enabled: true },
-        { icon: '💻', title: 'Tech Intern — Frontend', desc: 'Build features, fix bugs & improve the platform for 2000+ students.', link: 'careers.html', color: 'green', badge: 'Open', enabled: true },
-      ],
-    };
-  }
-
   function _applyConfig(cfg, overlay) {
-    // Eyebrow
+    // Unhide — only shown when Sheet data is available
+    overlay.style.display = '';
     const eyebrow = overlay.querySelector('.popup-eyebrow');
     if (eyebrow && cfg.eyebrow) {
       const pulse = eyebrow.querySelector('.eyebrow-pulse');

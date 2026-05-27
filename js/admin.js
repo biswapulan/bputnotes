@@ -525,7 +525,7 @@ async function initPopupPanel() {
     if (cfg.ctaLink)          document.getElementById('pop-cta-link').value           = cfg.ctaLink;
   } catch(e) {
     _popupCards = [
-      { icon:'🌟', title:'Campus Ambassador', desc:'Represent BPUTNotes at your college.', link:'careers.html', color:'amber', badge:'Open', enabled:true },
+      { icon:'🚀', title:'Join the Student Team', desc:'Content management & site maintenance for 2nd & 3rd year students.', link:'careers.html', color:'amber', badge:'Open', enabled:true },
       { icon:'✍️', title:'Content Contributor', desc:'Share notes & help students.', link:'careers.html', color:'blue', badge:'Open', enabled:true },
       { icon:'💻', title:'Tech Intern — Frontend', desc:'Build the platform.', link:'careers.html', color:'green', badge:'Open', enabled:true },
     ];

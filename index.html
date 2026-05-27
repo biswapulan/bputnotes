@@ -83,6 +83,7 @@
       background:linear-gradient(160deg,#eff6ff 0%,#ffffff 50%,#f0f9ff 100%);
       position:relative; overflow:hidden;
       min-height:100vh; display:flex; align-items:center;
+      transition: padding-top 0.32s ease;
     }
 
     /* ══ HERO GRID ══ */
@@ -206,13 +207,13 @@
       z-index: 1001;
       background: linear-gradient(90deg, #0a1628 0%, #1a3a6e 40%, #0a1628 100%);
       border-bottom: 1px solid rgba(245,158,11,0.3);
-      padding: 0 24px;
+      padding: 0 48px 0 24px;
       height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0;
-      overflow: hidden;
+      overflow: visible;
     }
     /* moving shine sweep */
     .ann-bar-ambassador::before {
@@ -274,22 +275,56 @@
     .ann-dot { width:6px; height:6px; border-radius:50%; background:#f59e0b; flex-shrink:0; animation: annDotPulse 1.6s ease-in-out infinite; }
     @keyframes annDotPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.5)} }
     .ann-close-btn {
-      position: absolute;
-      right: 16px;
+      position: fixed;
+      right: 8px;
+      top: 0;
+      height: 40px;
       background: none;
       border: none;
-      color: rgba(255,255,255,0.4);
+      color: rgba(255,255,255,0.6);
       cursor: pointer;
-      font-size: 0.85rem;
-      padding: 4px;
+      font-size: 1rem;
+      padding: 0 12px;
+      line-height: 1;
       transition: color 0.2s;
-      z-index: 2;
+      z-index: 1002;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .ann-close-btn:hover { color: rgba(255,255,255,0.8); }
+    .ann-close-btn:hover, .ann-close-btn:active { color: #fff; }
     @media(max-width: 600px) {
-      .ann-bar-ambassador { height: 44px; padding: 0 40px 0 12px; }
-      .ann-text { font-size: 0.71rem; }
+      .ann-bar-ambassador {
+        height: auto;
+        min-height: 56px;
+        padding: 8px 44px 8px 12px;
+        align-items: flex-start;
+      }
+      .ann-bar-inner {
+        flex-wrap: wrap;
+        gap: 4px;
+        align-items: center;
+      }
       .ann-star-badge { display: none; }
+      .ann-dot { margin-top: 1px; }
+      .ann-text {
+        font-size: 0.72rem;
+        line-height: 1.4;
+        flex: 1 1 100%;
+      }
+      .ann-cta-link {
+        font-size: 0.68rem;
+        padding: 3px 10px;
+        margin-top: 2px;
+      }
+      .ann-close-btn {
+        top: 0;
+        height: 56px;
+        right: 4px;
+        padding: 0 8px;
+      }
     }
 
     /* ══════════════════════════════════════════
@@ -862,7 +897,7 @@
 </div>
 
 <!-- ════════ PROGRAMS POPUP ════════ -->
-<div id="bput-popup-overlay">
+<div id="bput-popup-overlay" style="display:none;">
   <div class="bput-popup" id="bputPopup">
 
     <div class="popup-blob popup-blob-1"></div>
@@ -897,7 +932,7 @@
         <a href="careers.html" class="prog-card amber">
           <div class="prog-icon amber">🌟</div>
           <div class="prog-info">
-            <div class="prog-title">Campus Ambassador</div>
+            <div class="prog-title">Student Team</div>
             <div class="prog-desc">Represent BPUTNotes at your college. Lead, network & grow.</div>
           </div>
           <span class="prog-badge amber">Open</span>
@@ -947,7 +982,7 @@
   <div class="ann-bar-inner">
     <span class="ann-dot"></span>
     <span class="ann-star-badge">✦ New</span>
-    <span class="ann-text"><strong>Campus Ambassador Program is open!</strong> Represent BPUTNotes at your college.</span>
+    <span class="ann-text"><strong>We’re hiring 2nd &amp; 3rd year students!</strong> Help manage content &amp; build the platform.</span>
     <a href="careers.html" class="ann-cta-link">Apply Now →</a>
   </div>
   <button class="ann-close-btn" id="annCloseBtn" aria-label="Close">✕</button>
@@ -971,6 +1006,7 @@
       <li><a href="scholarship.html">Scholarships</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="careers.html">Careers</a></li>
+      <li><a href="https://results.bputnotes.in/" target="_blank" rel="noopener" style="color:#2563eb;font-weight:700;">Results ↗</a></li>
       <!-- <li><a href="internship.html" class="nav-cta">Internship &amp; Training</a></li> -->
     </ul>
     <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -1032,7 +1068,7 @@
 
         <div style="display:flex;gap:14px;flex-wrap:wrap;" data-aos="fade-up" data-aos-delay="300">
           <a href="notes.html" class="btn btn-primary" style="font-size:0.95rem;padding:14px 32px;">Explore Notes →</a>
-          <a href="careers.html" class="btn btn-outline" style="font-size:0.95rem;padding:14px 28px;">Join as Ambassador</a>
+          <a href="careers.html" class="btn btn-outline" style="font-size:0.95rem;padding:14px 28px;">Join Our Team →</a>
         </div>
 
         <div style="display:flex;align-items:center;gap:12px;margin-top:48px;flex-wrap:wrap;" data-aos="fade-up" data-aos-delay="400">
@@ -1155,6 +1191,13 @@
         <p style="font-size:0.9rem;">State and central government scholarships you might be eligible for. Deadlines and application links included.</p>
         <div style="margin-top:18px;"><span class="badge badge-green">Govt. &amp; Private Schemes</span></div>
       </a>
+      <a href="https://results.bputnotes.in/" target="_blank" rel="noopener" class="card tilt-card" style="text-decoration:none;position:relative;overflow:hidden;" data-aos="fade-up" data-aos-delay="300">
+        <div style="position:absolute;top:12px;right:12px;background:#fef3c7;color:#d97706;font-size:0.65rem;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:0.04em;">LIVE ↗</div>
+        <div class="icon-wrap" style="background:rgba(239,68,68,0.1);color:#ef4444;"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+        <h3 style="margin-bottom:10px;font-size:1.2rem;">BPUT Results</h3>
+        <p style="font-size:0.9rem;">Check your semester results instantly. Fast, reliable &amp; works even when the official BPUT site crashes.</p>
+        <div style="margin-top:18px;"><span class="badge" style="background:rgba(239,68,68,0.1);color:#ef4444;">results.bputnotes.in</span></div>
+      </a>
     </div>
   </div>
 </section>
@@ -1174,19 +1217,20 @@
       <div data-aos="fade-right">
         <div class="amb-eyebrow">
           <span class="amb-eyebrow-dot"></span>
-          Applications Open · 2026
+          Applications Open &middot; 2026
         </div>
 
         <h2 class="amb-heading">
-          BPUTNotes<br>
-          <span class="amb-highlight">Campus Ambassador</span><br>
-          Program
+          Join the<br>
+          <span class="amb-highlight">BPUTNotes Team</span><br>
+          from Your Campus
         </h2>
 
         <p class="amb-subtext">
-          BPUTNotes is built <em>by students, for students.</em> We're looking for passionate BPUTians
-          to represent our community on their campus — help spread the word, support fellow students,
-          and grow as a leader.
+          BPUTNotes is built <em>by students, for students.</em> We&rsquo;re calling on passionate
+          2nd and 3rd year BPUTians to help us manage content (notes, PYQs, scholarships &amp; more)
+          and maintain the platform (development, new feature testing &amp; QA). Shape the resource
+          every BPUT student relies on.
         </p>
 
         <!-- Community stats strip -->
@@ -1220,11 +1264,11 @@
           </li>
           <li class="amb-perk">
             <div class="amb-perk-icon" style="background:rgba(34,197,94,0.12);">🤝</div>
-            Direct access to core team
+            Direct access to the core team
           </li>
           <li class="amb-perk">
-            <div class="amb-perk-icon" style="background:rgba(59,130,246,0.12);">📢</div>
-            Promote &amp; grow your campus presence
+            <div class="amb-perk-icon" style="background:rgba(59,130,246,0.12);">📚</div>
+            Hands-on content &amp; platform experience
           </li>
           <li class="amb-perk">
             <div class="amb-perk-icon" style="background:rgba(167,139,250,0.12);">🚀</div>
@@ -1232,7 +1276,7 @@
           </li>
           <li class="amb-perk">
             <div class="amb-perk-icon" style="background:rgba(239,68,68,0.12);">💼</div>
-            Resume-worthy leadership experience
+            Resume-worthy real-world experience
           </li>
           <li class="amb-perk">
             <div class="amb-perk-icon" style="background:rgba(16,185,129,0.12);">🎓</div>
@@ -1242,7 +1286,7 @@
 
         <div class="amb-actions">
           <a href="careers.html" class="amb-btn-primary">
-            ✦ Apply Now — It's Free
+            ✦ Apply Now &mdash; It&rsquo;s Free
           </a>
           <a href="about.html" class="amb-btn-secondary">
             Learn about our mission
@@ -1260,36 +1304,36 @@
               </svg>
             </div>
             <div>
-              <div class="amb-card-title">BPUTNotes Community</div>
-              <div class="amb-card-sub">Student-powered · Odisha</div>
+              <div class="amb-card-title">BPUTNotes Student Team</div>
+              <div class="amb-card-sub">Content &amp; Dev &middot; Odisha</div>
             </div>
           </div>
 
           <!-- Role tiers -->
           <div class="amb-roles">
             <div class="amb-role-item">
-              <div class="amb-role-icon" style="background:rgba(245,158,11,0.15);">⭐</div>
+              <div class="amb-role-icon" style="background:rgba(245,158,11,0.15);">📝</div>
               <div>
-                <div class="amb-role-name">Campus Ambassador</div>
-                <div class="amb-role-desc">Represent BPUTNotes at your college</div>
+                <div class="amb-role-name">Content Manager</div>
+                <div class="amb-role-desc">Curate notes, PYQs &amp; scholarship info</div>
               </div>
               <span class="amb-role-badge" style="background:rgba(245,158,11,0.15);color:#fcd34d;">Open</span>
             </div>
             <div class="amb-role-item">
-              <div class="amb-role-icon" style="background:rgba(59,130,246,0.15);">📝</div>
+              <div class="amb-role-icon" style="background:rgba(59,130,246,0.15);">🛠️</div>
               <div>
-                <div class="amb-role-name">Content Contributor</div>
-                <div class="amb-role-desc">Share notes, PYQs &amp; resources</div>
+                <div class="amb-role-name">Site Maintainer</div>
+                <div class="amb-role-desc">Development, feature testing &amp; QA</div>
               </div>
               <span class="amb-role-badge" style="background:rgba(59,130,246,0.15);color:#93c5fd;">Open</span>
             </div>
             <div class="amb-role-item">
-              <div class="amb-role-icon" style="background:rgba(34,197,94,0.15);">🛠️</div>
+              <div class="amb-role-icon" style="background:rgba(34,197,94,0.15);">🎓</div>
               <div>
-                <div class="amb-role-name">Tech Volunteer</div>
-                <div class="amb-role-desc">Help build &amp; improve the platform</div>
+                <div class="amb-role-name">2nd &amp; 3rd Year Only</div>
+                <div class="amb-role-desc">All branches welcome &middot; Flexible hours</div>
               </div>
-              <span class="amb-role-badge" style="background:rgba(34,197,94,0.15);color:#86efac;">Open</span>
+              <span class="amb-role-badge" style="background:rgba(34,197,94,0.15);color:#86efac;">Free</span>
             </div>
           </div>
 
@@ -1301,13 +1345,13 @@
             <div class="amb-avatar" style="background:#dc2626;">SM</div>
             <div class="amb-avatar" style="background:#d97706;">DP</div>
             <div class="amb-avatar-more">+40</div>
-            <span class="amb-join-text">Join <strong>45+ ambassadors</strong> already on board</span>
+            <span class="amb-join-text">Join <strong>45+ team members</strong> already on board</span>
           </div>
 
           <!-- Deadline -->
           <div class="amb-deadline">
             <span class="amb-deadline-icon">⏰</span>
-            <span class="amb-deadline-text">Applications close soon — <strong>apply before seats fill up</strong></span>
+            <span class="amb-deadline-text">Applications close soon &mdash; <strong>apply before seats fill up</strong></span>
           </div>
         </div>
       </div>
@@ -1368,7 +1412,7 @@
       </div>
       <div class="card tilt-card" style="display:flex;gap:20px;align-items:flex-start;" data-aos="fade-up" data-aos-delay="160">
         <div class="step-num">3</div>
-        <div><h3 style="font-size:1.1rem;margin-bottom:6px;">Join the Community</h3><p>Apply to be a Campus Ambassador, contribute notes, or just spread the word to help fellow BPUTians.</p></div>
+        <div><h3 style="font-size:1.1rem;margin-bottom:6px;">Join the Community</h3><p>Join the student team as a Content Manager or Site Maintainer, contribute notes, or just spread the word to help fellow BPUTians.</p></div>
       </div>
     </div>
   </div>
@@ -1415,8 +1459,8 @@
         <div class="faq-a" style="display:none;margin-top:12px;color:var(--gray-500);font-size:0.9rem;line-height:1.7;">Currently CSE, ECE, EEE, Mechanical and Civil Engineering. We're actively adding more branches every week. If yours isn't listed, reach out to us!</div>
       </div>
       <div class="faq-item card" style="margin-bottom:10px;cursor:pointer;" data-aos="fade-up" data-aos-delay="180">
-        <div class="faq-q" style="display:flex;justify-content:space-between;align-items:center;"><strong>How do I become a Campus Ambassador?</strong><span class="faq-arrow" style="transition:transform 0.3s;font-size:0.85rem;">▼</span></div>
-        <div class="faq-a" style="display:none;margin-top:12px;color:var(--gray-500);font-size:0.9rem;line-height:1.7;">Head over to the Careers page and fill in the Campus Ambassador application. It's completely free — we just need your college name, branch and a short note about why you want to join.</div>
+        <div class="faq-q" style="display:flex;justify-content:space-between;align-items:center;"><strong>How do I join the BPUTNotes student team?</strong><span class="faq-arrow" style="transition:transform 0.3s;font-size:0.85rem;">▼</span></div>
+        <div class="faq-a" style="display:none;margin-top:12px;color:var(--gray-500);font-size:0.9rem;line-height:1.7;">Head over to the Careers page and fill out the application form. It's completely free — we're looking for 2nd and 3rd year students to help with content management (notes, PYQs, scholarships) or site maintenance (development, feature testing). We just need your details and a short note about why you want to join.</div>
       </div>
     </div>
   </div>
@@ -1440,8 +1484,8 @@
           <a href="https://wa.me/918249185682" target="_blank" class="footer-soc-btn fsb-wa" title="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
         </div>
       </div>
-      <div class="footer-col"><h4>Resources</h4><a href="notes.html">Subject Notes</a><a href="pyq.html">Previous Year QP</a><a href="scholarship.html">Scholarships</a></div>
-      <div class="footer-col"><h4>Community</h4><a href="about.html">About Us</a><a href="careers.html">Campus Ambassador</a><a href="careers.html">Careers</a><a href="about.html#contact">Contact</a></div>
+      <div class="footer-col"><h4>Resources</h4><a href="notes.html">Subject Notes</a><a href="pyq.html">Previous Year QP</a><a href="scholarship.html">Scholarships</a><a href="https://results.bputnotes.in/" target="_blank" rel="noopener" style="color:#60a5fa;font-weight:600;">BPUT Results ↗</a></div>
+      <div class="footer-col"><h4>Community</h4><a href="about.html">About Us</a><a href="careers.html">Join the Team</a><a href="careers.html">Careers</a><a href="about.html#contact">Contact</a></div>
       
     </div>
     <div class="footer-bottom">
@@ -1474,24 +1518,6 @@ window.addEventListener('scroll', () => {
   const btn = document.querySelector('.scroll-top');
   if (btn) btn.classList.toggle('visible', window.scrollY > 400);
 });
-
-/* ══ AMBASSADOR ANNOUNCEMENT BAR CLOSE ══ */
-(function(){
-  const bar = document.getElementById('ambassadorBar');
-  const btn = document.getElementById('annCloseBtn');
-  if (!bar || !btn) return;
-  btn.addEventListener('click', () => {
-    bar.style.transition = 'opacity 0.3s, height 0.3s, padding 0.3s';
-    bar.style.opacity = '0';
-    bar.style.height = '0';
-    bar.style.padding = '0';
-    bar.style.overflow = 'hidden';
-    setTimeout(() => {
-      bar.style.display = 'none';
-      document.body.classList.remove('has-announcement');
-    }, 320);
-  });
-})();
 
 /* ══ TYPED (custom lightweight) ══ */
 (function(){
@@ -1630,5 +1656,6 @@ document.querySelectorAll('.faq-item').forEach(item=>{
 <script src="js/sheets.js"></script>
 <script src="js/popup-loader.js"></script>
 <script src="js/main.js"></script>
+<script src="js/spa-router.js"></script>
 </body>
 </html>

@@ -155,8 +155,15 @@
 }
 .announcement-bar a { color: var(--accent); text-decoration: underline; margin-left: 8px; }
 
-body.has-announcement .navbar { top: 40px; }
+body.has-announcement .navbar { top: 40px !important; transition: top 0.32s ease; }
 body.has-announcement .page-hero { padding-top: 170px; }
+body.has-announcement .hero-section { padding-top: 200px; }
+.navbar { transition: top 0.32s ease, all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important; }
+
+@media(max-width: 600px) {
+  body.has-announcement .navbar { top: 56px !important; }
+  body.has-announcement .hero-section { padding-top: 220px; }
+}
 
 /* ── LOADING SPINNER ── */
 .spinner {

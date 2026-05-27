@@ -1,3 +1,80 @@
+// ── ANNOUNCEMENT BAR — runs immediately (not inside DOMContentLoaded) ──
+(function() {
+  // In-memory flag — resets on every full page load, preserved during SPA navigation
+  var _annDismissed = false;
+
+  function isHome() {
+    var file = window.location.pathname.split("/").pop();
+    return file === "" || file === "index.html";
+  }
+
+  function hideBar(bar) {
+    _annDismissed = true;
+    bar.style.transition = "opacity 0.32s ease, height 0.32s ease, padding 0.32s ease, min-height 0.32s ease";
+    bar.style.opacity = "0";
+    bar.style.height = "0";
+    bar.style.minHeight = "0";
+    bar.style.padding = "0";
+    bar.style.overflow = "hidden";
+    document.body.classList.remove("has-announcement");
+    // Also hide close button
+    var closeBtn = document.getElementById("annCloseBtn");
+    if (closeBtn) closeBtn.style.display = "none";
+    setTimeout(function() { bar.style.display = "none"; }, 340);
+  }
+
+  function initBar() {
+    var bar = document.getElementById("ambassadorBar");
+    if (!bar) return;
+    var closeBtn = document.getElementById("annCloseBtn");
+    if (!isHome()) {
+      // Non-home page — hide bar and close button
+      bar.style.display = "none";
+      bar.style.opacity = "";
+      bar.style.height = "";
+      bar.style.minHeight = "";
+      bar.style.padding = "";
+      bar.style.overflow = "";
+      bar.style.transition = "";
+      if (closeBtn) closeBtn.style.display = "none";
+      document.body.classList.remove("has-announcement");
+    } else {
+      // Home page — show unless user dismissed it this session
+      if (_annDismissed) {
+        bar.style.display = "none";
+        if (closeBtn) closeBtn.style.display = "none";
+        document.body.classList.remove("has-announcement");
+        return;
+      }
+      bar.style.display = "";
+      bar.style.opacity = "";
+      bar.style.height = "";
+      bar.style.minHeight = "";
+      bar.style.padding = "";
+      bar.style.overflow = "";
+      bar.style.transition = "";
+      if (closeBtn) closeBtn.style.display = "";
+      document.body.classList.add("has-announcement");
+      var nav = document.querySelector(".navbar");
+      if (nav) nav.classList.remove("scrolled");
+    }
+  }
+
+  // Run immediately — script is at bottom of body so DOM is ready
+  initBar();
+
+  // Expose for SPA reinit after navigation
+  window._initAnnBar = initBar;
+
+  // Close button — event delegation, attached once, survives SPA swaps
+  document.addEventListener("click", function(e) {
+    if (e.target.closest("#annCloseBtn")) {
+      var bar = document.getElementById("ambassadorBar");
+      if (bar) hideBar(bar);
+    }
+  });
+})();
+
 // main.js — global JS for bputnotes.in
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -84,15 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // ── ANNOUNCEMENT BAR CLOSE ──
-  const annBar = document.querySelector(".announcement-bar");
-  const closeAnn = document.querySelector(".ann-close");
-  if (annBar && closeAnn) {
-    closeAnn.addEventListener("click", () => {
-      annBar.style.display = "none";
-      document.body.classList.remove("has-announcement");
-    });
-  }
+  // ── ANNOUNCEMENT BAR — handled by IIFE above, nothing needed here ──
 
   // ── COUNTER ANIMATION ──
   function animateCounter(el) {
@@ -302,6 +371,14 @@ document.addEventListener("DOMContentLoaded", () => {
         <button class="drawer-close" id="closeMobileMoreDrawer" aria-label="Close">✕</button>
       </div>
       <div class="drawer-grid">
+        <a href="https://results.bputnotes.in/" target="_blank" rel="noopener" class="drawer-results-card">
+          <div class="drawer-results-left">
+            <span class="drawer-results-badge">LIVE</span>
+            <span class="drawer-results-title">BPUT Results</span>
+            <span class="drawer-results-sub">Check semester results instantly</span>
+          </div>
+          <span class="drawer-results-arrow">↗</span>
+        </a>
         <a href="scholarship.html" class="drawer-item">
           <span class="drawer-item-icon">🏛️</span>
           <span class="drawer-item-label">Scholarships</span>
@@ -367,6 +444,94 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize mobile nav
   initMobileNav();
   window.addEventListener("resize", initMobileNav);
+
+  // ── SPA ROUTER HOOK ──
+  // Expose re-runnable inits so spa-router.js can call them after each
+  // client-side navigation without doing a full page reload.
+  window._spaReinit = function () {
+    // Re-inject mobile bottom nav for the new page
+    initMobileNav();
+
+    // Re-wire social FAB toggle (lost after SPA swap)
+    const fabWrap2 = document.querySelector(".social-fab-wrap");
+    const fabToggle2 = document.querySelector(".social-fab-toggle");
+    if (fabWrap2 && fabToggle2) {
+      const newToggle = fabToggle2.cloneNode(true);
+      fabToggle2.replaceWith(newToggle);
+      newToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        fabWrap2.classList.toggle("open");
+      });
+      document.addEventListener("click", (e) => {
+        if (!fabWrap2.contains(e.target)) fabWrap2.classList.remove("open");
+      });
+    }
+
+    // Re-wire hamburger (nav links may have changed)
+    const hamburger2 = document.querySelector(".hamburger");
+    const navLinks2  = document.querySelector(".nav-links");
+    if (hamburger2 && navLinks2) {
+      // Clone to remove old listeners, then re-add
+      const h2 = hamburger2.cloneNode(true);
+      hamburger2.replaceWith(h2);
+      h2.addEventListener("click", () => {
+        h2.classList.toggle("open");
+        navLinks2.classList.toggle("open");
+      });
+      navLinks2.querySelectorAll("a").forEach((a) => {
+        a.addEventListener("click", () => {
+          h2.classList.remove("open");
+          navLinks2.classList.remove("open");
+        });
+      });
+    }
+
+    // Re-wire scroll-to-top button
+    const scrollBtn2 = document.querySelector(".scroll-top");
+    if (scrollBtn2) {
+      const sb2 = scrollBtn2.cloneNode(true);
+      scrollBtn2.replaceWith(sb2);
+      sb2.addEventListener("click", () =>
+        window.scrollTo({ top: 0, behavior: "smooth" }),
+      );
+    }
+
+    // Re-observe .reveal elements added by the new page
+    const reveals2 = document.querySelectorAll(".reveal:not(.visible)");
+    if (reveals2.length) {
+      const obs2 = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+              setTimeout(() => entry.target.classList.add("visible"), i * 80);
+              obs2.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+      reveals2.forEach((el) => obs2.observe(el));
+    }
+
+    // Re-wire filter tabs
+    document.querySelectorAll(".filter-tab").forEach((tab) => {
+      tab.addEventListener("click", function () {
+        const group = this.closest(".filter-tabs");
+        group.querySelectorAll(".filter-tab").forEach((t) => t.classList.remove("active"));
+        this.classList.add("active");
+        const filter = this.dataset.filter;
+        const target = document.querySelector(this.dataset.target || ".filterable-grid");
+        if (!target) return;
+        target.querySelectorAll("[data-category]").forEach((item) => {
+          item.style.display =
+            filter === "all" || item.dataset.category === filter ? "" : "none";
+        });
+      });
+    });
+
+    // Hide/show announcement bar based on page
+    if (window._initAnnBar) window._initAnnBar();
+  };
 });
 
 // ── GLOBAL WHATSAPP SHARING LOOP ──
@@ -418,6 +583,3 @@ window.shareResource = function (title, link, type) {
     window.open(waUrl, "_blank");
   });
 };
-
-
-
