@@ -369,5 +369,9 @@ body.has-announcement .hero-section { padding-top: 200px; }
   .wa-float {
     bottom: 96px !important;
   }
+  .scroll-top {
+    bottom: 158px !important;
+    right: 16px;
+  }
 }
 
