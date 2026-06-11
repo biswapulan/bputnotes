@@ -919,3 +919,23 @@ a { text-decoration: none; color: inherit; }
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
 }
+
+/* ── STUDIO LOCK ICON ── */
+.nav-studio-lock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.nav-studio-lock:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37,99,235,0.35);
+}
+@media (max-width: 768px) {
+  .nav-studio-lock {
+    display: flex;
+    margin-left: auto;
+  }
+}
