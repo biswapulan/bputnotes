@@ -11,7 +11,7 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Join the Team — BPUTNotes Student Team 2026</title>
+  <title>CSE Opportunities Hub - BPUTNotes Careers</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,351 +21,518 @@
 
   <style>
 
-    /* ══════════════════════════════════════
-       HERO
-    ══════════════════════════════════════ */
-    .careers-hero {
-      padding: 120px 24px 80px;
-      background: linear-gradient(160deg, #0a1628 0%, #0f2044 45%, #1a3a6e 100%);
+    /* CSE opportunities hub integrated from cse_opportunities file */
+    .cse-hub, .cse-hub * , .cse-hub *::before, .cse-hub *::after { box-sizing: border-box; margin: 0; padding: 0; }.cse-hub {
+        --bg: #f8f9fb;
+        --surface: #ffffff;
+        --border: #e2e6ea;
+        --text-primary: #1a1d23;
+        --text-secondary: #4a5568;
+        --text-muted: #718096;
+        --accent: #2563eb;
+        --accent-light: #eff6ff;
+        --green: #16a34a;
+        --green-light: #f0fdf4;
+        --orange: #d97706;
+        --orange-light: #fffbeb;
+        --red: #dc2626;
+        --red-light: #fef2f2;
+        --purple: #7c3aed;
+        --purple-light: #f5f3ff;
+        --teal: #0d9488;
+        --teal-light: #f0fdfa;
+        --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      }.cse-hub {
+        font-family: var(--font);
+        background: var(--bg);
+        color: var(--text-primary);
+        font-size: 14px;
+        line-height: 1.6;
+      }.cse-hub-header {
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        padding: 0 32px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }.cse-hub .header-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 56px;
+      }.cse-hub .logo {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--accent);
+        letter-spacing: -0.3px;
+      }.cse-hub .logo span { color: var(--text-primary); }.cse-hub .last-updated {
+        font-size: 12px;
+        color: var(--text-muted);
+        background: var(--bg);
+        padding: 3px 10px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+      }.cse-hub .nav-bar {
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        padding: 12px 32px;
+        overflow: visible;
+      }.cse-hub .nav-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 8px;
+      }.cse-hub .nav-tab {
+        padding: 10px 12px;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-secondary);
+        cursor: pointer;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        white-space: nowrap;
+        transition: color 0.15s, border-color 0.15s;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+      }.cse-hub .nav-tab:hover { color: var(--accent); border-color: #bfdbfe; }.cse-hub .nav-tab.active { color: var(--accent); border-color: var(--accent); background: var(--accent-light); }.cse-hub .cse-main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px 32px 60px;
+      }.cse-hub .section { display: none; }.cse-hub .section.active { display: block; }.cse-hub .section-header {
+        margin-bottom: 20px;
+      }.cse-hub .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 4px;
+      }.cse-hub .section-desc {
+        font-size: 13px;
+        color: var(--text-muted);
+      }.cse-hub .stats-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 12px;
+        margin-bottom: 24px;
+      }.cse-hub .stat-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px 16px;
+      }.cse-hub .stat-num {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--accent);
+        line-height: 1;
+      }.cse-hub .stat-label {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 3px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }.cse-hub .table-wrap {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 24px;
+      }.cse-hub .table-wrap h3 {
+        padding: 14px 18px 12px;
+        font-size: 14px;
+        font-weight: 600;
+        border-bottom: 1px solid var(--border);
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }.cse-hub .table-wrap h3 .icon {
+        width: 20px;
+        height: 20px;
+        border-radius: 5px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+      }.cse-hub .table-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }.cse-hub table {
+        width: 100%;
+        min-width: 640px;
+        border-collapse: collapse;
+      }.cse-hub thead tr {
+        background: #f8f9fb;
+      }.cse-hub th {
+        padding: 10px 14px;
+        text-align: left;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 1px solid var(--border);
+      }.cse-hub td {
+        padding: 11px 14px;
+        font-size: 13px;
+        color: var(--text-primary);
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }.cse-hub tr:last-child td { border-bottom: none; }.cse-hub tr:hover td { background: var(--bg); }.cse-hub .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        white-space: nowrap;
+      }.cse-hub .badge-green { background: var(--green-light); color: var(--green); }.cse-hub .badge-orange { background: var(--orange-light); color: var(--orange); }.cse-hub .badge-red { background: var(--red-light); color: var(--red); }.cse-hub .badge-blue { background: var(--accent-light); color: var(--accent); }.cse-hub .badge-purple { background: var(--purple-light); color: var(--purple); }.cse-hub .badge-teal { background: var(--teal-light); color: var(--teal); }.cse-hub .badge-gray { background: #f1f5f9; color: #64748b; }.cse-hub .apply-link {
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 500;
+        border: 1px solid var(--accent);
+        padding: 3px 8px;
+        border-radius: 4px;
+        white-space: nowrap;
+        display: inline-block;
+      }.cse-hub .apply-link:hover { background: var(--accent-light); }.cse-hub .company-name { font-weight: 600; color: var(--text-primary); }.cse-hub .company-role { font-size: 12px; color: var(--text-muted); }.cse-hub .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 14px;
+        margin-bottom: 24px;
+      }.cse-hub .info-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px;
+      }.cse-hub .info-card h4 {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }.cse-hub .info-card ul {
+        list-style: none;
+        padding: 0;
+      }.cse-hub .info-card ul li {
+        font-size: 12.5px;
+        color: var(--text-secondary);
+        padding: 4px 0;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+      }.cse-hub .info-card ul li:last-child { border-bottom: none; }.cse-hub .info-card ul li .li-label { color: var(--text-primary); font-weight: 500; }.cse-hub .alert {
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-size: 13px;
+        margin-bottom: 16px;
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+      }.cse-hub .alert-blue { background: var(--accent-light); color: #1e40af; border-left: 3px solid var(--accent); }.cse-hub .alert-green { background: var(--green-light); color: #14532d; border-left: 3px solid var(--green); }.cse-hub .alert-orange { background: var(--orange-light); color: #78350f; border-left: 3px solid var(--orange); }.cse-hub .alert-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }.cse-hub .roadmap {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 24px;
+      }.cse-hub .roadmap-header {
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--border);
+        font-size: 14px;
+        font-weight: 600;
+      }.cse-hub .roadmap-body { padding: 16px 18px; }.cse-hub .roadmap-step {
+        display: flex;
+        gap: 14px;
+        margin-bottom: 18px;
+      }.cse-hub .roadmap-step:last-child { margin-bottom: 0; }.cse-hub .step-num {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: white;
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }.cse-hub .step-content h5 {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 3px;
+      }.cse-hub .step-content p {
+        font-size: 12.5px;
+        color: var(--text-secondary);
+        line-height: 1.5;
+      }.cse-hub .portal-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 10px;
+        margin-bottom: 24px;
+      }.cse-hub .portal-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 14px;
+        text-decoration: none;
+        display: block;
+        transition: border-color 0.15s, box-shadow 0.15s;
+      }.cse-hub .portal-card:hover {
+        border-color: var(--accent);
+        box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+      }.cse-hub .portal-card .portal-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 2px;
+      }.cse-hub .portal-card .portal-desc {
+        font-size: 11.5px;
+        color: var(--text-muted);
+      }.cse-hub .portal-card .portal-arrow {
+        float: right;
+        color: var(--accent);
+        font-size: 14px;
+        margin-top: -20px;
+      }.cse-hub .eli-tags { display: flex; flex-wrap: wrap; gap: 4px; }.cse-hub .eli-tag {
+        font-size: 11px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 3px;
+        padding: 1px 6px;
+        color: var(--text-secondary);
+      }.cse-hub .page-footer {
+        text-align: center;
+        padding: 24px;
+        border-top: 1px solid var(--border);
+        font-size: 12px;
+        color: var(--text-muted);
+        background: var(--surface);
+        margin-top: 40px;
+      }.cse-hub .scroll-hint { display: none; }
+    
+      
+      @media (max-width: 768px) {.cse-hub { font-size: 13px; }.cse-hub-header { padding: 0 16px; }.cse-hub .nav-bar { padding: 12px 16px; }.cse-hub .header-inner { height: auto; flex-wrap: wrap; gap: 6px; padding: 10px 0; }.cse-hub .logo { font-size: 15px; }.cse-hub .last-updated { font-size: 10.5px; padding: 3px 8px; }.cse-hub .nav-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }.cse-hub .nav-tab { padding: 10px 8px; font-size: 12px; white-space: normal; min-height: 42px; text-align: center; }.cse-hub .cse-main { padding: 16px 16px 40px; }.cse-hub .section-title { font-size: 17px; }.cse-hub .stats-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }.cse-hub .stat-card { padding: 12px 14px; }.cse-hub .stat-num { font-size: 18px; }.cse-hub table { min-width: 560px; }.cse-hub th, .cse-hub td { padding: 8px 10px; font-size: 12px; }.cse-hub .info-grid { grid-template-columns: 1fr; }.cse-hub .portal-grid { grid-template-columns: repeat(2, 1fr); }.cse-hub .roadmap-step { gap: 10px; }.cse-hub .hide-mobile { display: none; }.cse-hub .scroll-hint { display: inline; }
+      }
+    
+      @media (max-width: 480px) {.cse-hub .header-inner { justify-content: center; text-align: center; }.cse-hub .nav-bar { padding: 10px 8px; }.cse-hub .nav-tab { padding: 9px 8px; font-size: 11.5px; }.cse-hub .cse-main { padding: 14px 12px 32px; }.cse-hub .stats-row { grid-template-columns: 1fr 1fr; gap: 8px; }.cse-hub .stat-num { font-size: 16px; }.cse-hub .stat-label { font-size: 10px; }.cse-hub table { min-width: 480px; }.cse-hub th, .cse-hub td { padding: 7px 8px; font-size: 11.5px; }.cse-hub .apply-link { font-size: 11px; padding: 2px 6px; }.cse-hub .portal-grid { grid-template-columns: 1fr; }.cse-hub .roadmap-header { font-size: 13px; padding: 12px 14px; }.cse-hub .roadmap-body { padding: 14px; }.cse-hub .step-content h5 { font-size: 12.5px; }.cse-hub .step-content p { font-size: 12px; }
+      }
+
+    .cse-hub {
+      margin-top: 72px;
+      font-family: 'DM Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background:
+        linear-gradient(180deg, rgba(37,99,235,0.07), rgba(248,249,251,0) 230px),
+        var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+    .cse-hub .cse-hub-header {
       position: relative;
-      overflow: hidden;
-      text-align: center;
+      top: auto;
+      z-index: 1;
+      border-bottom: 1px solid rgba(226, 230, 234, 0.85);
+      box-shadow: 0 8px 28px rgba(15, 23, 42, 0.04);
     }
-    .careers-hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(37,99,235,0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(37,99,235,0.06) 1px, transparent 1px);
-      background-size: 44px 44px;
-      pointer-events: none;
+    .cse-hub .logo,
+    .cse-hub .section-title,
+    .cse-hub .table-wrap h3,
+    .cse-hub .roadmap-header {
+      font-family: 'Sora', 'Segoe UI', system-ui, sans-serif;
     }
-    .hero-orb-1 { position:absolute; width:600px; height:600px; border-radius:50%; background:radial-gradient(circle,rgba(37,99,235,0.18) 0%,transparent 70%); top:-200px; right:-150px; pointer-events:none; }
-    .hero-orb-2 { position:absolute; width:350px; height:350px; border-radius:50%; background:radial-gradient(circle,rgba(245,158,11,0.12) 0%,transparent 70%); bottom:-80px; left:-60px; pointer-events:none; }
-    .hero-orb-3 { position:absolute; width:250px; height:250px; border-radius:50%; background:radial-gradient(circle,rgba(34,197,94,0.1) 0%,transparent 70%); top:60px; left:15%; pointer-events:none; }
-
-    .careers-hero-inner { position:relative; z-index:1; max-width:780px; margin:0 auto; }
-
-    .hero-live-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(37,99,235,0.18);
-      border: 1px solid rgba(96,165,250,0.35);
-      color: #93c5fd;
-      font-family: 'Sora', sans-serif;
-      font-size: 0.7rem; font-weight: 800;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 7px 16px; border-radius: 100px;
-      margin-bottom: 22px;
-    }
-    .live-pulse { width:7px; height:7px; border-radius:50%; background:#60a5fa; animation:lp 1.7s ease-in-out infinite; }
-    @keyframes lp { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.35;transform:scale(1.6)} }
-
-    .careers-hero h1 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800;
-      color: #fff;
-      line-height: 1.16;
-      letter-spacing: -0.025em;
-      margin-bottom: 18px;
-    }
-    .careers-hero h1 .blue-g { background:linear-gradient(135deg,#60a5fa,#93c5fd); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-
-    .careers-hero-sub {
-      font-size: 1rem;
-      color: rgba(255,255,255,0.55);
-      line-height: 1.85;
-      max-width: 540px;
-      margin: 0 auto 36px;
-    }
-
-    /* Hero stats row */
-    .hero-stats {
-      display: flex; justify-content: center; gap: 0;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.09);
-      border-radius: 16px;
-      overflow: hidden;
-      max-width: 480px;
+    .cse-hub .logo { font-size: 18px; }
+    .cse-hub .last-updated { border-radius: 8px; }
+    .cse-hub .mobile-topic-switcher {
+      display: none;
+      max-width: 1200px;
       margin: 0 auto;
     }
-    .hero-stat {
-      flex: 1;
-      padding: 18px 14px;
-      text-align: center;
-      border-right: 1px solid rgba(255,255,255,0.07);
-    }
-    .hero-stat:last-child { border-right: none; }
-    .hero-stat-num { font-family:'Sora',sans-serif; font-size:1.3rem; font-weight:800; color:#fff; line-height:1; }
-    .hero-stat-lbl { font-size:0.65rem; font-weight:600; color:rgba(255,255,255,0.35); text-transform:uppercase; letter-spacing:0.07em; margin-top:4px; }
-
-    /* ══════════════════════════════════════
-       ROLE CONTENT
-    ══════════════════════════════════════ */
-    .roles-container { padding: 0 24px 80px; background: #f8faff; }
-
-    /* ── Role intro banner ── */
-    .role-banner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 52px 0 40px;
+    .cse-hub .mobile-navigator-card {
       display: grid;
-      grid-template-columns: 1fr 360px;
-      gap: 48px;
-      align-items: start;
-    }
-
-    .role-banner-tag {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-family: 'Sora', sans-serif;
-      font-size: 0.7rem; font-weight: 800;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 6px 14px; border-radius: 100px;
-      margin-bottom: 14px;
-    }
-    .tag-blue  { background:#eff6ff; border:1px solid #bfdbfe; color:#2563eb; }
-
-    .role-banner h2 {
-      font-family: 'Sora', sans-serif;
-      font-size: clamp(1.5rem, 2.5vw, 2rem);
-      font-weight: 800; color: #0f172a;
-      line-height: 1.2; margin-bottom: 14px;
-      letter-spacing: -0.02em;
-    }
-    .role-banner-desc { font-size:0.92rem; color:#64748b; line-height:1.85; margin-bottom:20px; max-width:500px; }
-
-    .resp-list { list-style:none; display:flex; flex-direction:column; gap:9px; margin-bottom:24px; }
-    .resp-item { display:flex; align-items:flex-start; gap:10px; font-size:0.86rem; color:#374151; line-height:1.65; }
-    .resp-dot { width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.65rem; font-weight:800; flex-shrink:0; margin-top:2px; }
-    .dot-blue  { background:#eff6ff; color:#2563eb; }
-
-    /* workflow box */
-    .workflow-box {
-      background: #fff;
-      border: 1.5px solid #bfdbfe;
-      border-radius: 16px;
-      padding: 22px 24px;
-      margin-bottom: 22px;
-    }
-    .workflow-box-title {
-      font-family: 'Sora', sans-serif;
-      font-size: 0.72rem; font-weight: 800;
-      letter-spacing: 0.09em; text-transform: uppercase;
-      color: #2563eb; margin-bottom: 16px;
-    }
-    .workflow-steps { display:flex; flex-direction:column; gap:0; }
-    .workflow-step {
-      display: flex; align-items: flex-start; gap: 14px;
-      padding: 12px 0;
-      border-bottom: 1px dashed #e2e8f0;
-      position: relative;
-    }
-    .workflow-step:last-child { border-bottom: none; }
-    .ws-num {
-      width: 28px; height: 28px; border-radius: 50%;
-      background: linear-gradient(135deg, #2563eb, #3b82f6);
-      color: #fff; font-family: 'Sora', sans-serif;
-      font-size: 0.72rem; font-weight: 800;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; margin-top: 1px;
-    }
-    .ws-text { font-size: 0.84rem; color: #374151; line-height: 1.6; }
-    .ws-text strong { font-family:'Sora',sans-serif; font-weight:700; color:#0f172a; display:block; margin-bottom:2px; font-size:0.82rem; }
-
-    /* Right: eligibility card */
-    .role-info-card {
-      background: #fff;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.07);
-    }
-    .role-info-card-header {
-      padding: 20px 22px;
-      display: flex; align-items: center; gap: 12px;
-    }
-    .ric-icon { width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0; }
-    .ric-title { font-family:'Sora',sans-serif; font-size:0.85rem; font-weight:800; color:#0f172a; }
-    .ric-sub   { font-size:0.68rem; color:#94a3b8; margin-top:1px; }
-
-    .ric-body { padding: 0 22px 20px; }
-    .ric-row {
-      display: flex; align-items: center; gap: 10px;
-      padding: 11px 0;
-      border-bottom: 1px solid #f1f5f9;
-      font-size: 0.82rem; color: #374151;
-    }
-    .ric-row:last-child { border-bottom: none; }
-    .ric-row-icon { width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:0.85rem; flex-shrink:0; }
-    .ric-row-label { flex:1; font-family:'Sora',sans-serif; font-size:0.78rem; font-weight:600; color:#1e293b; }
-
-    /* ── Manager contact card ── */
-    .manager-card {
-      max-width: 1100px;
-      margin: 0 auto 36px;
-      background: linear-gradient(135deg, #eff6ff, #dbeafe);
-      border: 1.5px solid #bfdbfe;
-      border-radius: 16px;
-      padding: 22px 26px;
-      display: flex;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
       align-items: center;
-      gap: 18px;
+      border: 1px solid rgba(37,99,235,0.2);
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at top right, rgba(37,99,235,0.12), transparent 42%),
+        linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+      padding: 14px;
+      box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
     }
-    .manager-card-icon { font-size: 2rem; flex-shrink: 0; }
-    .manager-card-text {}
-    .manager-card-title { font-family:'Sora',sans-serif; font-size:0.88rem; font-weight:800; color:#1e40af; margin-bottom:4px; }
-    .manager-card-desc { font-size:0.8rem; color:#3b82f6; line-height:1.6; }
-
-    /* ── Rewards strip ── */
-    .rewards-strip {
-      max-width: 1100px;
-      margin: 0 auto 44px;
+    .cse-hub .navigator-kicker {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: #2563eb;
+      font-family: 'Sora', 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
-    .rewards-strip-title {
-      font-family: 'Sora', sans-serif;
-      font-size: 0.7rem; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: #94a3b8; margin-bottom: 14px;
+    .cse-hub .navigator-title {
+      margin-top: 8px;
+      font-family: 'Sora', 'Segoe UI', system-ui, sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.25;
     }
-    .rewards-cards {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
+    .cse-hub .navigator-sub {
+      margin-top: 4px;
+      color: #64748b;
+      font-size: 0.78rem;
+      line-height: 1.45;
     }
-    .reward-card {
-      background: #fff;
-      border: 1.5px solid #e2e8f0;
+    .cse-hub .mobile-topic-trigger {
+      border: 0;
       border-radius: 14px;
-      padding: 18px 14px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.22s ease;
+      background: #2563eb;
+      color: #fff;
+      font-family: 'Sora', 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 13px 14px;
+      min-width: 116px;
+      box-shadow: 0 10px 22px rgba(37,99,235,0.25);
+      cursor: pointer;
     }
-    .reward-card:hover { border-color:#bfdbfe; box-shadow:0 8px 24px rgba(37,99,235,0.1); transform:translateY(-3px); }
-    .reward-card-icon { font-size:1.8rem; margin-bottom:8px; display:block; }
-    .reward-card-title { font-family:'Sora',sans-serif; font-size:0.75rem; font-weight:700; color:#1e293b; margin-bottom:4px; line-height:1.3; }
-    .reward-card-desc  { font-size:0.65rem; color:#94a3b8; line-height:1.5; }
-
-    /* ── Community banner ── */
-    .community-join-banner {
-      max-width: 1100px;
-      margin: 0 auto 48px;
-      background: linear-gradient(135deg, #0a1628 0%, #1a3a6e 100%);
-      border-radius: 20px;
-      padding: 32px 36px;
+    .cse-hub .topic-sheet-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(15,23,42,0.42);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease;
+    }
+    .cse-hub .topic-sheet-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .cse-hub .topic-sheet {
+      position: fixed;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      z-index: 2001;
+      border-radius: 18px;
+      border: 1px solid rgba(226,232,240,0.9);
+      background: #fff;
+      box-shadow: 0 28px 70px rgba(15,23,42,0.28);
+      padding: 14px;
+      transform: translateY(calc(100% + 28px));
+      transition: transform 0.22s ease;
+    }
+    .cse-hub .topic-sheet.open {
+      transform: translateY(0);
+    }
+    .cse-hub .topic-sheet-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 24px;
-      position: relative;
-      overflow: hidden;
+      gap: 12px;
+      margin-bottom: 12px;
     }
-    .community-join-banner::before {
-      content: '';
-      position: absolute; inset: 0;
-      background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-      background-size: 32px 32px;
-      pointer-events: none;
+    .cse-hub .topic-sheet-title {
+      font-family: 'Sora', 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #0f172a;
     }
-    .cjb-orb { position:absolute; width:220px; height:220px; border-radius:50%; background:radial-gradient(circle,rgba(37,99,235,0.25) 0%,transparent 70%); right:-40px; top:-60px; pointer-events:none; }
-    .cjb-left { position:relative; z-index:1; }
-    .cjb-tag { display:inline-flex; align-items:center; gap:7px; background:rgba(96,165,250,0.15); border:1px solid rgba(96,165,250,0.3); color:#93c5fd; font-family:'Sora',sans-serif; font-size:0.65rem; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; padding:4px 12px; border-radius:100px; margin-bottom:10px; }
-    .cjb-title { font-family:'Sora',sans-serif; font-size:1.1rem; font-weight:800; color:#fff; margin-bottom:6px; }
-    .cjb-sub { font-size:0.82rem; color:rgba(255,255,255,0.5); line-height:1.65; max-width:440px; }
-    .cjb-right { position:relative; z-index:1; display:flex; align-items:center; gap:12px; flex-shrink:0; }
-    .cjb-btn-wa { display:inline-flex; align-items:center; gap:8px; background:#25d366; color:#fff; font-family:'Sora',sans-serif; font-size:0.82rem; font-weight:700; padding:11px 22px; border-radius:100px; text-decoration:none; transition:all 0.2s; box-shadow:0 6px 20px rgba(37,211,102,0.3); white-space:nowrap; }
-    .cjb-btn-wa:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(37,211,102,0.4); }
-    .cjb-btn-tg { display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.18); color:rgba(255,255,255,0.8); font-family:'Sora',sans-serif; font-size:0.82rem; font-weight:700; padding:11px 22px; border-radius:100px; text-decoration:none; transition:all 0.2s; white-space:nowrap; }
-    .cjb-btn-tg:hover { background:rgba(255,255,255,0.16); color:#fff; }
-
-    /* ══════════════════════════════════════
-       FORM CARD
-    ══════════════════════════════════════ */
-    .form-section-wrap {
-      max-width: 700px;
-      margin: 0 auto;
+    .cse-hub .topic-sheet-close {
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      color: #0f172a;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.15rem;
+      line-height: 1;
+      cursor: pointer;
     }
-    .form-section-title { font-family:'Sora',sans-serif; font-size:1.1rem; font-weight:800; color:#0f172a; text-align:center; margin-bottom:6px; }
-    .form-section-sub   { font-size:0.82rem; color:#94a3b8; text-align:center; margin-bottom:24px; }
-
-    .apply-form-card {
+    .cse-hub .topic-grid {
+      display: grid;
+      gap: 8px;
+    }
+    .cse-hub .topic-option {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
       background: #fff;
-      border: 2px solid #e2e8f0;
-      border-radius: 22px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(37,99,235,0.1);
+      color: #1e293b;
+      font-family: 'Sora', 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.84rem;
+      font-weight: 700;
+      padding: 12px;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
     }
-    .apply-form-header {
-      padding: 28px 32px;
-      position: relative; overflow: hidden;
+    .cse-hub .topic-option.active {
+      border-color: #2563eb;
+      background: #eff6ff;
+      color: #1d4ed8;
     }
-    .apply-form-header::before { content:''; position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px); background-size:28px 28px; }
-    .afh-inner { position:relative; z-index:1; }
-    .afh-badge { display:inline-flex; align-items:center; gap:7px; font-family:'Sora',sans-serif; font-size:0.65rem; font-weight:700; padding:4px 12px; border-radius:100px; margin-bottom:9px; letter-spacing:0.07em; text-transform:uppercase; }
-    .afh-title { font-family:'Sora',sans-serif; font-size:1.2rem; font-weight:800; color:#fff; margin-bottom:4px; }
-    .afh-sub   { font-size:0.78rem; color:rgba(255,255,255,0.5); }
-
-    .apply-form-body { padding: 30px 32px; }
-
-    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-    .field-group { margin-bottom:15px; }
-    .field-label { display:block; font-family:'Sora',sans-serif; font-size:0.75rem; font-weight:700; color:#374151; margin-bottom:6px; }
-    .field-label .req { color:#ef4444; margin-left:2px; }
-    .field-input, .field-select, .field-textarea {
-      width:100%; padding:11px 14px;
-      border:2px solid #e2e8f0; border-radius:10px;
-      font-family:'DM Sans','Sora',sans-serif; font-size:0.88rem;
-      color:#0f172a; background:#fff; outline:none;
-      transition:all 0.2s ease; -webkit-appearance:none; box-sizing:border-box;
+    .cse-hub .nav-bar {
+      position: sticky;
+      top: 72px;
+      z-index: 5;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
     }
-    .field-input:focus, .field-select:focus, .field-textarea:focus { border-color:#3b82f6; box-shadow:0 0 0 4px rgba(59,130,246,0.1); }
-    .field-input.error, .field-select.error { border-color:#ef4444; box-shadow:0 0 0 4px rgba(239,68,68,0.08); }
-    .field-input::placeholder, .field-textarea::placeholder { color:#cbd5e1; }
-    .field-textarea { resize:vertical; min-height:80px; }
-
-    .submit-btn {
-      width:100%; padding:14px; border:none; border-radius:12px;
-      font-family:'Sora',sans-serif; font-size:0.92rem; font-weight:700;
-      color:#fff; cursor:pointer; transition:all 0.25s ease;
-      display:flex; align-items:center; justify-content:center; gap:8px;
-      margin-top:6px;
+    .cse-hub .table-wrap,
+    .cse-hub .stat-card,
+    .cse-hub .info-card,
+    .cse-hub .roadmap,
+    .cse-hub .page-footer {
+      border-radius: 8px;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
     }
-    .submit-btn:hover { transform:translateY(-2px); }
-    .submit-btn:disabled { opacity:0.65; cursor:not-allowed; transform:none; }
-    .btn-blue  { background:linear-gradient(135deg,#2563eb,#1d4ed8); box-shadow:0 8px 24px rgba(37,99,235,0.3); }
-    .btn-blue:hover  { box-shadow:0 12px 32px rgba(37,99,235,0.42); }
-
-    .form-privacy { text-align:center; font-size:0.7rem; color:#94a3b8; margin-top:12px; line-height:1.65; }
-
-    .success-state { display:none; text-align:center; padding:48px 28px; }
-    .success-state.visible { display:block; }
-    .success-icon { width:68px; height:68px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.8rem; margin:0 auto 18px; animation:successPop 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards; }
-    .si-blue  { background:linear-gradient(135deg,#2563eb,#3b82f6); box-shadow:0 10px 28px rgba(37,99,235,0.35); }
-    @keyframes successPop { from{transform:scale(0.5);opacity:0} to{transform:scale(1);opacity:1} }
-    .success-title { font-family:'Sora',sans-serif; font-size:1.2rem; font-weight:800; color:#0f172a; margin-bottom:10px; }
-    .success-msg { font-size:0.88rem; color:#64748b; line-height:1.7; max-width:340px; margin:0 auto 20px; }
-    .success-chip { display:inline-flex; align-items:center; gap:8px; background:#f0fdf4; border:1px solid #bbf7d0; color:#166534; font-family:'Sora',sans-serif; font-size:0.76rem; font-weight:700; padding:8px 18px; border-radius:100px; }
-
-    .form-error-msg { display:none; background:#fef2f2; border:1px solid #fca5a5; color:#991b1b; font-size:0.82rem; padding:11px 14px; border-radius:10px; margin-bottom:14px; }
-    .form-error-msg.visible { display:block; }
-
-    /* ══ RESPONSIVE ══ */
-    @media (max-width: 1024px) {
-      .rewards-cards { grid-template-columns:repeat(3,1fr); }
+    .cse-hub .table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
-    @media (max-width: 900px) {
-      .role-banner { grid-template-columns:1fr; gap:24px; }
-      .community-join-banner { flex-direction:column; align-items:flex-start; }
+    .cse-hub table { width: 100%; }
+    .cse-hub .apply-link {
+      border-radius: 6px;
+      font-weight: 700;
+    }
+    .cse-hub .page-footer {
+      max-width: 1136px;
+      margin: 0 auto 56px;
+      background: #fff;
+      border: 1px solid var(--border);
     }
     @media (max-width: 768px) {
-      .form-row { grid-template-columns:1fr; gap:0; }
-      .apply-form-body { padding:22px 18px; }
-      .apply-form-header { padding:22px 18px; }
-      .rewards-cards { grid-template-columns:repeat(2,1fr); }
-      .cjb-right { flex-direction:column; width:100%; }
-      .cjb-btn-wa, .cjb-btn-tg { justify-content:center; }
-      .manager-card { flex-direction:column; text-align:center; }
+      .cse-hub { margin-top: 64px; }
+      .cse-hub .nav-bar { top: 64px; padding: 10px 14px; }
+      .cse-hub .nav-inner { display: none; }
+      .cse-hub .mobile-topic-switcher { display: block; }
+      .cse-hub .cse-main { padding-top: 18px; }
+      .cse-hub .page-footer { margin: 0 16px 42px; }
     }
+    @media (max-width: 480px) {
+      .cse-hub { margin-top: 60px; }
+      .cse-hub .nav-bar { top: 60px; }
+      .cse-hub .mobile-navigator-card { grid-template-columns: 1fr; }
+      .cse-hub .mobile-topic-trigger { width: 100%; }
+      .cse-hub .last-updated { width: 100%; text-align: center; }
+    }
+
   </style>
 </head>
 <body>
@@ -385,6 +552,7 @@
       <li><a href="scholarship.html">Scholarships</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="careers.html" class="active">Careers</a></li>
+      <li><a href="https://results.bputnotes.in/" target="_blank" rel="noopener" style="color:#2563eb;font-weight:700;">Results ↗</a></li>
     </ul>
     <a href="https://studio.bputnotes.in" class="nav-studio-lock" aria-label="Studio">
       <svg width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -417,199 +585,1418 @@
   <a href="https://www.linkedin.com/company/bputnotes-in/" target="_blank" class="social-fan-item sfi-li" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
 </div>
 
-<!-- ══════════════ HERO ══════════════ -->
-<section class="careers-hero">
-  <div class="hero-orb-1"></div>
-  <div class="hero-orb-2"></div>
-  <div class="hero-orb-3"></div>
-  <div class="careers-hero-inner">
-    <div class="hero-live-badge">
-      <span class="live-pulse"></span>
-      2 Roles Open · 2026
-    </div>
-    <h1>
-      Build. Organise.<br>
-      Help Students <span class="blue-g">Succeed.</span>
-    </h1>
-    <p class="careers-hero-sub">
-      BPUTNotes is 100% built and run by BPUT students. We're looking for 2nd and 3rd year BPUTians to join our core team — managing academic content (notes, PYQs, scholarships) and maintaining the platform (development, feature testing &amp; QA). Real work. Real impact.
-    </p>
-    <div class="hero-stats">
-      <div class="hero-stat"><div class="hero-stat-num">2,000+</div><div class="hero-stat-lbl">Students Reached</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">100%</div><div class="hero-stat-lbl">Student Run</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">Free</div><div class="hero-stat-lbl">To Join</div></div>
-    </div>
+<!-- CSE OPPORTUNITIES HUB -->
+<section class="cse-hub" aria-label="CSE opportunities hub">
+<div class="cse-hub-header">
+  <div class="header-inner">
+    <div class="logo">BPUTNotes <span>Career Hub</span></div>
+    <div class="last-updated">📅 Updated: June 25, 2026</div>
   </div>
-</section>
+</div>
 
-<!-- ══════════════ OPEN ROLE CARD ══════════════ -->
-<section style="padding: 48px 24px 0; background: #f8faff;">
-  <div style="max-width:1100px; margin:0 auto; text-align:center;">
-    <div class="section-tag">🚀 Open Roles — 2nd &amp; 3rd Year Students</div>
-    <h2 class="section-title" style="margin-top:8px;">Join the BPUTNotes Student Team</h2>
-    <p style="color:#94a3b8;font-size:0.88rem;margin-top:6px;margin-bottom:36px;">Content Management &amp; Site Maintenance · All branches welcome · Flexible hours · 2nd &amp; 3rd year only</p>
-
-    <div style="display:inline-flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:8px;">
-      <span style="display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid #bfdbfe;color:#2563eb;font-family:'Sora',sans-serif;font-size:0.75rem;font-weight:700;padding:8px 16px;border-radius:100px;">📚 Manage Notes, PYQs &amp; Scholarships</span>
-      <span style="display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid #bfdbfe;color:#2563eb;font-family:'Sora',sans-serif;font-size:0.75rem;font-weight:700;padding:8px 16px;border-radius:100px;">🛠️ Site Dev &amp; Feature Testing</span>
-      <span style="display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid #bfdbfe;color:#2563eb;font-family:'Sora',sans-serif;font-size:0.75rem;font-weight:700;padding:8px 16px;border-radius:100px;">💰 Performance Rewards</span>
-      <span style="display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid #bfdbfe;color:#2563eb;font-family:'Sora',sans-serif;font-size:0.75rem;font-weight:700;padding:8px 16px;border-radius:100px;">📜 Get Certified</span>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════ ROLE CONTENT ══════════════ -->
-<div class="role-content-section" style="padding:0 24px 80px;background:#f8faff;">
-
-  <div class="role-banner">
-    <div>
-      <div class="role-banner-tag tag-blue">✍️ Role Details</div>
-      <h2>Content Manager &amp; Site Maintainer<br>— BPUTNotes.in</h2>
-      <p class="role-banner-desc">Two roles, one mission — keeping BPUTNotes the best resource for every BPUT student. <strong>Content Managers</strong> curate, organise and upload notes, PYQs, scholarship info and other academic resources. <strong>Site Maintainers</strong> work on platform development, test new features and make sure everything runs smoothly. Both roles are open exclusively to 2nd and 3rd year students.</p>
-
-      <!-- How the work flows -->
-      <div class="workflow-box">
-        <div class="workflow-box-title">📋 How Your Work Flows — Day to Day</div>
-        <div class="workflow-steps">
-          <div class="workflow-step">
-            <div class="ws-num">1</div>
-            <div class="ws-text">
-              <strong>Collect PYQs & Notes</strong>
-              Browse, gather, and scan previous year question papers and subject notes for assigned BPUT subjects — from classmates, seniors, library, or online sources.
-            </div>
-          </div>
-          <div class="workflow-step">
-            <div class="ws-num">2</div>
-            <div class="ws-text">
-              <strong>Organize & Label Clearly</strong>
-              Name files properly (Subject – Semester – Year) and ensure they are readable and complete before submitting. No half-scanned or blurry files.
-            </div>
-          </div>
-          <div class="workflow-step">
-            <div class="ws-num">3</div>
-            <div class="ws-text">
-              <strong>Submit to Your Content Manager</strong>
-              Send your collected files to your assigned Content Manager via WhatsApp or Google Drive. Your manager reviews and uploads them to the platform.
-            </div>
-          </div>
-          <div class="workflow-step">
-            <div class="ws-num">4</div>
-            <div class="ws-text">
-              <strong>Stuck? Just Contact Your Manager</strong>
-              Can't find a resource? Unsure about formatting? Your Content Manager is always available to guide you. You're never working alone.
-            </div>
-          </div>
-        </div>
+<div class="nav-bar">
+  <div class="mobile-topic-switcher">
+    <div class="mobile-navigator-card">
+      <div>
+        <span class="navigator-kicker">Career Navigator</span>
+        <div class="navigator-title">Explore 7 opportunity tracks</div>
+        <div class="navigator-sub" id="careerTopicHint">Featured now: Off-Campus Drives. Open the map to switch tracks.</div>
       </div>
+      <button class="mobile-topic-trigger" id="careerTopicTrigger" type="button" aria-haspopup="dialog" aria-expanded="false">Explore tracks</button>
+    </div>
+    <div class="topic-sheet-backdrop" id="careerTopicBackdrop" hidden></div>
+    <div class="topic-sheet" id="careerTopicSheet" role="dialog" aria-modal="true" aria-labelledby="careerTopicTitle" hidden>
+      <div class="topic-sheet-head">
+        <div class="topic-sheet-title" id="careerTopicTitle">Choose a track</div>
+        <button class="topic-sheet-close" id="careerTopicClose" type="button" aria-label="Close category menu">&times;</button>
+      </div>
+      <div class="topic-grid">
+        <button class="topic-option active" type="button" data-topic="drives">01 Off-Campus Drives</button>
+        <button class="topic-option" type="button" data-topic="bbsr">02 Bhubaneswar Startups</button>
+        <button class="topic-option" type="button" data-topic="govt">03 Govt / PSU Exams</button>
+        <button class="topic-option" type="button" data-topic="contests">04 Contests & Hackathons</button>
+        <button class="topic-option" type="button" data-topic="internships">05 Internships</button>
+        <button class="topic-option" type="button" data-topic="portals">06 Portals & Resources</button>
+        <button class="topic-option" type="button" data-topic="prep">07 Prep Roadmap</button>
+      </div>
+    </div>
+  </div>
+  <div class="nav-inner">
+    <a class="nav-tab active" onclick="showTab('drives', this); return false;" href="#tab-drives">🏢 Off-Campus Drives</a>
+    <a class="nav-tab" onclick="showTab('bbsr', this); return false;" href="#tab-bbsr">🏙️ Bhubaneswar Startups</a>
+    <a class="nav-tab" onclick="showTab('govt', this); return false;" href="#tab-govt">🏛️ Govt / PSU Exams</a>
+    <a class="nav-tab" onclick="showTab('contests', this); return false;" href="#tab-contests">🏆 Contests & Hackathons</a>
+    <a class="nav-tab" onclick="showTab('internships', this); return false;" href="#tab-internships">💼 Internships</a>
+    <a class="nav-tab" onclick="showTab('portals', this); return false;" href="#tab-portals">🔗 Portals & Resources</a>
+    <a class="nav-tab" onclick="showTab('prep', this); return false;" href="#tab-prep">📚 Prep Roadmap</a>
+  </div>
+</div>
 
-      <ul class="resp-list">
-        <li><div class="resp-dot dot-blue">→</div>Collect PYQs for assigned subjects across BPUT semesters</li>
-        <li><div class="resp-dot dot-blue">→</div>Gather handwritten or typed subject notes from seniors and classmates</li>
-        <li><div class="resp-dot dot-blue">→</div>Properly label and organize files before submission (no blurry scans)</li>
-        <li><div class="resp-dot dot-blue">→</div>Submit collected content to your Content Manager on time</li>
-        <li><div class="resp-dot dot-blue">→</div>Coordinate with your manager if you face any difficulty finding resources</li>
-        <li><div class="resp-dot dot-blue">→</div>Aim for 2–3 quality submissions per week (flexible, no strict deadline)</li>
+<div class="cse-main">
+
+<!-- ================== OFF-CAMPUS DRIVES ================== -->
+<div class="section active" id="tab-drives">
+  <div class="section-header">
+    <div class="section-title">Off-Campus Placement Drives — 2025 & 2026 Batch</div>
+    <div class="section-desc">Companies currently hiring or expected to hire freshers through off-campus routes. Always verify on official career pages before applying.</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">35K+</div><div class="stat-label">Active Openings</div></div>
+    <div class="stat-card"><div class="stat-num">₹3.5–21L</div><div class="stat-label">Fresher CTC Range</div></div>
+    <div class="stat-card"><div class="stat-num">60%</div><div class="stat-label">Min % Required</div></div>
+    <div class="stat-card"><div class="stat-num">2024–26</div><div class="stat-label">Eligible Batches</div></div>
+  </div>
+
+  <div class="alert alert-blue">
+    <span class="alert-icon">ℹ️</span>
+    <span><strong>How off-campus works:</strong> Apply directly through company career portals or job aggregators listed below. Unlike campus placements, you are not limited by your college brand — your DSA skills, projects, and communication matter most.</span>
+  </div>
+
+  <!-- PRODUCT COMPANIES -->
+  <div class="table-wrap">
+    <h3><span class="icon" style="background:#eff6ff;">🚀</span> Product-Based Companies (High CTC)</h3>
+    <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Role</th>
+          <th>CTC</th>
+          <th>Eligibility</th>
+          <th>Status</th>
+          <th>Apply</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="company-name">Google</div></td>
+          <td>Silicon Engineer / SWE (UG 2026 Program)</td>
+          <td>₹35–50 LPA</td>
+          <td><div class="eli-tags"><span class="eli-tag">B.Tech CSE/IT/ECE</span><span class="eli-tag">60%+</span></div></td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://careers.google.com" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Amazon</div></td>
+          <td>SDE-I (University Talent Acquisition)</td>
+          <td>₹25–44 LPA</td>
+          <td><div class="eli-tags"><span class="eli-tag">B.Tech/M.Tech</span><span class="eli-tag">No Backlogs</span></div></td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://amazon.jobs/en/university" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Microsoft</div></td>
+          <td>Software Engineer FTE / SWE Intern</td>
+          <td>₹20–45 LPA</td>
+          <td><div class="eli-tags"><span class="eli-tag">CS/IT</span><span class="eli-tag">Strong DSA</span></div></td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://careers.microsoft.com" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Cisco</div></td>
+          <td>Software Engineer Trainee (Graduate Apprentice)</td>
+          <td>₹12–18 LPA</td>
+          <td><div class="eli-tags"><span class="eli-tag">CSE/IT/ECE</span><span class="eli-tag">2025/26 Batch</span></div></td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://jobs.cisco.com" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Oracle</div></td>
+          <td>Software Developer 1 (IC1) – Bangalore/Hyderabad</td>
+          <td>₹14–20 LPA</td>
+          <td><div class="eli-tags"><span class="eli-tag">CSE/IT</span><span class="eli-tag">B.Tech/MCA</span></div></td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://careers.oracle.com" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Qualcomm</div></td>
+          <td>Engineer – Software / Systems</td>
+          <td>₹15–28 LPA</td>
+          <td><div class="eli-tags"><span class="eli-tag">CSE/ECE</span><span class="eli-tag">2024/25 Batch</span></div></td>
+          <td><span class="badge badge-orange">Limited</span></td>
+          <td><a class="apply-link" href="https://careers.qualcomm.com" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Adobe</div></td>
+          <td>Member of Technical Staff (MTS)</td>
+          <td>₹20–30 LPA</td>
+          <td><div class="eli-tags"><span class="eli-tag">CS/IT Only</span><span class="eli-tag">Strong CP</span></div></td>
+          <td><span class="badge badge-orange">Via Hackathon</span></td>
+          <td><a class="apply-link" href="https://careers.adobe.com" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">American Express</div></td>
+          <td>Analyst – Data Science</td>
+          <td>₹18–25 LPA</td>
+          <td><div class="eli-tags"><span class="eli-tag">CSE/IT/Stats</span><span class="eli-tag">Gurugram</span></div></td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://jobs.americanexpress.com" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">SLB (Schlumberger)</div></td>
+          <td>Digital Technology Early Careers</td>
+          <td>₹10–18 LPA</td>
+          <td><div class="eli-tags"><span class="eli-tag">CSE/IT</span><span class="eli-tag">Pan India</span></div></td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://careers.slb.com" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">PayU</div></td>
+          <td>Internship 2026 (Fintech)</td>
+          <td>₹30–60K/month</td>
+          <td><div class="eli-tags"><span class="eli-tag">CSE/IT</span><span class="eli-tag">Pre-Final/Final</span></div></td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://careers.payu.in" target="_blank">Apply →</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- SERVICE COMPANIES -->
+  <div class="table-wrap">
+    <h3><span class="icon" style="background:#f0fdf4;">🏭</span> Service-Based Companies (Mass Hiring) — 22 Companies <span class="scroll-hint" style="font-size:11px; color:var(--text-muted); font-weight:400; margin-left:6px;">(swipe table to see more →)</span></h3>
+    <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Role / Program</th>
+          <th>CTC</th>
+          <th>How to Apply</th>
+          <th>Status</th>
+          <th>Portal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="company-name">TCS</div><div class="company-role">Tata Consultancy Services</div></td>
+          <td>Ninja / Digital / Prime (via NQT)</td>
+          <td>₹3.36–9 LPA</td>
+          <td>Register on NextStep Portal, appear for NQT</td>
+          <td><span class="badge badge-green">Smart Hiring Open</span></td>
+          <td><a class="apply-link" href="https://nextstep.tcs.com" target="_blank">nextstep.tcs.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Infosys</div></td>
+          <td>Systems Engineer / DSE / Specialist Programmer</td>
+          <td>₹3.6–21 LPA</td>
+          <td>Register on InfyTQ, complete Power Programmer / SP tracks</td>
+          <td><span class="badge badge-orange">Monitor InfyTQ</span></td>
+          <td><a class="apply-link" href="https://infosys.com/careers" target="_blank">infosys.com/careers</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Wipro</div></td>
+          <td>Project Engineer / Elite NTH</td>
+          <td>₹3.5–6.5 LPA</td>
+          <td>Register Wipro Careers → appear for NLTH/Elite assessments</td>
+          <td><span class="badge badge-green">Off Campus Open</span></td>
+          <td><a class="apply-link" href="https://careers.wipro.com" target="_blank">careers.wipro.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Cognizant</div></td>
+          <td>Programmer Analyst / GenC / GenC Next</td>
+          <td>₹4–7 LPA</td>
+          <td>Apply on Cognizant Careers; Digital Nurture 4.0 also open</td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://careers.cognizant.com" target="_blank">careers.cognizant.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Accenture</div></td>
+          <td>Associate Software Engineer (ASE)</td>
+          <td>₹4.5–8 LPA</td>
+          <td>Apply direct; coding + communication test</td>
+          <td><span class="badge badge-green">Actively Hiring</span></td>
+          <td><a class="apply-link" href="https://www.accenture.com/in-en/careers" target="_blank">accenture.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">HCL Technologies</div></td>
+          <td>Graduate Engineer Trainee</td>
+          <td>₹3.8–6 LPA</td>
+          <td>HCL Careers → freshers section</td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://www.hcltech.com/careers" target="_blank">hcltech.com/careers</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Capgemini</div></td>
+          <td>Analyst / Senior Analyst</td>
+          <td>₹3.8–7 LPA</td>
+          <td>Capgemini Careers fresher openings</td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://www.capgemini.com/in-en/careers" target="_blank">capgemini.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Tech Mahindra</div></td>
+          <td>Software Engineer Trainee</td>
+          <td>₹3.5–5.5 LPA</td>
+          <td>TechMahindra careers portal</td>
+          <td><span class="badge badge-orange">Seasonal Hiring</span></td>
+          <td><a class="apply-link" href="https://careers.techmahindra.com" target="_blank">techmahindra.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">IBM</div></td>
+          <td>Associate System Engineer / Intern 2026</td>
+          <td>₹4.5–9 LPA</td>
+          <td>IBM Careers – filter by "Entry Level"</td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://careers.ibm.com" target="_blank">careers.ibm.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">CGI</div></td>
+          <td>IT Analyst – Off Campus 2026</td>
+          <td>₹4–6 LPA</td>
+          <td>CGI Careers → India → Fresher</td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://www.cgi.com/en/careers" target="_blank">cgi.com/careers</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Bounteous x Accolite</div></td>
+          <td>Associate Engineer / QA / Marketing Tech</td>
+          <td>₹5–8 LPA</td>
+          <td>Via TalentTitan portal (campus hiring 2025–26 batches)</td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://talenttitan.com" target="_blank">talenttitan.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Adani Group</div></td>
+          <td>Graduate Engineer Trainee – IT/CS</td>
+          <td>₹5–8 LPA</td>
+          <td>Adani Careers → Exclusive Drive 2026</td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://www.adani.com/careers" target="_blank">adani.com/careers</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">LTIMindtree</div></td>
+          <td>Graduate Engineer Trainee (GET) – 2026 Batch</td>
+          <td>₹4.05 LPA</td>
+          <td>Register via Superset/campus drive or LTIMindtree careers portal</td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://careers.ltimindtree.com" target="_blank">careers.ltimindtree.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Hexaware Technologies</div></td>
+          <td>Graduate Engineer Trainee (GET)</td>
+          <td>₹3.5–6 LPA</td>
+          <td>Apply via careers portal; 4-round process (Aptitude → Tech MCQ → Coding → HR)</td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://careers.hexaware.com" target="_blank">careers.hexaware.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Persistent Systems</div></td>
+          <td>Early Careers Campus Program / GET</td>
+          <td>₹4–7.5 LPA</td>
+          <td>Apply via Persistent careers portal; hyperscaler cert track included</td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://careers.persistent.com" target="_blank">careers.persistent.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Coforge</div></td>
+          <td>Graduate Engineer Trainee (GET)</td>
+          <td>₹3.5–6.5 LPA</td>
+          <td>Apply on Coforge careers freshers page; training in Java/.NET/AI-ML/ServiceNow</td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://careers.coforge.com" target="_blank">careers.coforge.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Birlasoft</div></td>
+          <td>Graduate Engineer Trainee – Off Campus 2026</td>
+          <td>₹3.5–6 LPA</td>
+          <td>Apply via Birlasoft careers portal; written test + GD + tech + HR</td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://www.birlasoft.com/careers" target="_blank">birlasoft.com/careers</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Zensar Technologies</div></td>
+          <td>Junior Software Engineer / GET</td>
+          <td>₹3.5–6 LPA</td>
+          <td>Apply via Zensar careers page; coding + aptitude rounds</td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://www.zensar.com/careers" target="_blank">zensar.com/careers</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Mphasis</div></td>
+          <td>MASE Fresher Program / GET</td>
+          <td>₹3.5–6 LPA</td>
+          <td>Apply via Mphasis careers portal; hackathon/coding-test based selection</td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://careers.mphasis.com" target="_blank">careers.mphasis.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Genpact</div></td>
+          <td>Management Trainee / Graduate Campus Program</td>
+          <td>₹4–7 LPA</td>
+          <td>Apply via Genpact campus careers page</td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://www.genpact.com/careers" target="_blank">genpact.com/careers</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">L&amp;T Technology Services (LTTS)</div></td>
+          <td>Associate Engineer Trainee</td>
+          <td>₹4–7 LPA</td>
+          <td>Apply via LTTS careers portal; ER&amp;D/engineering focus</td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://www.ltts.com/careers" target="_blank">ltts.com/careers</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">NTT DATA</div></td>
+          <td>Graduate Engineer Trainee / Associate Software Engineer</td>
+          <td>₹4–7 LPA</td>
+          <td>Apply via NTT DATA careers portal</td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://www.nttdata.com/global/en/careers" target="_blank">nttdata.com/careers</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- COMMON ELIGIBILITY -->
+  <div class="info-grid">
+    <div class="info-card">
+      <h4>✅ Common Eligibility Criteria</h4>
+      <ul>
+        <li><span class="li-label">Degree</span> B.E./B.Tech/MCA/M.Tech/M.Sc (CS)</li>
+        <li><span class="li-label">Min %</span> 60% or 6.0 CGPA throughout</li>
+        <li><span class="li-label">Backlogs</span> No active backlogs (some allow history)</li>
+        <li><span class="li-label">Batch</span> 2024, 2025, 2026 (check per company)</li>
+        <li><span class="li-label">Gap</span> Max 1–2 year education gap allowed</li>
+        <li><span class="li-label">Skills</span> DSA, OOPs, DBMS, OS, CN basics</li>
       </ul>
     </div>
+    <div class="info-card">
+      <h4>📋 Typical Selection Process</h4>
+      <ul>
+        <li><span class="li-label">Round 1</span> Online Test (Aptitude + Coding)</li>
+        <li><span class="li-label">Round 2</span> Technical Interview (DSA, CS concepts)</li>
+        <li><span class="li-label">Round 3</span> Technical Interview 2 (Projects, System Design)</li>
+        <li><span class="li-label">Round 4</span> HR Interview (CTC discussion, fitment)</li>
+        <li><span class="li-label">Platform</span> Cocubes, HackerEarth, HackerRank, Amcat</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h4>💰 Salary Benchmarks (Fresher 2026)</h4>
+      <ul>
+        <li><span class="li-label">Service (TCS/Infy)</span> ₹3.5–6 LPA</li>
+        <li><span class="li-label">Mid-tier product</span> ₹8–16 LPA</li>
+        <li><span class="li-label">FAANG/MAANG</span> ₹20–50 LPA</li>
+        <li><span class="li-label">Startup (funded)</span> ₹6–20 LPA</li>
+        <li><span class="li-label">Govt/PSU</span> ₹6–15 LPA (+ benefits)</li>
+      </ul>
+    </div>
+  </div>
+</div>
 
-    <!-- Right eligibility card -->
-    <div>
-      <div class="role-info-card">
-        <div class="role-info-card-header" style="background:linear-gradient(135deg,rgba(37,99,235,0.07),rgba(96,165,250,0.04));border-bottom:1px solid #f3f4f6;">
-          <div class="ric-icon" style="background:#eff6ff;">✍️</div>
-          <div><div class="ric-title">Eligibility</div><div class="ric-sub">Who can apply?</div></div>
-        </div>
-        <div class="ric-body">
-          <div class="ric-row"><div class="ric-row-icon" style="background:#eff6ff;">🎓</div><div class="ric-row-label">Any BPUT branch & semester</div><span style="color:#22c55e;font-weight:700;font-size:0.75rem;">✓</span></div>
-          <div class="ric-row"><div class="ric-row-icon" style="background:#eff6ff;">📱</div><div class="ric-row-label">Smartphone with WhatsApp</div><span style="color:#22c55e;font-weight:700;font-size:0.75rem;">✓</span></div>
-          <div class="ric-row"><div class="ric-row-icon" style="background:#eff6ff;">📂</div><div class="ric-row-label">Able to scan / photograph documents clearly</div><span style="color:#22c55e;font-weight:700;font-size:0.75rem;">✓</span></div>
-          <div class="ric-row"><div class="ric-row-icon" style="background:#eff6ff;">⏰</div><div class="ric-row-label">3–5 hours per week availability</div><span style="color:#22c55e;font-weight:700;font-size:0.75rem;">✓</span></div>
-          <div class="ric-row"><div class="ric-row-icon" style="background:#eff6ff;">💡</div><div class="ric-row-label">No prior experience needed</div><span style="color:#22c55e;font-weight:700;font-size:0.75rem;">✓</span></div>
+
+<!-- ================== GOVT / PSU ================== -->
+<div class="section" id="tab-govt">
+  <div class="section-header">
+    <div class="section-title">Government Jobs & PSU Recruitment for CSE</div>
+    <div class="section-desc">Stable, well-paying government and public sector jobs specifically open for Computer Science engineers.</div>
+  </div>
+
+  <div class="alert alert-green">
+    <span class="alert-icon">💡</span>
+    <span><strong>GATE is your master key:</strong> A valid GATE (CS) score opens doors to NIC, DRDO, BARC, IOCL, ONGC, GAIL, BEL, and 30+ other PSUs. Your GATE score remains valid for 3 years.</span>
+  </div>
+
+  <!-- GATE BASED -->
+  <div class="table-wrap">
+    <h3><span class="icon" style="background:#f0fdf4;">🎓</span> GATE-Based PSU Recruitment 2026 (CSE)</h3>
+    <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Organization</th>
+          <th>Post</th>
+          <th>Vacancies (CSE)</th>
+          <th>CTC / Pay Scale</th>
+          <th>Status 2026</th>
+          <th>Official Site</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="company-name">NIC</div><div class="company-role">National Informatics Centre</div></td>
+          <td>Scientist B (Group A)</td>
+          <td>168 (CS) + 50 (Data Science)</td>
+          <td>₹56,100–1,77,500 (Level 10)</td>
+          <td><span class="badge badge-red">Applied: Apr 24, 2026</span></td>
+          <td><a class="apply-link" href="https://www.nic.gov.in" target="_blank">nic.gov.in</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">DRDO</div><div class="company-role">Defence R&D Organisation</div></td>
+          <td>Scientist 'B'</td>
+          <td>~160 (approx.)</td>
+          <td>~₹60,000/month (₹56,100 basic + DA)</td>
+          <td><span class="badge badge-orange">Registration: June 2026</span></td>
+          <td><a class="apply-link" href="https://rac.gov.in" target="_blank">rac.gov.in</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">IOCL</div><div class="company-role">Indian Oil Corporation</div></td>
+          <td>Engineer/Officer (IT/Systems)</td>
+          <td>Limited in CS</td>
+          <td>₹14–16 LPA</td>
+          <td><span class="badge badge-orange">Post GATE Results</span></td>
+          <td><a class="apply-link" href="https://iocl.com/careers" target="_blank">iocl.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">ONGC</div></td>
+          <td>Graduate Trainee (IT/Cyber Security)</td>
+          <td>Varies</td>
+          <td>₹15+ LPA</td>
+          <td><span class="badge badge-orange">Post GATE Results</span></td>
+          <td><a class="apply-link" href="https://ongcindia.com/careers" target="_blank">ongcindia.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">GAIL</div></td>
+          <td>Executive Trainee (IT)</td>
+          <td>Varies</td>
+          <td>₹12–14 LPA</td>
+          <td><span class="badge badge-orange">Watch Official Site</span></td>
+          <td><a class="apply-link" href="https://gailonline.com/careers" target="_blank">gailonline.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">BEL</div><div class="company-role">Bharat Electronics Limited</div></td>
+          <td>Probationary Engineer (IT)</td>
+          <td>Varies</td>
+          <td>₹7–9 LPA + perks</td>
+          <td><span class="badge badge-orange">Periodic Notification</span></td>
+          <td><a class="apply-link" href="https://bel-india.in/careers" target="_blank">bel-india.in</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">ISRO</div><div class="company-role">Via ICRB exam</div></td>
+          <td>Scientist/Engineer 'SC'</td>
+          <td>Varies by centre</td>
+          <td>₹56,100+ (Level 10)</td>
+          <td><span class="badge badge-orange">Separate ICRB Exam</span></td>
+          <td><a class="apply-link" href="https://isro.gov.in/careers" target="_blank">isro.gov.in</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">BARC</div><div class="company-role">Bhabha Atomic Research Centre</div></td>
+          <td>Scientific Officer (via OCES 2026)</td>
+          <td>Varies in CS</td>
+          <td>₹56,100+ (₹70K+ in hand)</td>
+          <td><span class="badge badge-red">Applied: Jan 30, 2026</span></td>
+          <td><a class="apply-link" href="https://barc.gov.in" target="_blank">barc.gov.in</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">HAL</div><div class="company-role">Hindustan Aeronautics</div></td>
+          <td>Management Trainee (IT)</td>
+          <td>Limited</td>
+          <td>₹8–10 LPA</td>
+          <td><span class="badge badge-gray">Watch Site</span></td>
+          <td><a class="apply-link" href="https://hal-india.co.in/careers" target="_blank">hal-india.co.in</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Coal India (CIL)</div></td>
+          <td>Management Trainee (IT/CS)</td>
+          <td>Varies</td>
+          <td>₹9–11 LPA</td>
+          <td><span class="badge badge-gray">Watch Site</span></td>
+          <td><a class="apply-link" href="https://coalindia.in/careers" target="_blank">coalindia.in</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- NON-GATE GOVT EXAMS -->
+  <div class="table-wrap">
+    <h3><span class="icon" style="background:#f5f3ff;">📝</span> Non-GATE Government Exams (CSE Relevant)</h3>
+    <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Exam</th>
+          <th>Conducting Body</th>
+          <th>Posts for CSE</th>
+          <th>Pay</th>
+          <th>Status 2026</th>
+          <th>Site</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="company-name">UPSC ESE</div><div class="company-role">Engineering Services Exam</div></td>
+          <td>UPSC</td>
+          <td>Electronics & Telecom / Computer (limited)</td>
+          <td>₹56,100+ (Class 1 Gazetted)</td>
+          <td><span class="badge badge-orange">Mains 2026 Admit Card Out</span></td>
+          <td><a class="apply-link" href="https://upsc.gov.in" target="_blank">upsc.gov.in</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">SSC JE</div><div class="company-role">Junior Engineer</div></td>
+          <td>Staff Selection Commission</td>
+          <td>Computer Science not primary; IT roles occasionally</td>
+          <td>Level 6 (₹35,400 basic)</td>
+          <td><span class="badge badge-orange">Notification: June 2026</span></td>
+          <td><a class="apply-link" href="https://ssc.gov.in" target="_blank">ssc.gov.in</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">ISRO ICRB</div></td>
+          <td>ISRO Centralised Recruitment Board</td>
+          <td>Scientist/Engineer SC (CS stream)</td>
+          <td>₹56,100+ (Level 10)</td>
+          <td><span class="badge badge-orange">Separate Exam – Watch Site</span></td>
+          <td><a class="apply-link" href="https://isro.gov.in/careers" target="_blank">isro.gov.in</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">DRDO CEPTAM</div></td>
+          <td>DRDO</td>
+          <td>STA-B (Technical Assistant)</td>
+          <td>Level 6 (₹35,400 basic)</td>
+          <td><span class="badge badge-gray">Periodic – Check rac.gov.in</span></td>
+          <td><a class="apply-link" href="https://rac.gov.in" target="_blank">rac.gov.in</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">RRB JE</div><div class="company-role">Junior Engineer – Railways</div></td>
+          <td>Railway Recruitment Board</td>
+          <td>IT Stream (occasionally)</td>
+          <td>₹35,400 basic + Railway perks</td>
+          <td><span class="badge badge-gray">Watch rrbcdg.gov.in</span></td>
+          <td><a class="apply-link" href="https://indianrailways.gov.in/careers" target="_blank">indianrailways.gov.in</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- GATE INFO -->
+  <div class="info-grid">
+    <div class="info-card">
+      <h4>📅 GATE 2027 Key Dates (Expected)</h4>
+      <ul>
+        <li><span class="li-label">Notification</span> July 2026</li>
+        <li><span class="li-label">Registration Opens</span> August 2026</li>
+        <li><span class="li-label">Registration Closes</span> September 2026</li>
+        <li><span class="li-label">Exam Date</span> February 2027</li>
+        <li><span class="li-label">Results</span> March 2027</li>
+        <li><span class="li-label">Score Valid</span> 3 years from result date</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h4>🎯 GATE CS Exam Pattern</h4>
+      <ul>
+        <li><span class="li-label">Paper Code</span> CS (Computer Science & IT)</li>
+        <li><span class="li-label">Total Marks</span> 100 marks, 65 questions</li>
+        <li><span class="li-label">Duration</span> 3 hours</li>
+        <li><span class="li-label">Sections</span> GA (15%) + CS Core (85%)</li>
+        <li><span class="li-label">Question Types</span> MCQ + MSQ + NAT</li>
+        <li><span class="li-label">Negative Marking</span> 1/3 for MCQ only</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h4>📖 GATE CS Key Topics</h4>
+      <ul>
+        <li><span class="li-label">High Weight</span> Algorithms, DBMS, OS</li>
+        <li><span class="li-label">High Weight</span> Data Structures, TOC</li>
+        <li><span class="li-label">Medium</span> CN, COA, Compiler Design</li>
+        <li><span class="li-label">Medium</span> Digital Logic, Programming</li>
+        <li><span class="li-label">Low</span> Discrete Math, Linear Algebra</li>
+        <li><span class="li-label">GA</span> Verbal + Numerical Aptitude</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- ================== CONTESTS & HACKATHONS ================== -->
+<div class="section" id="tab-contests">
+  <div class="section-header">
+    <div class="section-title">Coding Competitions, Contests & Hackathons</div>
+    <div class="section-desc">Win prizes, build profile, and get direct job/internship interviews. Many companies actively recruit from these contests.</div>
+  </div>
+
+  <div class="alert alert-orange">
+    <span class="alert-icon">🏆</span>
+    <span><strong>Pro Tip:</strong> A Codeforces rating of 1600+ or a LeetCode rating of 1800+ significantly boosts your off-campus profile. Adobe Codiva and Google Big Code can directly lead to job offers.</span>
+  </div>
+
+  <!-- COMPANY CONTESTS -->
+  <div class="table-wrap">
+    <h3><span class="icon" style="background:#fffbeb;">🏢</span> Company-Hosted Coding Competitions</h3>
+    <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Competition</th>
+          <th>Company</th>
+          <th>Prize / Benefit</th>
+          <th>Eligibility</th>
+          <th>When</th>
+          <th>Register</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="company-name">TCS CodeVita</div></td>
+          <td>TCS</td>
+          <td>$20,000 total, "World's Best Coder" title + TCS job offer</td>
+          <td>All college students globally (individual)</td>
+          <td>Annual – Sept/Oct registration</td>
+          <td><a class="apply-link" href="https://codevita.tcsapps.com" target="_blank">codevita.tcsapps.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Google Big Code Challenge</div></td>
+          <td>Google</td>
+          <td>Cash prizes + Pixel devices + Google Bengaluru finale + potential hire</td>
+          <td>1st/2nd/Pre-final year CSE/circuit (2027–29 batch)</td>
+          <td>March–April 2026 (watch for 2027 edition)</td>
+          <td><a class="apply-link" href="https://hackerearth.com/lp/challenges/the-big-code" target="_blank">HackerEarth</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Adobe Codiva</div></td>
+          <td>Adobe</td>
+          <td>Internship / FTE interview at Adobe (₹20–30 LPA roles)</td>
+          <td>Women – final/pre-final year CSE</td>
+          <td>Annual – watch adobe.com/careers</td>
+          <td><a class="apply-link" href="https://careers.adobe.com" target="_blank">careers.adobe.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">HackWithInfy</div></td>
+          <td>Infosys</td>
+          <td>Cash prizes + Infosys SP role (₹10–21 LPA)</td>
+          <td>Final/pre-final year; 60%+ CGPA</td>
+          <td>Annual – Feb/Mar registration</td>
+          <td><a class="apply-link" href="https://infosys.com/hackwithinfy" target="_blank">infosys.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">TechGig Code Gladiators</div></td>
+          <td>Cognizant + TechGig</td>
+          <td>₹16 lakh prize pool; winners interviewed by Cognizant</td>
+          <td>All engineering students + professionals</td>
+          <td>Annual – April onwards (4-month contest)</td>
+          <td><a class="apply-link" href="https://www.techgig.com/codegladiators" target="_blank">techgig.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Amazon ML Challenge</div></td>
+          <td>Amazon</td>
+          <td>Cash + AWS credits + Amazon internship consideration</td>
+          <td>All students / freshers</td>
+          <td>Annual – watch Amazon ML website</td>
+          <td><a class="apply-link" href="https://www.hackerearth.com/challenges/" target="_blank">HackerEarth</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Atlassian Codegeist</div></td>
+          <td>Atlassian</td>
+          <td>$40,000 prize pool; visibility on Atlassian Marketplace</td>
+          <td>All developers worldwide</td>
+          <td>Annual – check devpost.com</td>
+          <td><a class="apply-link" href="https://codegeist.devpost.com" target="_blank">devpost.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Meta Hacker Cup</div></td>
+          <td>Meta (Facebook)</td>
+          <td>$20,000 for winner, Meta interview fast-track</td>
+          <td>All coders worldwide (individual)</td>
+          <td>Annual – Aug/Sep registration</td>
+          <td><a class="apply-link" href="https://www.facebook.com/codingcompetitions/hacker-cup/" target="_blank">facebook.com</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- OPEN PLATFORMS -->
+  <div class="table-wrap">
+    <h3><span class="icon" style="background:#f0fdfa;">💻</span> Ongoing Competitive Programming Platforms</h3>
+    <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Platform</th>
+          <th>Type</th>
+          <th>Why It Matters for Placements</th>
+          <th>Target Rating</th>
+          <th>Link</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="company-name">LeetCode</div></td>
+          <td>DSA Practice + Weekly/Biweekly Contests</td>
+          <td>FAANG-level preparation; contests give LeetCode score on resume</td>
+          <td>1800+ (Knight) = strong profile</td>
+          <td><a class="apply-link" href="https://leetcode.com/contest/" target="_blank">leetcode.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Codeforces</div></td>
+          <td>Competitive Programming Rounds</td>
+          <td>Globally recognized; product company interviewers notice CF rating</td>
+          <td>1600+ Specialist, 1900+ Expert</td>
+          <td><a class="apply-link" href="https://codeforces.com" target="_blank">codeforces.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">CodeChef</div></td>
+          <td>Long/Short contests + Cook-off</td>
+          <td>ICPC preparation + TCS/Infosys test prep overlap</td>
+          <td>4★ (1800+) is a good benchmark</td>
+          <td><a class="apply-link" href="https://codechef.com" target="_blank">codechef.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">AtCoder</div></td>
+          <td>Algorithm Contests (Japanese platform)</td>
+          <td>Advanced problem-solving; global exposure</td>
+          <td>Green (800+) to Blue (1600+)</td>
+          <td><a class="apply-link" href="https://atcoder.jp" target="_blank">atcoder.jp</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">HackerRank</div></td>
+          <td>Skill assessments + Contests</td>
+          <td>Used by Wipro/Capgemini/service companies for testing</td>
+          <td>5★ in relevant domain</td>
+          <td><a class="apply-link" href="https://hackerrank.com" target="_blank">hackerrank.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Unstop</div></td>
+          <td>Quizzes + Case Studies + Coding</td>
+          <td>Many company-hosted competitions listed here</td>
+          <td>— (Participate actively)</td>
+          <td><a class="apply-link" href="https://unstop.com" target="_blank">unstop.com</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">ACM-ICPC</div></td>
+          <td>Team Collegiate Programming Contest</td>
+          <td>Prestigious; Amazon/Google scouts from regionals</td>
+          <td>Qualify for Asia Regionals</td>
+          <td><a class="apply-link" href="https://icpc.global" target="_blank">icpc.global</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- GOVT HACKATHONS -->
+  <div class="table-wrap">
+    <h3><span class="icon" style="background:#f5f3ff;">🇮🇳</span> Government & National Hackathons</h3>
+    <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Hackathon</th>
+          <th>Organizer</th>
+          <th>Prize / Benefit</th>
+          <th>When</th>
+          <th>Site</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="company-name">Smart India Hackathon (SIH)</div></td>
+          <td>Ministry of Education / AICTE</td>
+          <td>₹1 lakh per team + government mentorship + national recognition</td>
+          <td>Annual – Aug/Sep (Registration through college)</td>
+          <td><a class="apply-link" href="https://sih.gov.in" target="_blank">sih.gov.in</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Kavach Cybersecurity Hackathon</div></td>
+          <td>MHA / Bureau of Police Research</td>
+          <td>Cash prizes up to ₹10 lakh + recruitment interest</td>
+          <td>Annual – varies</td>
+          <td><a class="apply-link" href="https://kavach.mic.gov.in" target="_blank">kavach.mic.gov.in</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Toycathon</div></td>
+          <td>Innovation Cell, AICTE</td>
+          <td>Prizes + IP support + incubation</td>
+          <td>Annual</td>
+          <td><a class="apply-link" href="https://mic.gov.in" target="_blank">mic.gov.in</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Google Hash Code (India)</div></td>
+          <td>Google</td>
+          <td>Google recognition + cloud credits + recruiter visibility</td>
+          <td>Annual – Feb/Mar (watch Google GDG)</td>
+          <td><a class="apply-link" href="https://codingcompetitions.withgoogle.com" target="_blank">google.com</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- ================== INTERNSHIPS ================== -->
+<div class="section" id="tab-internships">
+  <div class="section-header">
+    <div class="section-title">Internship Opportunities for CSE Students</div>
+    <div class="section-desc">Internships build your resume and often convert to Pre-Placement Offers (PPOs). Apply before your 3rd year if possible.</div>
+  </div>
+
+  <div class="alert alert-blue">
+    <span class="alert-icon">🎯</span>
+    <span><strong>PPO Strategy:</strong> Internship → PPO is the most reliable path to a high-paying job. Companies like Amazon, Microsoft, Google, and Adobe heavily hire from their intern pool. Apply for internships in your 2nd or 3rd year.</span>
+  </div>
+
+  <div class="table-wrap">
+    <h3><span class="icon" style="background:#eff6ff;">💼</span> Off-Campus Internships (2026)</h3>
+    <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Role</th>
+          <th>Stipend</th>
+          <th>Duration</th>
+          <th>Eligibility</th>
+          <th>Apply</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="company-name">Google</div></td>
+          <td>Software Engineering Intern – Bengaluru</td>
+          <td>₹80,000–1,20,000/month</td>
+          <td>10–12 weeks</td>
+          <td>2nd/3rd year CSE; strong DSA</td>
+          <td><a class="apply-link" href="https://careers.google.com" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Microsoft</div></td>
+          <td>SWE Intern (MSIDC)</td>
+          <td>₹70,000–1,00,000/month</td>
+          <td>2 months</td>
+          <td>Pre-final year; OA + 2 interviews</td>
+          <td><a class="apply-link" href="https://careers.microsoft.com" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Amazon</div></td>
+          <td>SDE Intern / Applied Scientist Intern</td>
+          <td>₹75,000–1,10,000/month</td>
+          <td>10–12 weeks</td>
+          <td>2nd/3rd year; OA + 1 loop</td>
+          <td><a class="apply-link" href="https://amazon.jobs/en/university" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">IBM</div></td>
+          <td>Internship 2026 – Software/AI</td>
+          <td>₹20,000–50,000/month</td>
+          <td>3–6 months</td>
+          <td>2nd/3rd year; CSE/IT</td>
+          <td><a class="apply-link" href="https://careers.ibm.com" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Rolls-Royce</div></td>
+          <td>Intern – Data Analytics</td>
+          <td>Competitive</td>
+          <td>3–6 months</td>
+          <td>CSE/IT; Data Science skills</td>
+          <td><a class="apply-link" href="https://careers.rolls-royce.com" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Pitney Bowes</div></td>
+          <td>Technology Intern</td>
+          <td>Competitive</td>
+          <td>3 months</td>
+          <td>CSE/IT 2nd/3rd year</td>
+          <td><a class="apply-link" href="https://careers.pitneybowes.com" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Goodlight AI</div></td>
+          <td>Machine Learning Intern – Remote</td>
+          <td>Competitive (startup)</td>
+          <td>Flexible</td>
+          <td>CSE + ML skills; any year</td>
+          <td><a class="apply-link" href="https://internshala.com" target="_blank">Internshala</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">DRDO (HEMRL)</div></td>
+          <td>Paid Internship – Engineering</td>
+          <td>₹8,000–15,000/month</td>
+          <td>1–6 months</td>
+          <td>UG/PG pursuing students</td>
+          <td><a class="apply-link" href="https://drdo.gov.in" target="_blank">drdo.gov.in</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <h4>🔍 Where to Find Internships</h4>
+      <ul>
+        <li><span class="li-label">Internshala</span> Largest India internship portal</li>
+        <li><span class="li-label">LinkedIn</span> Filter by "Internship" + "India"</li>
+        <li><span class="li-label">Unstop</span> Competitions + internship combo</li>
+        <li><span class="li-label">iimjobs.com</span> High-quality startup internships</li>
+        <li><span class="li-label">Company Career Pages</span> Always best source</li>
+        <li><span class="li-label">GitHub Jobs</span> Open-source company hiring</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h4>💡 Maximize Your Intern Chances</h4>
+      <ul>
+        <li><span class="li-label">Profile</span> Strong GitHub with 5+ projects</li>
+        <li><span class="li-label">CP Rating</span> Codeforces 1400+ helps a lot</li>
+        <li><span class="li-label">Resume</span> 1-page, quantified achievements</li>
+        <li><span class="li-label">LinkedIn</span> 500+ connections + active posts</li>
+        <li><span class="li-label">Referral</span> Ask seniors already placed there</li>
+        <li><span class="li-label">Timing</span> Apply Aug–Oct for summer internships</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h4>🏛️ Research / Govt Internships</h4>
+      <ul>
+        <li><span class="li-label">IIT/IISc Summer</span> SRFP via SERB, JNCASR</li>
+        <li><span class="li-label">DRDO</span> Apply through institute coordinator</li>
+        <li><span class="li-label">ISRO</span> Periodic internship notifications</li>
+        <li><span class="li-label">NIC</span> Contact regional NIC offices</li>
+        <li><span class="li-label">CDAC</span> Project internships for CS students</li>
+        <li><span class="li-label">NASSCOM</span> FutureSkills programs</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- ================== BHUBANESWAR STARTUPS ================== -->
+<div class="section" id="tab-bbsr">
+  <div class="section-header">
+    <div class="section-title">Bhubaneswar Startups & Tech Companies Hiring CSE Freshers</div>
+    <div class="section-desc">Odisha's capital has a fast-growing startup and IT ecosystem (Infocity, Info Valley, Startup Odisha). Great option if you want to stay close to home, work directly with product teams, or avoid metro-city costs.</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">#18</div><div class="stat-label">India Startup City Rank</div></div>
+    <div class="stat-card"><div class="stat-num">₹3–6L</div><div class="stat-label">Fresher CTC Range</div></div>
+    <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Major IT Parks</div></div>
+    <div class="stat-card"><div class="stat-num">2024–26</div><div class="stat-label">Eligible Batches</div></div>
+  </div>
+
+  <div class="alert alert-blue">
+    <span class="alert-icon">ℹ️</span>
+    <span><strong>Why consider Bhubaneswar:</strong> Backed by the Odisha IT Policy 2025 and Startup Odisha scheme, the city is home to IT parks like Infocity SEZ and Info Valley, plus a growing base of homegrown product startups. Lower cost of living than metros, and several companies offer direct client interaction even for freshers.</span>
+  </div>
+
+  <!-- BHUBANESWAR STARTUPS TABLE -->
+  <div class="table-wrap">
+    <h3><span class="icon" style="background:#f5f3ff;">🏙️</span> Bhubaneswar-Based Startups & Product/IT Companies</h3>
+    <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>What They Do</th>
+          <th>Role / CTC</th>
+          <th>Eligibility</th>
+          <th>Status</th>
+          <th>Apply</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="company-name">Mindfire Solutions</div></td>
+          <td>Offshore product engineering & IT services (25+ years, 250+ global clients)</td>
+          <td>Associate Software Engineer · ₹2.8–4.5 LPA</td>
+          <td><div class="eli-tags"><span class="eli-tag">B.Tech/MCA/M.Sc</span><span class="eli-tag">2024–26 Batch</span></div></td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://apply.mindfiresolutions.com/" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">CSM Technologies</div></td>
+          <td>GovTech & e-Governance product company — AI, IoT, mining & digital ID platforms</td>
+          <td>Associate Software Engineer · ₹3–5 LPA</td>
+          <td><div class="eli-tags"><span class="eli-tag">BE/B.Tech/MCA/M.Tech</span><span class="eli-tag">.NET/Java/PHP/Python</span></div></td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://www.csm.tech/explore-openings" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">CureBay</div></td>
+          <td>Healthtech startup — hybrid hub-and-spoke primary care platform for underserved markets</td>
+          <td>Software Engineer (Full-Stack/Backend) · ₹4–8 LPA</td>
+          <td><div class="eli-tags"><span class="eli-tag">CSE/IT</span><span class="eli-tag">Java/React/Cloud</span></div></td>
+          <td><span class="badge badge-orange">Limited</span></td>
+          <td><a class="apply-link" href="https://curebay.com/careers" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">ESSPL (Enterprise Systems Solutions)</div></td>
+          <td>Supply chain & logistics software — EDI, BI/Analytics, RPA, IoT</td>
+          <td>Software Developer (Fresher) · ₹3–4.5 LPA</td>
+          <td><div class="eli-tags"><span class="eli-tag">CSE/IT</span><span class="eli-tag">.NET/Java/SharePoint</span></div></td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://www.esspl.com" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Tatwa Technologies</div></td>
+          <td>Bhubaneswar HQ — e-Governance, SAP, mobility & m-commerce solutions</td>
+          <td>Trainee Software Engineer · ₹2.5–4 LPA</td>
+          <td><div class="eli-tags"><span class="eli-tag">BE/B.Tech/MCA</span><span class="eli-tag">Freshers</span></div></td>
+          <td><span class="badge badge-blue">Periodic</span></td>
+          <td><a class="apply-link" href="https://www.tatwa.com/careers" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Typof</div></td>
+          <td>AI-driven no-code D2C e-commerce platform builder, founded in Bhubaneswar</td>
+          <td>SDE / Frontend Engineer · ₹4–7 LPA</td>
+          <td><div class="eli-tags"><span class="eli-tag">CSE/IT</span><span class="eli-tag">React/Node</span></div></td>
+          <td><span class="badge badge-gray">Check LinkedIn</span></td>
+          <td><a class="apply-link" href="https://www.linkedin.com/company/typof" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">ScholarBridge Technologies</div></td>
+          <td>EdTech startup — digital learning platforms, tutor marketplace, AI-based automation</td>
+          <td>Frontend/Backend Developer · ₹2.5–4 LPA</td>
+          <td><div class="eli-tags"><span class="eli-tag">Freshers Welcome</span><span class="eli-tag">JS/React/Node</span></div></td>
+          <td><span class="badge badge-green">Open</span></td>
+          <td><a class="apply-link" href="https://www.linkedin.com/company/scholarbridge-technologies" target="_blank">Apply →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">DharmikVibes</div></td>
+          <td>Phygital platform connecting devotees to temples, poojas & spiritual services across India</td>
+          <td>App/Web Developer · ₹3–5 LPA</td>
+          <td><div class="eli-tags"><span class="eli-tag">CSE/IT</span><span class="eli-tag">Mobile/Web</span></div></td>
+          <td><span class="badge badge-gray">Check LinkedIn</span></td>
+          <td><a class="apply-link" href="https://www.linkedin.com/company/dharmikvibes" target="_blank">Apply →</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="alert alert-orange">
+    <span class="alert-icon">🌱</span>
+    <span><strong>Want more options?</strong> Startup Odisha (the state government's startup cell) maintains a live registry of recognized startups across agritech, fintech, healthtech, and IT — many of which hire CSE interns and freshers. Browse the official directory for the most current list.</span>
+  </div>
+
+  <!-- BHUBANESWAR STARTUP RESOURCES -->
+  <div class="info-grid">
+    <div class="info-card">
+      <h4>🏛️ Startup Ecosystem & Incubators</h4>
+      <ul>
+        <li><span class="li-label">Startup Odisha</span> Govt registry & seed-fund scheme — startupodisha.gov.in</li>
+        <li><span class="li-label">TBI, IIT Bhubaneswar</span> Tech Business Incubator for student startups</li>
+        <li><span class="li-label">KIIT-TBI</span> Incubation cell at KIIT University</li>
+        <li><span class="li-label">Infocity SEZ</span> Chandrasekharpur — TCS, Infosys, Tech Mahindra, Deloitte</li>
+        <li><span class="li-label">Info Valley</span> Newer IT + ESDM hub with growing MNC & product presence</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h4>🔍 Where to Find More Bhubaneswar Startups</h4>
+      <ul>
+        <li><span class="li-label">Wellfound</span> wellfound.com/location/bhubaneswar — filter by "Actively Hiring"</li>
+        <li><span class="li-label">StartupBlink</span> Ranks & profiles local startups by funding/traffic</li>
+        <li><span class="li-label">Cutshort</span> Curated startup job board, Bhubaneswar filter available</li>
+        <li><span class="li-label">LinkedIn</span> Search "Bhubaneswar" + "Hiring" + your tech stack</li>
+        <li><span class="li-label">Startup Odisha Conclave</span> Annual event — great for networking & on-spot interest</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- ================== PORTALS ================== -->
+<div class="section" id="tab-portals">
+  <div class="section-header">
+    <div class="section-title">Job Portals, Alert Channels & Key Resources</div>
+    <div class="section-desc">Bookmark these — they post daily verified opportunities. Use multiple sources to never miss a drive.</div>
+  </div>
+
+  <div class="table-wrap">
+    <h3><span class="icon" style="background:#eff6ff;">🌐</span> Trusted Job Portals for Freshers</h3>
+    <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Portal</th>
+          <th>Best For</th>
+          <th>Verification</th>
+          <th>Link</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="company-name">OffCampusJobs4u.com</div></td>
+          <td>Off-campus drives, daily alerts; 2024–27 batches</td>
+          <td>✅ Manually verified against official portals</td>
+          <td><a class="apply-link" href="https://offcampusjobs4u.com" target="_blank">Visit →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Freshershunt.in</div></td>
+          <td>TCS, Infosys, Wipro drives; salary details included</td>
+          <td>✅ Cross-checked from official career pages</td>
+          <td><a class="apply-link" href="https://freshershunt.in" target="_blank">Visit →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Apuzz.com</div></td>
+          <td>Off-campus drives with test patterns + salary</td>
+          <td>✅ Detailed company-wise breakdowns</td>
+          <td><a class="apply-link" href="https://apuzz.com/category/off-campus/" target="_blank">Visit →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">EnggWave.com</div></td>
+          <td>MNC drives, 2026 batch; Google/IBM/Infosys listings</td>
+          <td>✅ Recruitment experts vet each listing</td>
+          <td><a class="apply-link" href="https://www.enggwave.com" target="_blank">Visit →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Freshersnow.com</div></td>
+          <td>IT fresher jobs; pool campus drives; mock tests</td>
+          <td>✅ Established since 2015</td>
+          <td><a class="apply-link" href="https://www.freshersnow.com/off-campus-drives/" target="_blank">Visit →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Naukri.com</div></td>
+          <td>35,000+ off-campus openings; filterable by experience</td>
+          <td>⚠️ Verify each listing individually</td>
+          <td><a class="apply-link" href="https://www.naukri.com/off-campus-drive-jobs" target="_blank">Visit →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">LinkedIn Jobs</div></td>
+          <td>Product companies, referrals, networking</td>
+          <td>⚠️ Apply via Easy Apply + connect with employees</td>
+          <td><a class="apply-link" href="https://linkedin.com/jobs" target="_blank">Visit →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Internshala</div></td>
+          <td>Internships + fresher jobs, competitions</td>
+          <td>✅ Platform-verified listings</td>
+          <td><a class="apply-link" href="https://internshala.com" target="_blank">Visit →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">Unstop (Dare2Compete)</div></td>
+          <td>Competitions, quizzes, campus drives all in one</td>
+          <td>✅ Company-hosted drives directly on platform</td>
+          <td><a class="apply-link" href="https://unstop.com" target="_blank">Visit →</a></td>
+        </tr>
+        <tr>
+          <td><div class="company-name">TakeuForward</div></td>
+          <td>SDE off-campus placement calendar + DSA prep</td>
+          <td>✅ Community-verified, interview experiences</td>
+          <td><a class="apply-link" href="https://takeuforward.org/interviews/sde-off-campus-placement-calendar-freshers" target="_blank">Visit →</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- DIRECT CAREER PAGES -->
+  <div class="section-header" style="margin-top: 8px;">
+    <div class="section-title" style="font-size:15px;">🔗 Direct Company Career Pages</div>
+  </div>
+  <div class="portal-grid">
+    <a class="portal-card" href="https://nextstep.tcs.com" target="_blank">
+      <div class="portal-name">TCS NextStep</div>
+      <div class="portal-desc">NQT registration portal</div>
+      <div class="portal-arrow">→</div>
+    </a>
+    <a class="portal-card" href="https://infosys.com/careers" target="_blank">
+      <div class="portal-name">Infosys InfyTQ</div>
+      <div class="portal-desc">SP / DSE / SE tracks</div>
+      <div class="portal-arrow">→</div>
+    </a>
+    <a class="portal-card" href="https://careers.wipro.com" target="_blank">
+      <div class="portal-name">Wipro Careers</div>
+      <div class="portal-desc">Elite NTH / WILP</div>
+      <div class="portal-arrow">→</div>
+    </a>
+    <a class="portal-card" href="https://careers.cognizant.com" target="_blank">
+      <div class="portal-name">Cognizant Careers</div>
+      <div class="portal-desc">GenC / GenC Next</div>
+      <div class="portal-arrow">→</div>
+    </a>
+    <a class="portal-card" href="https://www.accenture.com/in-en/careers" target="_blank">
+      <div class="portal-name">Accenture India</div>
+      <div class="portal-desc">ASE roles, freshers</div>
+      <div class="portal-arrow">→</div>
+    </a>
+    <a class="portal-card" href="https://careers.google.com" target="_blank">
+      <div class="portal-name">Google Careers</div>
+      <div class="portal-desc">SWE / SRE / PM roles</div>
+      <div class="portal-arrow">→</div>
+    </a>
+    <a class="portal-card" href="https://amazon.jobs/en/university" target="_blank">
+      <div class="portal-name">Amazon University</div>
+      <div class="portal-desc">SDE-I / MLETS</div>
+      <div class="portal-arrow">→</div>
+    </a>
+    <a class="portal-card" href="https://careers.microsoft.com" target="_blank">
+      <div class="portal-name">Microsoft Careers</div>
+      <div class="portal-desc">India campus hiring</div>
+      <div class="portal-arrow">→</div>
+    </a>
+    <a class="portal-card" href="https://rac.gov.in" target="_blank">
+      <div class="portal-name">DRDO RAC</div>
+      <div class="portal-desc">Scientist B recruitment</div>
+      <div class="portal-arrow">→</div>
+    </a>
+    <a class="portal-card" href="https://nic.gov.in" target="_blank">
+      <div class="portal-name">NIC Recruitment</div>
+      <div class="portal-desc">Scientist B (GATE)</div>
+      <div class="portal-arrow">→</div>
+    </a>
+    <a class="portal-card" href="https://gate.iitk.ac.in" target="_blank">
+      <div class="portal-name">GATE Official</div>
+      <div class="portal-desc">Registration & info</div>
+      <div class="portal-arrow">→</div>
+    </a>
+    <a class="portal-card" href="https://sih.gov.in" target="_blank">
+      <div class="portal-name">Smart India Hackathon</div>
+      <div class="portal-desc">National hackathon</div>
+      <div class="portal-arrow">→</div>
+    </a>
+  </div>
+
+  <!-- TELEGRAM / COMMUNITIES -->
+  <div class="info-grid">
+    <div class="info-card">
+      <h4>📢 Communities for Job Alerts</h4>
+      <ul>
+        <li><span class="li-label">Telegram</span> "CSE Off Campus 2026" channels</li>
+        <li><span class="li-label">Telegram</span> OffCampusJobs4u official channel</li>
+        <li><span class="li-label">Reddit</span> r/developersIndia, r/cscareerquestions</li>
+        <li><span class="li-label">LinkedIn</span> Follow company pages + hashtags</li>
+        <li><span class="li-label">Discord</span> Placement & CP communities</li>
+        <li><span class="li-label">WhatsApp</span> College placement group alerts</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h4>🛠️ DSA & Interview Prep Resources</h4>
+      <ul>
+        <li><span class="li-label">TakeuForward (Striver)</span> A2Z DSA Sheet – free</li>
+        <li><span class="li-label">Love Babbar</span> 450 DSA Questions</li>
+        <li><span class="li-label">NeetCode.io</span> LeetCode patterns + solutions</li>
+        <li><span class="li-label">GeeksForGeeks</span> CS theory + placement prep</li>
+        <li><span class="li-label">PrepInsta</span> Company-specific aptitude & coding</li>
+        <li><span class="li-label">Interviewbit</span> System design + DSA roadmap</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- ================== PREP ROADMAP ================== -->
+<div class="section" id="tab-prep">
+  <div class="section-header">
+    <div class="section-title">Complete Preparation Roadmap for CSE Placements</div>
+    <div class="section-desc">A structured, semester-wise plan to maximize your chances across all opportunity types.</div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <h4>📅 Year-wise Timeline (B.Tech)</h4>
+      <ul>
+        <li><span class="li-label">Year 1–2</span> Master C++/Python, start competitive programming</li>
+        <li><span class="li-label">Year 2 (Jul–Dec)</span> DSA deeply: arrays, trees, graphs, DP</li>
+        <li><span class="li-label">Year 2 (Jan–Jun)</span> Apply for summer internships</li>
+        <li><span class="li-label">Year 3 (Jul–Sep)</span> Build 2–3 solid projects; LeetCode 300+</li>
+        <li><span class="li-label">Year 3 (Oct–Dec)</span> Off-campus drives start – apply aggressively</li>
+        <li><span class="li-label">Year 4 (Jan–Jun)</span> Final year drives; GATE prep if interested</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h4>💻 Must-Know CS Subjects</h4>
+      <ul>
+        <li><span class="li-label">DSA</span> Arrays, Trees, Graphs, DP, Heaps, Tries</li>
+        <li><span class="li-label">OOPs</span> Inheritance, Polymorphism, Design Patterns</li>
+        <li><span class="li-label">DBMS</span> SQL, Normalization, Indexing, Transactions</li>
+        <li><span class="li-label">OS</span> Scheduling, Memory Mgmt, Deadlock, Sync</li>
+        <li><span class="li-label">CN</span> TCP/IP, DNS, HTTP, OSI, Routing</li>
+        <li><span class="li-label">System Design</span> LLD + HLD (for product roles)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="roadmap">
+    <div class="roadmap-header">🗺️ Off-Campus Placement Step-by-Step</div>
+    <div class="roadmap-body">
+      <div class="roadmap-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h5>Build a Strong Foundation (Months 1–4)</h5>
+          <p>Complete Striver's A2Z DSA Sheet (450+ problems). Solve 150+ LeetCode problems across Easy/Medium/Hard. Learn one language deeply — Java or C++. Maintain GitHub with at least 3 visible projects.</p>
         </div>
       </div>
-
-      <!-- Manager support card -->
-      <div class="manager-card" style="margin-top:16px;">
-        <div class="manager-card-icon">🧑‍💼</div>
-        <div class="manager-card-text">
-          <div class="manager-card-title">You always have a manager to support you</div>
-          <div class="manager-card-desc">Every Academic Content Coordinator is assigned a dedicated <strong>Content Manager</strong>. If you're stuck — can't find a resource, unsure what to submit, or have any question — just message your manager. They'll guide you every step of the way.</div>
+      <div class="roadmap-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h5>Register on All Major Portals (Immediately)</h5>
+          <p>Create profiles on: TCS NextStep, Infosys InfyTQ, Wipro Careers, Cognizant Careers, LinkedIn, Naukri, Internshala, Unstop. Set job alerts with keywords "SDE fresher", "CSE 2026 batch", "software engineer trainee".</p>
         </div>
       </div>
-
-      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 18px;display:flex;gap:12px;align-items:flex-start;margin-top:14px;">
-        <div style="font-size:1.2rem;flex-shrink:0;">💡</div>
-        <div>
-          <div style="font-family:'Sora',sans-serif;font-size:0.8rem;font-weight:700;color:#1d4ed8;margin-bottom:4px;">Not working for free — you get rewarded</div>
-          <div style="font-size:0.76rem;color:#3b82f6;line-height:1.6;">The more quality content you submit, the more you earn. Top contributors get paid opportunities and job referrals.</div>
+      <div class="roadmap-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h5>Crack Aptitude & Online Tests (Month 3–5)</h5>
+          <p>Practice TCS, Infosys, Wipro, Accenture-specific aptitude on PrepInsta and IndiaBIX. Most off-campus drives start with a 2–3 hour online assessment covering aptitude, logical reasoning, and 2–3 coding questions. Prepare for all three sections simultaneously.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h5>Apply Actively (August – December is peak season)</h5>
+          <p>Aug–Dec is when 80% of off-campus drives open. Apply to at least 20–30 companies. Don't wait for the perfect company — cast a wide net. Join Telegram groups that post daily alerts. Track applications in a spreadsheet.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h5>Ace the Technical Interview</h5>
+          <p>Practice 2–3 mock interviews per week on Pramp, Interviewing.io, or with peers. Revise all CS fundamentals (OS, DBMS, CN, OOPs). Be ready to explain your projects end-to-end — technologies used, your role, challenges, and learnings.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <h5>For GATE / Govt Jobs (Parallel Track)</h5>
+          <p>Start GATE preparation from Year 3. Focus on GATE CS syllabus: Algorithms, DBMS, OS, TOC, CO&A, Discrete Math, CN. Use NPTEL lectures + PYQs. A GATE score above 650 opens NIC, DRDO, IOCL, ONGC, BARC simultaneously.</p>
+        </div>
+      </div>
+      <div class="roadmap-step">
+        <div class="step-num">7</div>
+        <div class="step-content">
+          <h5>Keep Competing in Hackathons</h5>
+          <p>Participate in SIH, TCS CodeVita, HackWithInfy, and at least one LeetCode/Codeforces contest every week. Contest ratings and hackathon wins are strong differentiators in off-campus resumes. Even reaching the finals of SIH is worth mentioning.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Rewards -->
-  <div class="rewards-strip">
-    <div class="rewards-strip-title">🏆 Performance-Based Rewards — Greater contribution = Greater earnings</div>
-    <div class="rewards-cards">
-      <div class="reward-card"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#2563eb,#60a5fa);"></div><span class="reward-card-icon">💰</span><div class="reward-card-title">Paid Per Submission</div><div class="reward-card-desc">Earn rewards for every quality PYQ or notes set you submit</div></div>
-      <div class="reward-card"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#f59e0b,#fcd34d);"></div><span class="reward-card-icon">📊</span><div class="reward-card-title">Performance Bonuses</div><div class="reward-card-desc">Monthly bonuses for top contributors with highest submissions</div></div>
-      <div class="reward-card"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#22c55e,#4ade80);"></div><span class="reward-card-icon">🗂️</span><div class="reward-card-title">Live on BPUTNotes</div><div class="reward-card-desc">Your collected content goes live — used by 2,000+ students daily</div></div>
-      <div class="reward-card"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#a78bfa,#c4b5fd);"></div><span class="reward-card-icon">📜</span><div class="reward-card-title">Internship Certificate</div><div class="reward-card-desc">Official internship certificate shareable on LinkedIn and resume</div></div>
-      <div class="reward-card"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#f43f5e,#fb7185);"></div><span class="reward-card-icon">🚀</span><div class="reward-card-title">Full-Time Path</div><div class="reward-card-desc">Outstanding coordinators get job referrals and full-time content roles</div></div>
+  <div class="info-grid">
+    <div class="info-card">
+      <h4>📄 Resume Checklist</h4>
+      <ul>
+        <li><span class="li-label">Length</span> Strictly 1 page for freshers</li>
+        <li><span class="li-label">Projects</span> 2–3 with tech stack + impact metrics</li>
+        <li><span class="li-label">CP Links</span> Codeforces/LeetCode profile with rating</li>
+        <li><span class="li-label">GitHub</span> Active repos with README files</li>
+        <li><span class="li-label">Certifications</span> AWS, GCP, NPTEL, Coursera courses</li>
+        <li><span class="li-label">Skills</span> Languages, frameworks, tools — no fluff</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h4>🚩 Common Mistakes to Avoid</h4>
+      <ul>
+        <li><span class="li-label">❌</span> Applying late — most drives close in 2–5 days</li>
+        <li><span class="li-label">❌</span> Ignoring aptitude — it filters 60% of candidates</li>
+        <li><span class="li-label">❌</span> Not tracking applications</li>
+        <li><span class="li-label">❌</span> Copying projects from tutorials without modifying</li>
+        <li><span class="li-label">❌</span> Skipping HR prep — culture fit matters</li>
+        <li><span class="li-label">❌</span> Only relying on college placement cell</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h4>🎯 Quick Wins This Week</h4>
+      <ul>
+        <li><span class="li-label">Today</span> Register on TCS NextStep + Infosys InfyTQ</li>
+        <li><span class="li-label">Today</span> Join 3 Telegram off-campus job channels</li>
+        <li><span class="li-label">This Week</span> Solve 10 LeetCode Medium problems</li>
+        <li><span class="li-label">This Week</span> Update LinkedIn + GitHub profile</li>
+        <li><span class="li-label">This Month</span> Apply to 5 off-campus drives minimum</li>
+        <li><span class="li-label">This Month</span> Participate in 1 contest on Codeforces/LeetCode</li>
+      </ul>
     </div>
   </div>
+</div>
 
-  <!-- Community -->
-  <div class="community-join-banner">
-    <div class="cjb-orb"></div>
-    <div class="cjb-left">
-      <div class="cjb-tag"><span class="live-pulse"></span>Student Team Community</div>
-      <div class="cjb-title">Join the BPUTNotes core team 🚀</div>
-      <div class="cjb-sub">Get added to our team WhatsApp group, work directly with the core team, and make a real impact on the platform used by 2,000+ BPUT students every day. Questions? Mail us at <a href="mailto:community@bputnotes.in" style="color:#93c5fd;">community@bputnotes.in</a></div>
-    </div>
-    <div class="cjb-right">
-      <a href="https://wa.me/918249185682" class="cjb-btn-wa" target="_blank">💬 Join the Group</a>
-      <a href="#apply-content" class="cjb-btn-tg">Apply Now →</a>
-    </div>
-  </div>
+</div>
 
-  <!-- Form — UNTOUCHED, exact same fields & script URL as original Content Writer form -->
-  <div id="apply-content" style="padding-top:48px;">
-    <div class="form-section-wrap">
-      <div class="section-tag" style="display:block;text-align:center;margin-bottom:8px;">📝 Apply Now</div>
-      <div class="form-section-title">Join the BPUTNotes Student Team</div>
-      <div class="form-section-sub">2nd &amp; 3rd Year Only · All branches welcome · Content Management or Site Maintenance · Response within 48 hrs</div>
-      <div class="apply-form-card">
-        <div class="apply-form-header" style="background:linear-gradient(135deg,#1e3a8a,#2563eb);">
-          <div class="afh-inner">
-            <div class="afh-badge" style="background:rgba(147,197,253,0.2);border:1px solid rgba(147,197,253,0.3);color:#93c5fd;">🚀 Student Team Application · BPUTNotes.in</div>
-            <div class="afh-title">Be Part of What Powers BPUTNotes</div>
-            <div class="afh-sub">2nd &amp; 3rd Year · Free to apply · Paid on performance · Response in 48 hrs</div>
-          </div>
-        </div>
-        <div class="apply-form-body" style="padding:0;">
-          <!-- Embedded Google Form -->
-          <div style="border-radius:0 0 16px 16px;overflow:hidden;">
-            <iframe
-              src="https://docs.google.com/forms/d/e/1FAIpQLScs_GYlFNShFzSpNmc1BRtTojHMdIhmjqarZW2ycO6_0mFwmg/viewform?usp=dialog"
-              width="100%"
-              height="900"
-              frameborder="0"
-              marginheight="0"
-              marginwidth="0"
-              style="display:block;width:100%;min-height:900px;"
-              title="BPUTNotes Student Team Application"
-              loading="lazy"
-            >Loading application form…</iframe>
-          </div>
-          <p style="text-align:center;font-size:0.72rem;color:#94a3b8;padding:14px 20px 18px;">By submitting, you agree to be contacted by BPUTNotes.in. We do not share your data with third parties. Questions? Write to <a href="mailto:community@bputnotes.in" style="color:#3b82f6;">community@bputnotes.in</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div><!-- end role-content-section -->
-
+<div class="page-footer">
+  <strong>BPUTNotes Career Hub</strong> — Curated for CSE students | Data sourced from official company career pages, EnggWave, OffCampusJobs4u, Freshershunt, NIC/DRDO/ISRO official sites | Updated June 25, 2026<br>
+  <span style="color:#a0aec0; margin-top: 4px; display: block;">Always verify details on official company career portals before applying. This site does not charge any fees.</span>
+</div>
+</section>
 
 <!-- ══ FOOTER ══ -->
 <footer class="footer">
@@ -630,7 +2017,7 @@
       </div>
       <div class="footer-col"><h4>Resources</h4><a href="notes.html">Notes</a><a href="pyq.html">PYQs</a><a href="books.html">Books</a><a href="scholarship.html">Scholarships</a></div>
       <div class="footer-col"><h4>Company</h4><a href="about.html">About Us</a><a href="careers.html">Careers</a><a href="about.html#contact">Contact</a></div>
-      <div class="footer-col"><h4>Programs</h4><a href="internship.html">Internship &amp; Training</a><a href="careers.html#apply-content">Join Student Team</a></div>
+      <div class="footer-col"><h4>Career Hub</h4><a href="careers.html#tab-drives">Off-Campus Drives</a><a href="careers.html#tab-prep">Prep Roadmap</a></div>
     </div>
     <div class="footer-bottom">
       <span>© 2025 BPUTNotes.in — Made with ❤️ for BPUT students</span>
@@ -642,6 +2029,71 @@
 <a href="https://wa.me/918249185682" class="wa-float" target="_blank" title="WhatsApp Us">💬</a>
 <button class="scroll-top" title="Back to top">↑</button>
 
+<script>
+(function() {
+  const topicLabels = {
+    drives: 'Off-Campus Drives',
+    bbsr: 'Bhubaneswar Startups',
+    govt: 'Govt / PSU Exams',
+    contests: 'Contests & Hackathons',
+    internships: 'Internships',
+    portals: 'Portals & Resources',
+    prep: 'Prep Roadmap'
+  };
+  window.showTab = function(id, el) {
+    if (window.event) window.event.preventDefault();
+    const hub = (el && el.closest('.cse-hub')) || document.querySelector('.cse-hub');
+    if (!hub) return;
+    hub.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    hub.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    hub.querySelectorAll('.topic-option').forEach(t => t.classList.toggle('active', t.dataset.topic === id));
+    const panel = hub.querySelector('#tab-' + id);
+    if (panel) panel.classList.add('active');
+    if (el) el.classList.add('active');
+    const hint = hub.querySelector('#careerTopicHint');
+    if (hint && topicLabels[id]) hint.textContent = 'Featured now: ' + topicLabels[id] + '. Open the map to switch tracks.';
+  };
+  document.addEventListener('DOMContentLoaded', function() {
+    const trigger = document.querySelector('#careerTopicTrigger');
+    const sheet = document.querySelector('#careerTopicSheet');
+    const backdrop = document.querySelector('#careerTopicBackdrop');
+    const closeBtn = document.querySelector('#careerTopicClose');
+    if (!trigger || !sheet || !backdrop || !closeBtn) return;
+
+    function openSheet() {
+      sheet.hidden = false;
+      backdrop.hidden = false;
+      requestAnimationFrame(function() {
+        sheet.classList.add('open');
+        backdrop.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
+      });
+    }
+
+    function closeSheet() {
+      sheet.classList.remove('open');
+      backdrop.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+      setTimeout(function() {
+        sheet.hidden = true;
+        backdrop.hidden = true;
+      }, 220);
+    }
+
+    trigger.addEventListener('click', openSheet);
+    closeBtn.addEventListener('click', closeSheet);
+    backdrop.addEventListener('click', closeSheet);
+    document.querySelectorAll('.topic-option').forEach(function(option) {
+      option.addEventListener('click', function() {
+        const topic = this.dataset.topic;
+        const tab = document.querySelector('.cse-hub .nav-tab[href="#tab-' + topic + '"]');
+        window.showTab(topic, tab);
+        closeSheet();
+      });
+    });
+  });
+})();
+</script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const scrollTopBtn = document.querySelector('.scroll-top');
