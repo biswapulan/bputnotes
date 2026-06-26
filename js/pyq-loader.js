@@ -15,7 +15,7 @@ const _BRANCH_EMOJI_P = {
   mining:'⛏️', metallurgy:'🔩', mineral:'💎',
 };
 
-window._pyqState = { branch: 'cse', sem: 1, year: 2024, examType: 'regular' };
+window._pyqState = { branch: 'cse', sem: 1, year: 2025, examType: 'regular' };
 
 async function _renderPYQ() {
   const { branch, sem, year, examType } = window._pyqState;
