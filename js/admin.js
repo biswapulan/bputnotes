@@ -231,7 +231,7 @@ let _ctx = { type: null, editIdx: null };
 
 const BRANCHES = ['cse','civil','electrical','mechanical','mining','metallurgy','mineral'];
 const SEMS     = [1,2,3,4,5,6,7,8];
-const YEARS    = [2024,2023,2022,2021,2020];
+const YEARS    = [2025,2024,2023,2022,2021];
 
 function branchOptions(sel) {
   return BRANCHES.map(b => `<option value="${b}" ${sel===b?'selected':''}>${b.toUpperCase()}</option>`).join('');
