@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "bputnotes.vercel.app"
+        }
+      ],
+      "destination": "https://bputnotes.in/$1",
+      "permanent": true
+    }
+  ]
+}
