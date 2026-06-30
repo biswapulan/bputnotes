@@ -233,11 +233,32 @@ const BRANCHES = ['cse','civil','electrical','mechanical','mining','metallurgy',
 const SEMS     = [1,2,3,4,5,6,7,8];
 const YEARS    = [2025,2024,2023,2022,2021];
 
+// 1st-year (sem 1 & 2) syllabus is shared within these two groups.
+// Used only by the admin "Apply to" fan-out — sheet rows always store a real branch name.
+const BRANCH_GROUPS = {
+  circuit:     ['electrical', 'civil', 'mining', 'mechanical'],
+  'non-circuit': ['cse', 'mineral', 'metallurgy'],
+};
+
 function branchOptions(sel) {
   return BRANCHES.map(b => `<option value="${b}" ${sel===b?'selected':''}>${b.toUpperCase()}</option>`).join('');
 }
 function semOptions(sel) {
   return SEMS.map(s => `<option value="${s}" ${parseInt(sel)===s?'selected':''}>${s}</option>`).join('');
+}
+function toggleGroupField(selectEl) {
+  const sem = parseInt(selectEl.value);
+  const wrap = document.getElementById('f-group-wrap');
+  if (!wrap) return;
+  if (sem === 1 || sem === 2) {
+    wrap.style.display = '';
+  } else {
+    wrap.style.display = 'none';
+    const g = document.getElementById('f-group');
+    if (g) { g.value = ''; }
+    const b = document.getElementById('f-branch');
+    if (b) b.disabled = false;
+  }
 }
 
 function openAddModal(type) {
@@ -298,9 +319,13 @@ function openEditScholarModal(idx) {
 }
 
 function resourceForm(row = {}) {
+  const isNew = !row.rowIndex;
+  const initialSem = parseInt(row.semester) || SEMS[0];
+  const showGroup = isNew && (initialSem === 1 || initialSem === 2);
   return `<div class="form-grid">
     <div class="form-group"><label class="form-label">Branch *</label><select class="form-select" id="f-branch">${branchOptions(row.branch)}</select></div>
-    <div class="form-group"><label class="form-label">Semester *</label><select class="form-select" id="f-semester">${semOptions(row.semester)}</select></div>
+    <div class="form-group"><label class="form-label">Semester *</label><select class="form-select" id="f-semester" onchange="toggleGroupField(this)">${semOptions(row.semester)}</select></div>
+    ${isNew ? `<div class="form-group full" id="f-group-wrap" style="${showGroup ? '' : 'display:none;'}"><label class="form-label">Apply to (sem 1 &amp; 2 only)</label><select class="form-select" id="f-group" onchange="document.getElementById('f-branch').disabled = !!this.value;"><option value="">Just the branch above</option><option value="circuit">All circuit branches (${BRANCH_GROUPS.circuit.join(', ')})</option><option value="non-circuit">All non-circuit branches (${BRANCH_GROUPS['non-circuit'].join(', ')})</option></select><div class="form-hint">Creates one row per branch — only appears for sem 1/2 since those share a syllabus</div></div>` : ''}
     <div class="form-group"><label class="form-label">Subject #</label><select class="form-select" id="f-subnum">${[1,2,3,4,5,6].map(n=>`<option value="${n}" ${row.subject_number==n?'selected':''}>${n}</option>`).join('')}</select></div>
     <div class="form-group"><label class="form-label">Status</label><select class="form-select" id="f-status"><option value="active" ${row.status==='active'?'selected':''}>Active</option><option value="hidden" ${row.status==='hidden'?'selected':''}>Hidden</option></select></div>
     <div class="form-group full"><label class="form-label">Subject Name *</label><input type="text" class="form-input" id="f-name" value="${row.subject_name||''}" placeholder="e.g. Data Structures & Algorithms" /></div>
@@ -310,9 +335,13 @@ function resourceForm(row = {}) {
 }
 
 function pyqForm(row = {}) {
+  const isNew = !row.rowIndex;
+  const initialSem = parseInt(row.semester) || SEMS[0];
+  const showGroup = isNew && (initialSem === 1 || initialSem === 2);
   return `<div class="form-grid">
     <div class="form-group"><label class="form-label">Branch *</label><select class="form-select" id="f-branch">${branchOptions(row.branch)}</select></div>
-    <div class="form-group"><label class="form-label">Semester *</label><select class="form-select" id="f-semester">${semOptions(row.semester)}</select></div>
+    <div class="form-group"><label class="form-label">Semester *</label><select class="form-select" id="f-semester" onchange="toggleGroupField(this)">${semOptions(row.semester)}</select></div>
+    ${isNew ? `<div class="form-group full" id="f-group-wrap" style="${showGroup ? '' : 'display:none;'}"><label class="form-label">Apply to (sem 1 &amp; 2 only)</label><select class="form-select" id="f-group" onchange="document.getElementById('f-branch').disabled = !!this.value;"><option value="">Just the branch above</option><option value="circuit">All circuit branches (${BRANCH_GROUPS.circuit.join(', ')})</option><option value="non-circuit">All non-circuit branches (${BRANCH_GROUPS['non-circuit'].join(', ')})</option></select><div class="form-hint">Creates one row per branch — only appears for sem 1/2 since those share a syllabus</div></div>` : ''}
     <div class="form-group"><label class="form-label">Subject #</label><select class="form-select" id="f-subnum">${[1,2,3,4,5,6].map(n=>`<option value="${n}" ${row.subject_number==n?'selected':''}>${n}</option>`).join('')}</select></div>
     <div class="form-group"><label class="form-label">Exam Type *</label><select class="form-select" id="f-examtype"><option value="regular" ${row.exam_type==='regular'?'selected':''}>Regular</option><option value="back" ${row.exam_type==='back'?'selected':''}>Back Paper</option></select></div>
     <div class="form-group"><label class="form-label">Year *</label><select class="form-select" id="f-year">${YEARS.map(y=>`<option value="${y}" ${row.year==y?'selected':''}>${y}</option>`).join('')}</select></div>
@@ -347,6 +376,7 @@ async function saveModalData() {
   const isNew = editIdx === null;
 
   let entry, tabName, row;
+  let fanOutBranches = null; // set when "Apply to" group is chosen on a new entry
 
   if (type === 'scholarships') {
     const title = document.getElementById('s-title')?.value.trim();
@@ -368,6 +398,8 @@ async function saveModalData() {
   } else if (type === 'pyqs') {
     const name = document.getElementById('f-name')?.value.trim();
     if (!name) { showToast('❌ Subject name is required', 'error'); return; }
+    const groupSel = document.getElementById('f-group')?.value || '';
+    if (groupSel) fanOutBranches = BRANCH_GROUPS[groupSel];
     entry = {
       branch: document.getElementById('f-branch')?.value || 'cse',
       semester: parseInt(document.getElementById('f-semester')?.value) || 1,
@@ -384,6 +416,8 @@ async function saveModalData() {
   } else {
     const name = document.getElementById('f-name')?.value.trim();
     if (!name) { showToast('❌ Subject name is required', 'error'); return; }
+    const groupSel = document.getElementById('f-group')?.value || '';
+    if (groupSel) fanOutBranches = BRANCH_GROUPS[groupSel];
     entry = {
       branch: document.getElementById('f-branch')?.value || 'cse',
       semester: parseInt(document.getElementById('f-semester')?.value) || 1,
@@ -398,6 +432,55 @@ async function saveModalData() {
   }
 
   closeModal();
+
+  // ── Fan-out: one click creates a real row per branch in the chosen group ──
+  if (fanOutBranches && fanOutBranches.length) {
+    const progressId = 'fanout-progress-toast';
+    const wrap = document.getElementById('toast-wrap');
+    const pT = document.createElement('div');
+    pT.className = 'toast info';
+    pT.id = progressId;
+    wrap.appendChild(pT);
+
+    const failed = [];
+    let done = 0;
+    for (const b of fanOutBranches) {
+      pT.textContent = `⏳ Saving ${done + 1}/${fanOutBranches.length} (${b})…`;
+      const branchRow = row.map((v, i) => (i === 0 ? b : v)); // column 0 is always branch
+
+      let ok = false;
+      for (let attempt = 1; attempt <= 3 && !ok; attempt++) {
+        try {
+          await window.SheetsDB.adminWrite('append', { tab: tabName, row: branchRow });
+          ok = true;
+        } catch (e) {
+          console.error(`adminWrite failed for ${b}, attempt ${attempt}:`, e);
+          if (attempt < 3) await new Promise(r => setTimeout(r, 600 * attempt)); // back off & retry
+        }
+      }
+      if (ok) {
+        DB[type].push({ ...entry, branch: b, rowIndex: DB[type].length + 2 });
+      } else {
+        failed.push(b);
+      }
+      done++;
+      // small gap between rows so the Apps Script endpoint isn't hit back-to-back
+      await new Promise(r => setTimeout(r, 350));
+    }
+
+    pT.remove();
+    updateStats();
+    loadPanel(type);
+
+    if (failed.length === 0) {
+      showToast(`✅ All ${fanOutBranches.length} entries saved`, 'success');
+    } else {
+      showToast(`⚠️ ${fanOutBranches.length - failed.length}/${fanOutBranches.length} saved. Failed: ${failed.join(', ')} — please add those manually`, 'error');
+    }
+    setTimeout(async () => { await refreshAll(); loadPanel(type); }, 1500);
+    return;
+  }
+
   // Optimistic local update first (instant UI feedback)
   if (isNew) {
     entry.rowIndex = DB[type].length + 2;
