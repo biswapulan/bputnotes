@@ -566,6 +566,18 @@
       .books-stats-row { grid-template-columns: repeat(2, 1fr); }
       .sem-grid { grid-template-columns: repeat(4, 1fr); }
       .books-global-search { min-width: 180px; }
+
+      /* Keep the auto-scrolled-to column clear of the fixed navbar */
+      #semColWrap, #subjectColWrap, #booksResultSection { scroll-margin-top: 110px; }
+
+      /* Brief highlight so the auto-scroll jump reads as intentional, not jarring */
+      #semColWrap.just-scrolled-to, #subjectColWrap.just-scrolled-to, #booksResultSection.just-scrolled-to {
+        animation: _colPulse 1.1s ease;
+      }
+      @keyframes _colPulse {
+        0%   { background: var(--blue-50, rgba(37,99,235,0.08)); }
+        100% { background: transparent; }
+      }
     }
     @media (max-width: 600px) {
       .selector-header { flex-direction: column; align-items: flex-start; padding: 16px; }
@@ -741,7 +753,7 @@
         </div>
 
         <!-- COL 2: Semester -->
-        <div class="selector-col">
+        <div class="selector-col" id="semColWrap">
           <div class="selector-col-label">📅 Semester</div>
           <div id="semGrid" class="sem-grid">
             <!-- rendered by JS -->
@@ -749,7 +761,7 @@
         </div>
 
         <!-- COL 3: Subject -->
-        <div class="selector-col">
+        <div class="selector-col" id="subjectColWrap">
           <div class="selector-col-label">📖 Subject</div>
           <div id="subjectList" class="subject-list">
             <div class="selector-placeholder">

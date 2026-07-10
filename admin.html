@@ -190,7 +190,7 @@
       <!-- ══ BOOKS PANEL ══ -->
       <div class="panel" id="panel-books">
         <div class="panel-header">
-          <div><div class="panel-title">📚 Books</div><div class="panel-sub">Manage textbook links by branch & semester</div></div>
+          <div><div class="panel-title">📚 Books</div><div class="panel-sub">Manage textbook links by branch & semester (max 3 books per subject)</div></div>
           <button class="btn-primary" style="background:linear-gradient(135deg,#22c55e,#16a34a);" onclick="openAddModal('books')">+ Add Entry</button>
         </div>
         <div class="filter-bar">
@@ -212,7 +212,7 @@
         </div>
         <div class="table-wrap">
           <div class="table-inner">
-          <div class="table-head row-notes"><div>Branch</div><div>Sem</div><div>#</div><div>Book / Subject Name</div><div>Drive Link</div><div>Status</div><div>Actions</div></div>
+          <div class="table-head row-notes"><div>Branch</div><div>Sem</div><div>#</div><div>Book Name (Subject)</div><div>Drive Link</div><div>Status</div><div>Actions</div></div>
           <div id="books-table-body"><div class="loading-row"><div class="spinner"></div> Loading...</div></div>
           </div>
         </div>
@@ -309,7 +309,7 @@
           <div class="setup-steps">
             <div class="setup-step"><div class="setup-num">1</div><div><strong>Notes</strong> — branch, semester, subject_number, subject_name, drive_link, tags, status</div></div>
             <div class="setup-step"><div class="setup-num">2</div><div><strong>PYQs</strong> — branch, semester, subject_number, subject_name, exam_type, year, drive_link, tags, status</div></div>
-            <div class="setup-step"><div class="setup-num">3</div><div><strong>Books</strong> — branch, semester, subject_number, subject_name, drive_link, tags, status</div></div>
+            <div class="setup-step"><div class="setup-num">3</div><div><strong>Books</strong> — branch, semester, subject_number, subject_name, book_name, drive_link, tags, status. Add up to 3 rows with the same branch/semester/subject_number to list up to 3 books for that subject.</div></div>
             <div class="setup-step"><div class="setup-num">4</div><div><strong>Scholarships</strong> — title, description, category, amount, amount_sublabel, deadline, urgent, status, apply_link, eligibility, tags</div></div>
             <div class="setup-step"><div class="setup-num">5</div><div><strong>Popup</strong> — key (col A), value (col B). Keys: enabled, eyebrow, heading, heading_highlight, subtitle, footer_text, cta_text, cta_link, card_1_icon, card_1_title, card_1_desc, card_1_link, card_1_color, card_1_badge, card_1_enabled, card_2_… etc.</div></div>
           </div>

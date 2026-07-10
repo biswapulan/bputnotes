@@ -128,7 +128,7 @@ function filterRows(type) {
   return DB[type].filter(r => {
     if (bf && r.branch !== bf) return false;
     if (sf && r.semester !== sf) return false;
-    if (q  && !(r.subject_name || '').toLowerCase().includes(q)) return false;
+    if (q  && !(r.subject_name || '').toLowerCase().includes(q) && !(r.book_name || '').toLowerCase().includes(q)) return false;
     return true;
   });
 }
@@ -140,19 +140,26 @@ function renderResourceTable(type) {
     tbody.innerHTML = `<div class="empty-state"><div class="e-icon">📭</div><p>No entries. Add one with the + button, or check your Sheet.</p></div>`;
     return;
   }
-  tbody.innerHTML = rows.map((row, idx) => `
+  tbody.innerHTML = rows.map((row, idx) => {
+    const primary = type === 'books' ? (row.book_name || row.subject_name) : row.subject_name;
+    const subtitle = type === 'books' && row.book_name ? row.subject_name : '';
+    return `
     <div class="table-row row-notes">
       ${branchPill(row.branch)}
       <div class="cell-mono">S${row.semester}</div>
       <div class="cell-dim">#${row.subject_number}</div>
-      <div style="min-width:0;" title="${row.subject_name}"><span style="font-size:0.83rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">${row.subject_name}</span></div>
+      <div style="min-width:0;" title="${primary}">
+        <span style="font-size:0.83rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">${primary}</span>
+        ${subtitle ? `<span style="font-size:0.7rem;color:var(--text-mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">${subtitle}</span>` : ''}
+      </div>
       <div class="cell-link">${row.drive_link && row.drive_link !== '#' ? `<a href="${row.drive_link}" target="_blank">🔗 Drive</a>` : '<span style="color:var(--text-mute);">—</span>'}</div>
       ${statusBadge(row)}
       <div class="row-actions">
         <button class="btn-icon" onclick="openEditModal('${type}', ${idx})" title="Edit">✏️</button>
         <button class="btn-icon danger" onclick="deleteEntry('${type}', ${idx})" title="Delete">🗑️</button>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 function renderPYQTable() {
@@ -264,7 +271,7 @@ function toggleGroupField(selectEl) {
 function openAddModal(type) {
   _ctx = { type, editIdx: null };
   document.getElementById('modal-title').textContent = `+ Add ${type === 'scholarships' ? 'Scholarship' : type.slice(0,1).toUpperCase()+type.slice(1)} Entry`;
-  document.getElementById('modal-body').innerHTML = type === 'scholarships' ? scholarForm() : type === 'pyqs' ? pyqForm() : resourceForm();
+  document.getElementById('modal-body').innerHTML = type === 'scholarships' ? scholarForm() : type === 'pyqs' ? pyqForm() : type === 'books' ? bookForm() : resourceForm();
   document.getElementById('modal-save-btn').textContent = 'Add Entry';
   document.getElementById('modal-overlay').classList.add('open');
 }
@@ -275,9 +282,19 @@ function openEditModal(type, idx) {
   const actualIdx = DB[type].indexOf(row);
   _ctx = { type, editIdx: actualIdx };
   document.getElementById('modal-title').textContent = '✏️ Edit Entry';
-  document.getElementById('modal-body').innerHTML = resourceForm(row);
+  document.getElementById('modal-body').innerHTML = type === 'books' ? bookForm(row) : resourceForm(row);
   document.getElementById('modal-save-btn').textContent = 'Save Changes';
   document.getElementById('modal-overlay').classList.add('open');
+}
+
+// Books currently saved for a given branch/sem/subject_number (excludes the row being edited)
+function booksUsedForSubject(branch, semester, subjectNumber, excludeRowIndex) {
+  return DB.books.filter(r =>
+    r.branch === branch &&
+    parseInt(r.semester) === parseInt(semester) &&
+    parseInt(r.subject_number) === parseInt(subjectNumber) &&
+    r.rowIndex !== excludeRowIndex
+  ).length;
 }
 
 function openEditPYQModal(idx) {
@@ -331,6 +348,24 @@ function resourceForm(row = {}) {
     <div class="form-group full"><label class="form-label">Subject Name *</label><input type="text" class="form-input" id="f-name" value="${row.subject_name||''}" placeholder="e.g. Data Structures & Algorithms" /></div>
     <div class="form-group full"><label class="form-label">Google Drive Link</label><input type="url" class="form-input" id="f-link" value="${row.drive_link!=='#'?row.drive_link||'':''}" placeholder="https://drive.google.com/…" /><div class="form-hint">Leave blank if not available yet</div></div>
     <div class="form-group full"><label class="form-label">Tags (comma-separated)</label><input type="text" class="form-input" id="f-tags" value="${row.tags||''}" placeholder="Notes, PDF, 4 Credits" /></div>
+  </div>`;
+}
+
+function bookForm(row = {}) {
+  const isNew = !row.rowIndex;
+  const initialSem = parseInt(row.semester) || SEMS[0];
+  const showGroup = isNew && (initialSem === 1 || initialSem === 2);
+  const maxBooks = window.SheetsDB?.BOOKS_PER_SUBJECT_MAX || 3;
+  return `<div class="form-grid">
+    <div class="form-group"><label class="form-label">Branch *</label><select class="form-select" id="f-branch">${branchOptions(row.branch)}</select></div>
+    <div class="form-group"><label class="form-label">Semester *</label><select class="form-select" id="f-semester" onchange="toggleGroupField(this)">${semOptions(row.semester)}</select></div>
+    ${isNew ? `<div class="form-group full" id="f-group-wrap" style="${showGroup ? '' : 'display:none;'}"><label class="form-label">Apply to (sem 1 &amp; 2 only)</label><select class="form-select" id="f-group" onchange="document.getElementById('f-branch').disabled = !!this.value;"><option value="">Just the branch above</option><option value="circuit">All circuit branches (${BRANCH_GROUPS.circuit.join(', ')})</option><option value="non-circuit">All non-circuit branches (${BRANCH_GROUPS['non-circuit'].join(', ')})</option></select><div class="form-hint">Creates one row per branch — only appears for sem 1/2 since those share a syllabus</div></div>` : ''}
+    <div class="form-group"><label class="form-label">Subject #</label><select class="form-select" id="f-subnum">${[1,2,3,4,5,6].map(n=>`<option value="${n}" ${row.subject_number==n?'selected':''}>${n}</option>`).join('')}</select></div>
+    <div class="form-group"><label class="form-label">Status</label><select class="form-select" id="f-status"><option value="active" ${row.status==='active'?'selected':''}>Active</option><option value="hidden" ${row.status==='hidden'?'selected':''}>Hidden</option></select></div>
+    <div class="form-group full"><label class="form-label">Subject Name *</label><input type="text" class="form-input" id="f-name" value="${row.subject_name||''}" placeholder="e.g. Data Structures & Algorithms" /><div class="form-hint">Up to ${maxBooks} books can share the same subject — just add multiple entries with the same Branch/Semester/Subject #.</div></div>
+    <div class="form-group full"><label class="form-label">Book Name *</label><input type="text" class="form-input" id="f-bookname" value="${row.book_name||''}" placeholder="e.g. Higher Engineering Mathematics — B.S. Grewal" /></div>
+    <div class="form-group full"><label class="form-label">Google Drive Link</label><input type="url" class="form-input" id="f-link" value="${row.drive_link!=='#'?row.drive_link||'':''}" placeholder="https://drive.google.com/…" /><div class="form-hint">Leave blank if not available yet</div></div>
+    <div class="form-group full"><label class="form-label">Tags (comma-separated)</label><input type="text" class="form-input" id="f-tags" value="${row.tags||''}" placeholder="Book, PDF, Reference" /></div>
   </div>`;
 }
 
@@ -413,6 +448,36 @@ async function saveModalData() {
     };
     row = [entry.branch, entry.semester, entry.subject_number, entry.subject_name, entry.exam_type, entry.year, entry.drive_link, entry.tags, entry.status];
     tabName = 'PYQs';
+  } else if (type === 'books') {
+    const name = document.getElementById('f-name')?.value.trim();
+    if (!name) { showToast('❌ Subject name is required', 'error'); return; }
+    const bookName = document.getElementById('f-bookname')?.value.trim();
+    if (!bookName) { showToast('❌ Book name is required', 'error'); return; }
+
+    const branch   = document.getElementById('f-branch')?.value || 'cse';
+    const semester = parseInt(document.getElementById('f-semester')?.value) || 1;
+    const subnum   = parseInt(document.getElementById('f-subnum')?.value) || 1;
+    const maxBooks = window.SheetsDB?.BOOKS_PER_SUBJECT_MAX || 3;
+    const currentRowIndex = isNew ? null : DB.books[editIdx]?.rowIndex;
+    const groupSel = document.getElementById('f-group')?.value || '';
+
+    // Enforce max books per subject (skipped for fan-out — checked per-branch isn't practical client-side, Apps Script data will just reflect whatever's there)
+    if (!groupSel && booksUsedForSubject(branch, semester, subnum, currentRowIndex) >= maxBooks) {
+      showToast(`❌ Subject ${subnum} already has ${maxBooks} books. Edit or delete one first.`, 'error');
+      return;
+    }
+    if (groupSel) fanOutBranches = BRANCH_GROUPS[groupSel];
+
+    entry = {
+      branch, semester, subject_number: subnum,
+      subject_name: name,
+      book_name: bookName,
+      drive_link: document.getElementById('f-link')?.value.trim() || '#',
+      tags: document.getElementById('f-tags')?.value.trim() || '',
+      status: document.getElementById('f-status')?.value || 'active',
+    };
+    row = [entry.branch, entry.semester, entry.subject_number, entry.subject_name, entry.book_name, entry.drive_link, entry.tags, entry.status];
+    tabName = 'Books';
   } else {
     const name = document.getElementById('f-name')?.value.trim();
     if (!name) { showToast('❌ Subject name is required', 'error'); return; }
@@ -428,7 +493,7 @@ async function saveModalData() {
       status: document.getElementById('f-status')?.value || 'active',
     };
     row = [entry.branch, entry.semester, entry.subject_number, entry.subject_name, entry.drive_link, entry.tags, entry.status];
-    tabName = type === 'notes' ? 'Notes' : 'Books';
+    tabName = 'Notes';
   }
 
   closeModal();
@@ -514,7 +579,7 @@ async function deleteEntry(type, idx) {
   const rows  = filterRows(type);
   const row   = rows[idx];
   const aIdx  = DB[type].indexOf(row);
-  if (!confirm(`Delete "${row.subject_name}"?`)) return;
+  if (!confirm(`Delete "${row.book_name || row.subject_name}"?`)) return;
   const tabName = type === 'notes' ? 'Notes' : 'Books';
 
   // Optimistic local remove
