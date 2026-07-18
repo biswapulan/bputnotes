@@ -12,7 +12,7 @@
  *   A: branch  B: semester  C: subject_number  D: subject_name
  *   E: exam_type (regular|back)  F: year  G: drive_link  H: tags  I: status
  *
- * Tab: Books  ⚡ book_name column — up to 3 rows per subject (same subject_number)
+ * Tab: Books  ⚡ book_name column — any number of rows per subject (same subject_number)
  *   A: branch  B: semester  C: subject_number  D: subject_name
  *   E: book_name  F: drive_link  G: tags  H: status
  *
@@ -127,9 +127,7 @@ async function getAllPYQs() {
   }));
 }
 
-// ── Books (up to 3 books per subject) ──
-const BOOKS_PER_SUBJECT_MAX = 3;
-
+// ── Books (all books per subject — no cap) ──
 async function getBooksForSem(branch, semester) {
   const rows = await fetchSheetRows(SHEETS_CONFIG.TABS.books);
   const bySubject = {}; // subject_number -> { num, name, books: [] }
@@ -142,13 +140,11 @@ async function getBooksForSem(branch, semester) {
     if (!bySubject[num]) {
       bySubject[num] = { num, name: subjName || `Subject ${num}`, books: [] };
     }
-    if (bySubject[num].books.length < BOOKS_PER_SUBJECT_MAX) {
-      bySubject[num].books.push({
-        name: bookName || subjName || `Book ${bySubject[num].books.length + 1}`,
-        link: link || '#',
-        tags: tags ? tags.split(',').map(t => t.trim()).filter(Boolean) : ['Book'],
-      });
-    }
+    bySubject[num].books.push({
+      name: bookName || subjName || `Book ${bySubject[num].books.length + 1}`,
+      link: link || '#',
+      tags: tags ? tags.split(',').map(t => t.trim()).filter(Boolean) : ['Book'],
+    });
   }
 
   return Object.values(bySubject).sort((a, b) => a.num - b.num);
@@ -273,7 +269,6 @@ async function getPopupRows() {
 
 window.SheetsDB = {
   SHEETS_CONFIG, TABS: SHEETS_CONFIG.TABS,
-  BOOKS_PER_SUBJECT_MAX,
   fetchSheetRows, clearSheetCache,
   getNotesForSem, getPYQs, getAllPYQs, getBooksForSem,
   getScholarships, getPopupConfig,
