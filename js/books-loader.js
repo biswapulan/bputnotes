@@ -16,6 +16,24 @@ const _booksCacheTime = {};
 const _BOOKS_TTL      = 5 * 60 * 1000; // 5 minutes
 let _sheetError = false;
 
+// Flat cache of every book row in the sheet, used for global search so it
+// covers subjects the user hasn't browsed into yet.
+let _allBooksFlatCache = null;
+let _allBooksFlatTime  = 0;
+async function _fetchAllBooksFlat() {
+  const now = Date.now();
+  if (_allBooksFlatCache && (now - _allBooksFlatTime) < _BOOKS_TTL) return _allBooksFlatCache;
+  let rows = [];
+  try {
+    rows = await window.SheetsDB.getAllBooks();
+  } catch(e) {
+    console.warn('All-books fetch error:', e);
+  }
+  _allBooksFlatCache = rows.filter(r => r.status !== 'hidden');
+  _allBooksFlatTime = now;
+  return _allBooksFlatCache;
+}
+
 // On mobile the 3-col selector stacks vertically, so after picking a branch
 // or a semester, the next column is off-screen below. Auto-scroll to it so
 // the user doesn't have to guess they need to scroll down.
@@ -107,6 +125,7 @@ async function _renderBookResult() {
   const grid    = document.getElementById('booksGrid');
   const titleEl = document.getElementById('booksResultTitle');
   const breadEl = document.getElementById('booksResultBreadcrumb');
+  const countEl = document.getElementById('booksResultCount');
   if (!section || !grid) return;
 
   landing?.classList.add('hidden');
@@ -116,6 +135,7 @@ async function _renderBookResult() {
 
   if (_sheetError) {
     if (titleEl) titleEl.textContent = 'Sheet Connection Error';
+    if (countEl) countEl.textContent = '';
     grid.innerHTML = `<div style="padding:32px;text-align:center;color:#ef4444;">⚠️ Could not load data from Google Sheets. Check your API key and Sheet ID in sheets.js, then open the browser Console (F12) for the exact error.</div>`;
     return;
   }
@@ -124,12 +144,14 @@ async function _renderBookResult() {
 
   if (!subj || !subj.books.length) {
     if (titleEl) titleEl.textContent = 'No Book Found';
+    if (countEl) countEl.textContent = '';
     grid.innerHTML = `<div style="padding:32px;text-align:center;color:var(--gray-400);">No book entry for this subject in the Sheet.</div>`;
     return;
   }
 
   if (titleEl) titleEl.textContent = subj.name;
   if (breadEl) breadEl.innerHTML = `<span>${_BK_BRANCH_NAMES[branch] || branch}</span> › <span>Sem ${sem}</span> › <span>Subject ${subject}</span>`;
+  if (countEl) countEl.textContent = `${subj.books.length} book${subj.books.length !== 1 ? 's' : ''} recommended`;
 
   const spineColors = ['linear-gradient(90deg,#2563eb,#60a5fa)', 'linear-gradient(90deg,#f59e0b,#fcd34d)', 'linear-gradient(90deg,#22c55e,#4ade80)'];
   const dotColors = ['#2563eb', '#f59e0b', '#22c55e'];
@@ -223,7 +245,7 @@ window.selectBooksSubject = function(subjectNum, el) {
   });
 };
 
-window.handleGlobalSearch = function(val) {
+window.handleGlobalSearch = async function(val) {
   const q = val.trim().toLowerCase();
   const clearBtn = document.getElementById('searchClearBtn');
   if (clearBtn) clearBtn.classList.toggle('visible', q.length > 0);
@@ -251,19 +273,13 @@ window.handleGlobalSearch = function(val) {
   const listEl = document.getElementById('searchResultsList');
   if (!listEl) return;
 
-  // Gather all cached books (flatten subject → books[])
-  const results = [];
-  Object.entries(_booksCache).forEach(([key, subjects]) => {
-    const parts = key.split('-');
-    const branch = parts[0], sem = parts[1];
-    subjects.forEach(subj => {
-      subj.books.forEach(book => {
-        if (book.name.toLowerCase().includes(q) || subj.name.toLowerCase().includes(q)) {
-          results.push({ name: book.name, link: book.link, subjectName: subj.name, branch, sem });
-        }
-      });
-    });
-  });
+  listEl.innerHTML = `<div style="padding:32px;text-align:center;color:var(--gray-400);">Searching…</div>`;
+
+  // Search across the WHOLE sheet, not just branches/semesters already browsed.
+  const allBooks = await _fetchAllBooksFlat();
+  const results = allBooks
+    .filter(b => b.book_name.toLowerCase().includes(q) || b.subject_name.toLowerCase().includes(q))
+    .map(b => ({ name: b.book_name, link: b.drive_link, subjectName: b.subject_name, branch: b.branch, sem: b.semester }));
 
   if (!results.length) {
     listEl.innerHTML = `<div style="padding:32px;text-align:center;color:var(--gray-400);">No books found for "${val}". Try a different search or wait for more data.</div>`;
