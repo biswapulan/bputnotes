@@ -12,9 +12,9 @@
  *   A: branch  B: semester  C: subject_number  D: subject_name
  *   E: exam_type (regular|back)  F: year  G: drive_link  H: tags  I: status
  *
- * Tab: Books
+ * Tab: Books  ⚡ book_name column — any number of rows per subject (same subject_number)
  *   A: branch  B: semester  C: subject_number  D: subject_name
- *   E: drive_link  F: tags  G: status
+ *   E: book_name  F: drive_link  G: tags  H: status
  *
  * Tab: Scholarships
  *   A: title  B: description  C: category  D: amount  E: amount_sublabel
@@ -127,24 +127,27 @@ async function getAllPYQs() {
   }));
 }
 
-// ── Books ──
+// ── Books (all books per subject — no cap) ──
 async function getBooksForSem(branch, semester) {
   const rows = await fetchSheetRows(SHEETS_CONFIG.TABS.books);
-  const results = [];
+  const bySubject = {}; // subject_number -> { num, name, books: [] }
+
   for (const row of rows) {
-    const [b, sem, subNum, name, link, tags, status] = row;
-    if (b === branch && parseInt(sem) === parseInt(semester) && status !== 'hidden') {
-      results.push({
-        num:    parseInt(subNum) || results.length + 1,
-        name:   name || `Subject ${subNum}`,
-        link:   link || '#',
-        tags:   tags ? tags.split(',').map(t => t.trim()).filter(Boolean) : ['Book'],
-        status: status || 'active',
-      });
+    const [b, sem, subNum, subjName, bookName, link, tags, status] = row;
+    if (b !== branch || parseInt(sem) !== parseInt(semester) || status === 'hidden') continue;
+
+    const num = parseInt(subNum) || 1;
+    if (!bySubject[num]) {
+      bySubject[num] = { num, name: subjName || `Subject ${num}`, books: [] };
     }
+    bySubject[num].books.push({
+      name: bookName || subjName || `Book ${bySubject[num].books.length + 1}`,
+      link: link || '#',
+      tags: tags ? tags.split(',').map(t => t.trim()).filter(Boolean) : ['Book'],
+    });
   }
-  results.sort((a, b) => a.num - b.num);
-  return results;
+
+  return Object.values(bySubject).sort((a, b) => a.num - b.num);
 }
 
 // ── Scholarships ──
@@ -253,7 +256,7 @@ async function getAllNotes()  {
 }
 async function getAllBooks()  {
   const rows = await fetchSheetRows(SHEETS_CONFIG.TABS.books);
-  return rows.map((r,i)=>({ rowIndex:i+2, branch:r[0]||'', semester:parseInt(r[1])||1, subject_number:parseInt(r[2])||1, subject_name:r[3]||'', drive_link:r[4]||'#', tags:r[5]||'', status:r[6]||'active' }));
+  return rows.map((r,i)=>({ rowIndex:i+2, branch:r[0]||'', semester:parseInt(r[1])||1, subject_number:parseInt(r[2])||1, subject_name:r[3]||'', book_name:r[4]||'', drive_link:r[5]||'#', tags:r[6]||'', status:r[7]||'active' }));
 }
 async function getAllScholarships() {
   const rows = await fetchSheetRows(SHEETS_CONFIG.TABS.scholarships);

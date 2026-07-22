@@ -32,9 +32,14 @@ Create these **5 tabs** in your Sheet (exact names):
 - `exam_type`: regular or back
 - `year`: 2020, 2021, 2022, 2023, or 2024
 
-### Tab: Books
-| branch | semester | subject_number | subject_name | drive_link | tags | status |
-(same structure as Notes)
+### Tab: Books  ⚡ NEW — book_name column, up to 3 rows per subject
+| branch | semester | subject_number | subject_name | book_name | drive_link | tags | status |
+|--------|----------|---------------|--------------|-----------|------------|------|--------|
+| cse | 1 | 1 | Engineering Mathematics I | Higher Engineering Mathematics — B.S. Grewal | https://drive.google.com/... | Book | active |
+| cse | 1 | 1 | Engineering Mathematics I | Advanced Engineering Mathematics — Erwin Kreyszig | https://drive.google.com/... | Book | active |
+
+- To show more than one book for a subject, add another row with the **same** `branch` + `semester` + `subject_number`, just a different `book_name`/`drive_link`.
+- Max **3 books per subject** — the site (and the admin panel) will only show/save the first 3 rows found for a given subject.
 
 ### Tab: Scholarships ⚡ EXPANDED columns
 | title | description | category | amount | amount_sublabel | deadline | urgent | status | apply_link | eligibility | tags |

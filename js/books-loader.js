@@ -16,6 +16,41 @@ const _booksCacheTime = {};
 const _BOOKS_TTL      = 5 * 60 * 1000; // 5 minutes
 let _sheetError = false;
 
+// Flat cache of every book row in the sheet, used for global search so it
+// covers subjects the user hasn't browsed into yet.
+let _allBooksFlatCache = null;
+let _allBooksFlatTime  = 0;
+async function _fetchAllBooksFlat() {
+  const now = Date.now();
+  if (_allBooksFlatCache && (now - _allBooksFlatTime) < _BOOKS_TTL) return _allBooksFlatCache;
+  let rows = [];
+  try {
+    rows = await window.SheetsDB.getAllBooks();
+  } catch(e) {
+    console.warn('All-books fetch error:', e);
+  }
+  _allBooksFlatCache = rows.filter(r => r.status !== 'hidden');
+  _allBooksFlatTime = now;
+  return _allBooksFlatCache;
+}
+
+// On mobile the 3-col selector stacks vertically, so after picking a branch
+// or a semester, the next column is off-screen below. Auto-scroll to it so
+// the user doesn't have to guess they need to scroll down.
+const _MOBILE_BREAKPOINT = 900;
+function _scrollNextColIntoView(colId) {
+  if (window.innerWidth > _MOBILE_BREAKPOINT) return; // desktop: all 3 cols already visible side by side
+  const el = document.getElementById(colId);
+  if (!el) return;
+  setTimeout(() => {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    el.classList.remove('just-scrolled-to');
+    void el.offsetWidth; // restart animation if triggered twice in a row
+    el.classList.add('just-scrolled-to');
+    setTimeout(() => el.classList.remove('just-scrolled-to'), 1200);
+  }, 120); // small delay so the newly-rendered content is in the DOM before measuring scroll position
+}
+
 async function _fetchBooksData(branch, sem) {
   const key = `${branch}-${sem}`;
   const now = Date.now();
@@ -69,14 +104,17 @@ async function _renderSubjectList() {
     return;
   }
 
-  list.innerHTML = books.map(b => `
+  list.innerHTML = books.map(b => {
+    const availableCount = b.books.filter(bk => bk.link && bk.link !== '#').length;
+    return `
     <div class="subject-item ${window._booksState.subject === b.num ? 'active' : ''}"
          onclick="window.selectBooksSubject(${b.num}, this)">
       <span class="sub-code">S${b.num}</span>
       <span class="sub-name">${b.name}</span>
-      ${b.link && b.link !== '#' ? '<span style="color:#22c55e;font-size:0.75rem;flex-shrink:0;">✓</span>' : ''}
+      ${availableCount ? `<span style="color:#22c55e;font-size:0.75rem;flex-shrink:0;">✓ ${availableCount}</span>` : ''}
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 
 // ── Book result panel ──
@@ -87,6 +125,7 @@ async function _renderBookResult() {
   const grid    = document.getElementById('booksGrid');
   const titleEl = document.getElementById('booksResultTitle');
   const breadEl = document.getElementById('booksResultBreadcrumb');
+  const countEl = document.getElementById('booksResultCount');
   if (!section || !grid) return;
 
   landing?.classList.add('hidden');
@@ -96,37 +135,39 @@ async function _renderBookResult() {
 
   if (_sheetError) {
     if (titleEl) titleEl.textContent = 'Sheet Connection Error';
+    if (countEl) countEl.textContent = '';
     grid.innerHTML = `<div style="padding:32px;text-align:center;color:#ef4444;">⚠️ Could not load data from Google Sheets. Check your API key and Sheet ID in sheets.js, then open the browser Console (F12) for the exact error.</div>`;
     return;
   }
 
-  const book  = books.find(b => b.num === subject);
+  const subj = books.find(b => b.num === subject);
 
-  if (!book) {
+  if (!subj || !subj.books.length) {
     if (titleEl) titleEl.textContent = 'No Book Found';
+    if (countEl) countEl.textContent = '';
     grid.innerHTML = `<div style="padding:32px;text-align:center;color:var(--gray-400);">No book entry for this subject in the Sheet.</div>`;
     return;
   }
 
-  if (titleEl) titleEl.textContent = book.name;
+  if (titleEl) titleEl.textContent = subj.name;
   if (breadEl) breadEl.innerHTML = `<span>${_BK_BRANCH_NAMES[branch] || branch}</span> › <span>Sem ${sem}</span> › <span>Subject ${subject}</span>`;
+  if (countEl) countEl.textContent = `${subj.books.length} book${subj.books.length !== 1 ? 's' : ''} recommended`;
 
-  const hasLink = book.link && book.link !== '#';
-  const tagHTML = book.tags.map(t => `<span class="book-meta-tag">${t}</span>`).join('');
-
-  const colors = ['linear-gradient(135deg,#2563eb,#60a5fa)', 'linear-gradient(135deg,#f59e0b,#fcd34d)', 'linear-gradient(135deg,#22c55e,#4ade80)'];
   const spineColors = ['linear-gradient(90deg,#2563eb,#60a5fa)', 'linear-gradient(90deg,#f59e0b,#fcd34d)', 'linear-gradient(90deg,#22c55e,#4ade80)'];
-  const idx = (subject - 1) % 3;
+  const dotColors = ['#2563eb', '#f59e0b', '#22c55e'];
 
-  const shareBtn = hasLink
-    ? `<button class="btn-share" onclick="window.shareResource('${book.name.replace(/'/g, "\\'")}', '${book.link}', 'book')" style="margin-top:0;"><span>📤</span> Share</button>`
-    : '';
+  grid.innerHTML = subj.books.map((book, idx) => {
+    const hasLink = book.link && book.link !== '#';
+    const tagHTML = book.tags.map(t => `<span class="book-meta-tag">${t}</span>`).join('');
+    const shareBtn = hasLink
+      ? `<button class="btn-share" onclick="window.shareResource('${book.name.replace(/'/g, "\\'")}', '${book.link}', 'book')" style="margin-top:0;"><span>📤</span> Share</button>`
+      : '';
 
-  grid.innerHTML = `
-    <div class="book-card" style="animation:_bkFade 0.35s ease both;">
-      <div class="book-card-spine" style="background:${spineColors[idx]};"></div>
+    return `
+    <div class="book-card" style="animation:_bkFade 0.35s ease both;animation-delay:${idx * 0.06}s;">
+      <div class="book-card-spine" style="background:${spineColors[idx % 3]};"></div>
       <div class="book-card-body">
-        <div class="book-number"><span class="book-number-dot" style="background:${['#2563eb','#f59e0b','#22c55e'][idx]};"></span>Subject ${subject}</div>
+        <div class="book-number"><span class="book-number-dot" style="background:${dotColors[idx % 3]};"></span>Book ${idx + 1} of ${subj.books.length}</div>
         <div class="book-title">${book.name}</div>
         <div class="book-meta">${tagHTML}</div>
       </div>
@@ -140,6 +181,7 @@ async function _renderBookResult() {
         ${shareBtn}
       </div>
     </div>`;
+  }).join('');
 }
 
 // ── GLOBAL FUNCTIONS ──
@@ -160,6 +202,7 @@ window.selectBranch = function(branch) {
   if (subList) subList.innerHTML = `<div class="selector-placeholder"><div class="ph-icon">📅</div><p>Select a semester first</p></div>`;
 
   _renderSemGrid();
+  _scrollNextColIntoView('semColWrap');
 
   // Update step badges
   document.querySelectorAll('.step-badge').forEach((b, i) => {
@@ -180,6 +223,7 @@ window.selectBooksSem = function(sem, el) {
   document.getElementById('booksLanding')?.classList.remove('hidden');
 
   _renderSubjectList();
+  _scrollNextColIntoView('subjectColWrap');
 
   document.querySelectorAll('.step-badge').forEach((b, i) => {
     b.classList.remove('active', 'done');
@@ -193,6 +237,7 @@ window.selectBooksSubject = function(subjectNum, el) {
   document.querySelectorAll('.subject-item').forEach(t => t.classList.remove('active'));
   el?.classList.add('active');
   _renderBookResult();
+  _scrollNextColIntoView('booksResultSection');
 
   document.querySelectorAll('.step-badge').forEach((b, i) => {
     b.classList.remove('active');
@@ -200,7 +245,7 @@ window.selectBooksSubject = function(subjectNum, el) {
   });
 };
 
-window.handleGlobalSearch = function(val) {
+window.handleGlobalSearch = async function(val) {
   const q = val.trim().toLowerCase();
   const clearBtn = document.getElementById('searchClearBtn');
   if (clearBtn) clearBtn.classList.toggle('visible', q.length > 0);
@@ -228,15 +273,13 @@ window.handleGlobalSearch = function(val) {
   const listEl = document.getElementById('searchResultsList');
   if (!listEl) return;
 
-  // Gather all cached books
-  const results = [];
-  Object.entries(_booksCache).forEach(([key, books]) => {
-    const parts = key.split('-');
-    const branch = parts[0], sem = parts[1];
-    books.forEach(b => {
-      if (b.name.toLowerCase().includes(q)) results.push({ ...b, branch, sem });
-    });
-  });
+  listEl.innerHTML = `<div style="padding:32px;text-align:center;color:var(--gray-400);">Searching…</div>`;
+
+  // Search across the WHOLE sheet, not just branches/semesters already browsed.
+  const allBooks = await _fetchAllBooksFlat();
+  const results = allBooks
+    .filter(b => b.book_name.toLowerCase().includes(q) || b.subject_name.toLowerCase().includes(q))
+    .map(b => ({ name: b.book_name, link: b.drive_link, subjectName: b.subject_name, branch: b.branch, sem: b.semester }));
 
   if (!results.length) {
     listEl.innerHTML = `<div style="padding:32px;text-align:center;color:var(--gray-400);">No books found for "${val}". Try a different search or wait for more data.</div>`;
@@ -249,7 +292,7 @@ window.handleGlobalSearch = function(val) {
     return `<div class="search-result-item" style="flex-direction:column;gap:12px;">
       <div style="display:flex;justify-content:space-between;align-items:start;width:100%;gap:12px;">
         <div class="sri-left">
-          <div class="sri-breadcrumb"><span class="sri-code">${(_BK_BRANCH_NAMES[b.branch]||b.branch).split(' ')[0]}</span> · Sem ${b.sem}</div>
+          <div class="sri-breadcrumb"><span class="sri-code">${(_BK_BRANCH_NAMES[b.branch]||b.branch).split(' ')[0]}</span> · Sem ${b.sem} · ${b.subjectName}</div>
           <div class="sri-subject">${b.name}</div>
         </div>
         ${hasLink
