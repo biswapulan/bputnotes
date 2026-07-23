@@ -1,6 +1,6 @@
 /**
  * books-loader.js — Loads Books from Google Sheets
- * 3-column selector: Branch → Semester → Subject → Book card
+ * Flat, searchable, paginated list of ALL books (no branch/sem/subject drill-down).
  */
 
 const _BK_BRANCH_NAMES = {
@@ -10,304 +10,136 @@ const _BK_BRANCH_NAMES = {
   mineral:'Mineral Engineering',
 };
 
-window._booksState = { branch: null, sem: null, subject: null };
-const _booksCache     = {};
-const _booksCacheTime = {};
-const _BOOKS_TTL      = 5 * 60 * 1000; // 5 minutes
-let _sheetError = false;
+const _BOOKS_TTL   = 5 * 60 * 1000; // 5 minutes
+const _BATCH_SIZE  = 24;
 
-// Flat cache of every book row in the sheet, used for global search so it
-// covers subjects the user hasn't browsed into yet.
-let _allBooksFlatCache = null;
-let _allBooksFlatTime  = 0;
-async function _fetchAllBooksFlat() {
+let _allBooksCache = null;
+let _allBooksTime  = 0;
+let _sheetError    = false;
+
+let _filteredBooks = []; // current search result set (or all books if no query)
+let _visibleCount  = 0;  // how many of _filteredBooks are currently rendered
+
+// ── Fetch every row from the Books tab once, cache for 5 min ──
+async function _fetchAllBooks() {
   const now = Date.now();
-  if (_allBooksFlatCache && (now - _allBooksFlatTime) < _BOOKS_TTL) return _allBooksFlatCache;
+  if (_allBooksCache && (now - _allBooksTime) < _BOOKS_TTL) return _allBooksCache;
+
   let rows = [];
   try {
-    rows = await window.SheetsDB.getAllBooks();
-  } catch(e) {
-    console.warn('All-books fetch error:', e);
-  }
-  _allBooksFlatCache = rows.filter(r => r.status !== 'hidden');
-  _allBooksFlatTime = now;
-  return _allBooksFlatCache;
-}
-
-// On mobile the 3-col selector stacks vertically, so after picking a branch
-// or a semester, the next column is off-screen below. Auto-scroll to it so
-// the user doesn't have to guess they need to scroll down.
-const _MOBILE_BREAKPOINT = 900;
-function _scrollNextColIntoView(colId) {
-  if (window.innerWidth > _MOBILE_BREAKPOINT) return; // desktop: all 3 cols already visible side by side
-  const el = document.getElementById(colId);
-  if (!el) return;
-  setTimeout(() => {
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    el.classList.remove('just-scrolled-to');
-    void el.offsetWidth; // restart animation if triggered twice in a row
-    el.classList.add('just-scrolled-to');
-    setTimeout(() => el.classList.remove('just-scrolled-to'), 1200);
-  }, 120); // small delay so the newly-rendered content is in the DOM before measuring scroll position
-}
-
-async function _fetchBooksData(branch, sem) {
-  const key = `${branch}-${sem}`;
-  const now = Date.now();
-  if (_booksCache[key] && (now - (_booksCacheTime[key] || 0)) < _BOOKS_TTL) {
-    return _booksCache[key];
-  }
-  let data = [];
-  try {
-    if (!window.SheetsDB || typeof window.SheetsDB.getBooksForSem !== 'function') {
+    if (!window.SheetsDB || typeof window.SheetsDB.getAllBooks !== 'function') {
       throw new Error('SheetsDB not loaded');
     }
-    data = await window.SheetsDB.getBooksForSem(branch, sem);
+    rows = await window.SheetsDB.getAllBooks();
     _sheetError = false;
-  } catch(e) {
+  } catch (e) {
     console.warn('Books fetch error:', e);
     _sheetError = true;
   }
-  _booksCache[key] = data;
-  _booksCacheTime[key] = now;
-  return data;
+
+  _allBooksCache = rows.filter(r => r.status !== 'hidden');
+  _allBooksTime  = now;
+  return _allBooksCache;
 }
 
-// ── Semester grid (col 2) ──
-function _renderSemGrid() {
-  const grid = document.getElementById('semGrid');
+function _matchesQuery(book, q) {
+  if (!q) return true;
+  return (
+    (book.book_name || '').toLowerCase().includes(q) ||
+    (book.subject_name || '').toLowerCase().includes(q) ||
+    (_BK_BRANCH_NAMES[book.branch] || book.branch || '').toLowerCase().includes(q) ||
+    (book.tags || '').toLowerCase().includes(q)
+  );
+}
+
+// ── Render the currently visible slice of _filteredBooks ──
+function _renderBooks(reset) {
+  const grid        = document.getElementById('booksGrid');
+  const countEl      = document.getElementById('booksResultCount');
+  const loadMoreBtn  = document.getElementById('loadMoreBtn');
+  const emptyState   = document.getElementById('booksEmptyState');
   if (!grid) return;
-  grid.innerHTML = Array.from({ length: 8 }, (_, i) => {
-    const sem = i + 1;
-    return `<div class="sem-btn ${window._booksState.sem === sem ? 'active' : ''}"
-         onclick="window.selectBooksSem(${sem}, this)">Sem ${sem}</div>`;
-  }).join('');
-}
-
-// ── Subject list (col 3) ──
-async function _renderSubjectList() {
-  const { branch, sem } = window._booksState;
-  const list = document.getElementById('subjectList');
-  if (!list || !branch || !sem) return;
-
-  list.innerHTML = `<div class="selector-placeholder"><div class="ph-icon">⏳</div><p>Loading subjects...</p></div>`;
-
-  const books = await _fetchBooksData(branch, sem);
 
   if (_sheetError) {
-    list.innerHTML = `<div class="selector-placeholder"><div class="ph-icon">⚠️</div><p style="color:#ef4444;">Could not connect to Google Sheets. Check your API key &amp; Sheet ID in sheets.js, or open browser console for details.</p></div>`;
-    return;
-  }
-
-  if (!books.length) {
-    list.innerHTML = `<div class="selector-placeholder"><div class="ph-icon">📭</div><p>No books added yet for this branch &amp; semester.<br><span style="font-size:0.7rem;opacity:0.7;">Add entries in the <strong>Books</strong> tab of your Google Sheet.</span></p></div>`;
-    return;
-  }
-
-  list.innerHTML = books.map(b => {
-    const availableCount = b.books.filter(bk => bk.link && bk.link !== '#').length;
-    return `
-    <div class="subject-item ${window._booksState.subject === b.num ? 'active' : ''}"
-         onclick="window.selectBooksSubject(${b.num}, this)">
-      <span class="sub-code">S${b.num}</span>
-      <span class="sub-name">${b.name}</span>
-      ${availableCount ? `<span style="color:#22c55e;font-size:0.75rem;flex-shrink:0;">✓ ${availableCount}</span>` : ''}
-    </div>
-  `;
-  }).join('');
-}
-
-// ── Book result panel ──
-async function _renderBookResult() {
-  const { branch, sem, subject } = window._booksState;
-  const section = document.getElementById('booksResultSection');
-  const landing = document.getElementById('booksLanding');
-  const grid    = document.getElementById('booksGrid');
-  const titleEl = document.getElementById('booksResultTitle');
-  const breadEl = document.getElementById('booksResultBreadcrumb');
-  const countEl = document.getElementById('booksResultCount');
-  if (!section || !grid) return;
-
-  landing?.classList.add('hidden');
-  section.classList.add('visible');
-
-  const books = await _fetchBooksData(branch, sem);
-
-  if (_sheetError) {
-    if (titleEl) titleEl.textContent = 'Sheet Connection Error';
+    grid.innerHTML = `<div style="padding:32px;text-align:center;color:#ef4444;grid-column:1/-1;">⚠️ Could not load data from Google Sheets. Check your API key and Sheet ID in sheets.js, then open the browser Console (F12) for the exact error.</div>`;
+    if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+    if (emptyState) emptyState.style.display = 'none';
     if (countEl) countEl.textContent = '';
-    grid.innerHTML = `<div style="padding:32px;text-align:center;color:#ef4444;">⚠️ Could not load data from Google Sheets. Check your API key and Sheet ID in sheets.js, then open the browser Console (F12) for the exact error.</div>`;
     return;
   }
 
-  const subj = books.find(b => b.num === subject);
+  if (reset) _visibleCount = _BATCH_SIZE;
 
-  if (!subj || !subj.books.length) {
-    if (titleEl) titleEl.textContent = 'No Book Found';
+  if (!_filteredBooks.length) {
+    grid.innerHTML = '';
+    if (emptyState) {
+      emptyState.style.display = 'block';
+      emptyState.innerHTML = `<div style="padding:48px 24px;text-align:center;color:var(--gray-400);"><div style="font-size:2.8rem;margin-bottom:12px;">📭</div><p>No books found. Try a different search term.</p></div>`;
+    }
+    if (loadMoreBtn) loadMoreBtn.style.display = 'none';
     if (countEl) countEl.textContent = '';
-    grid.innerHTML = `<div style="padding:32px;text-align:center;color:var(--gray-400);">No book entry for this subject in the Sheet.</div>`;
     return;
   }
 
-  if (titleEl) titleEl.textContent = subj.name;
-  if (breadEl) breadEl.innerHTML = `<span>${_BK_BRANCH_NAMES[branch] || branch}</span> › <span>Sem ${sem}</span> › <span>Subject ${subject}</span>`;
-  if (countEl) countEl.textContent = `${subj.books.length} book${subj.books.length !== 1 ? 's' : ''} recommended`;
+  if (emptyState) emptyState.style.display = 'none';
 
-  const spineColors = ['linear-gradient(90deg,#2563eb,#60a5fa)', 'linear-gradient(90deg,#f59e0b,#fcd34d)', 'linear-gradient(90deg,#22c55e,#4ade80)'];
-  const dotColors = ['#2563eb', '#f59e0b', '#22c55e'];
+  const toShow = _filteredBooks.slice(0, _visibleCount);
+  if (countEl) countEl.textContent = `${toShow.length} of ${_filteredBooks.length}`;
 
-  grid.innerHTML = subj.books.map((book, idx) => {
-    const hasLink = book.link && book.link !== '#';
-    const tagHTML = book.tags.map(t => `<span class="book-meta-tag">${t}</span>`).join('');
+  const accent = '#FDC086'; // single flat accent used across all cards
+
+  grid.innerHTML = toShow.map((book, idx) => {
+    const hasLink = book.drive_link && book.drive_link !== '#';
+    const tags = book.tags ? book.tags.split(',').map(t => t.trim()).filter(Boolean) : [];
+    const tagHTML = tags.slice(0, 2).map(t => `<span class="book-meta-tag">${t}</span>`).join('');
+    const branchShort = (_BK_BRANCH_NAMES[book.branch] || book.branch || '?').split(' ')[0].slice(0, 4).toUpperCase();
+    const callNo = `${branchShort}·S${book.semester}`;
     const shareBtn = hasLink
-      ? `<button class="btn-share" onclick="window.shareResource('${book.name.replace(/'/g, "\\'")}', '${book.link}', 'book')" style="margin-top:0;"><span>📤</span> Share</button>`
+      ? `<button class="book-icon-btn book-icon-share" title="Share" onclick="window.shareResource('${(book.book_name||'').replace(/'/g, "\\'")}', '${book.drive_link}', 'book')">Share</button>`
       : '';
 
     return `
-    <div class="book-card" style="animation:_bkFade 0.35s ease both;animation-delay:${idx * 0.06}s;">
-      <div class="book-card-spine" style="background:${spineColors[idx % 3]};"></div>
+    <div class="book-card" style="--card-accent:${accent};animation:_bkFade 0.25s ease both;animation-delay:${(idx % _BATCH_SIZE) * 0.015}s;" title="${(book.book_name||'').replace(/"/g,'&quot;')} — ${(book.subject_name||'').replace(/"/g,'&quot;')}">
       <div class="book-card-body">
-        <div class="book-number"><span class="book-number-dot" style="background:${dotColors[idx % 3]};"></span>Book ${idx + 1} of ${subj.books.length}</div>
-        <div class="book-title">${book.name}</div>
+        <div class="book-callno">${callNo}</div>
+        <div class="book-title">${book.book_name}</div>
+        <div class="book-subject">${book.subject_name}</div>
         <div class="book-meta">${tagHTML}</div>
       </div>
-      <div class="book-card-footer" style="flex-direction:column;align-items:stretch;gap:8px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;width:100%;">
-          <span class="book-file-name" style="margin-bottom:0;">${hasLink ? 'Google Drive PDF' : 'Not uploaded yet'}</span>
-          ${hasLink
-            ? `<a href="${book.link}" target="_blank" rel="noopener" class="book-dl-btn book-dl-active">📥 Open Book</a>`
-            : `<span class="book-dl-btn book-dl-soon">⏳ Coming Soon</span>`}
-        </div>
+      <div class="book-card-footer">
         ${shareBtn}
+        ${hasLink
+          ? `<a href="${book.drive_link}" target="_blank" rel="noopener" class="book-icon-btn book-icon-dl" title="Open Book">Download</a>`
+          : `<span class="book-icon-btn book-icon-dl soon" title="Coming soon">Soon</span>`}
       </div>
     </div>`;
   }).join('');
+
+  if (loadMoreBtn) {
+    loadMoreBtn.style.display = _visibleCount < _filteredBooks.length ? 'inline-flex' : 'none';
+  }
 }
 
 // ── GLOBAL FUNCTIONS ──
 
-window.selectBranch = function(branch) {
-  window._booksState.branch  = branch;
-  window._booksState.sem     = null;
-  window._booksState.subject = null;
-
-  document.querySelectorAll('.branch-pill').forEach(el => el.classList.remove('active'));
-  document.getElementById('bp-' + branch)?.classList.add('active');
-
-  document.getElementById('booksResultSection')?.classList.remove('visible');
-  document.getElementById('booksLanding')?.classList.remove('hidden');
-  document.getElementById('searchResultsSection')?.classList.remove('visible');
-
-  const subList = document.getElementById('subjectList');
-  if (subList) subList.innerHTML = `<div class="selector-placeholder"><div class="ph-icon">📅</div><p>Select a semester first</p></div>`;
-
-  _renderSemGrid();
-  _scrollNextColIntoView('semColWrap');
-
-  // Update step badges
-  document.querySelectorAll('.step-badge').forEach((b, i) => {
-    b.classList.remove('active', 'done');
-    if (i === 1) b.classList.add('active');
-    if (i === 0) b.classList.add('done');
-  });
+window.loadMoreBooks = function () {
+  _visibleCount += _BATCH_SIZE;
+  _renderBooks(false);
 };
 
-window.selectBooksSem = function(sem, el) {
-  window._booksState.sem     = sem;
-  window._booksState.subject = null;
+window.handleGlobalSearch = async function (val) {
+  const q = (val || '').trim().toLowerCase();
+  document.getElementById('searchClearBtn')?.classList.toggle('visible', q.length > 0);
 
-  document.querySelectorAll('.sem-btn').forEach(t => t.classList.remove('active'));
-  el?.classList.add('active');
-
-  document.getElementById('booksResultSection')?.classList.remove('visible');
-  document.getElementById('booksLanding')?.classList.remove('hidden');
-
-  _renderSubjectList();
-  _scrollNextColIntoView('subjectColWrap');
-
-  document.querySelectorAll('.step-badge').forEach((b, i) => {
-    b.classList.remove('active', 'done');
-    if (i === 2) b.classList.add('active');
-    if (i < 2) b.classList.add('done');
-  });
+  const all = await _fetchAllBooks();
+  _filteredBooks = all.filter(b => _matchesQuery(b, q));
+  _renderBooks(true);
 };
 
-window.selectBooksSubject = function(subjectNum, el) {
-  window._booksState.subject = subjectNum;
-  document.querySelectorAll('.subject-item').forEach(t => t.classList.remove('active'));
-  el?.classList.add('active');
-  _renderBookResult();
-  _scrollNextColIntoView('booksResultSection');
-
-  document.querySelectorAll('.step-badge').forEach((b, i) => {
-    b.classList.remove('active');
-    b.classList.add('done');
-  });
-};
-
-window.handleGlobalSearch = async function(val) {
-  const q = val.trim().toLowerCase();
-  const clearBtn = document.getElementById('searchClearBtn');
-  if (clearBtn) clearBtn.classList.toggle('visible', q.length > 0);
-
-  const searchSection = document.getElementById('searchResultsSection');
-  const booksSection  = document.getElementById('booksResultSection');
-  const landing       = document.getElementById('booksLanding');
-
-  if (q.length < 2) {
-    searchSection?.classList.remove('visible');
-    if (window._booksState.subject) {
-      booksSection?.classList.add('visible');
-      landing?.classList.add('hidden');
-    }
-    return;
-  }
-
-  searchSection?.classList.add('visible');
-  booksSection?.classList.remove('visible');
-  landing?.classList.add('hidden');
-
-  const queryEl = document.getElementById('searchResultQuery');
-  if (queryEl) queryEl.textContent = `"${val}"`;
-
-  const listEl = document.getElementById('searchResultsList');
-  if (!listEl) return;
-
-  listEl.innerHTML = `<div style="padding:32px;text-align:center;color:var(--gray-400);">Searching…</div>`;
-
-  // Search across the WHOLE sheet, not just branches/semesters already browsed.
-  const allBooks = await _fetchAllBooksFlat();
-  const results = allBooks
-    .filter(b => b.book_name.toLowerCase().includes(q) || b.subject_name.toLowerCase().includes(q))
-    .map(b => ({ name: b.book_name, link: b.drive_link, subjectName: b.subject_name, branch: b.branch, sem: b.semester }));
-
-  if (!results.length) {
-    listEl.innerHTML = `<div style="padding:32px;text-align:center;color:var(--gray-400);">No books found for "${val}". Try a different search or wait for more data.</div>`;
-    return;
-  }
-
-  listEl.innerHTML = results.map(b => {
-    const hasLink = b.link && b.link !== '#';
-    const shareAction = hasLink ? `<button class="btn-share" onclick="window.shareResource('${b.name.replace(/'/g, "\\'")}', '${b.link}', 'book')" style="margin-top:0;"><span>📤</span> Share</button>` : '';
-    return `<div class="search-result-item" style="flex-direction:column;gap:12px;">
-      <div style="display:flex;justify-content:space-between;align-items:start;width:100%;gap:12px;">
-        <div class="sri-left">
-          <div class="sri-breadcrumb"><span class="sri-code">${(_BK_BRANCH_NAMES[b.branch]||b.branch).split(' ')[0]}</span> · Sem ${b.sem} · ${b.subjectName}</div>
-          <div class="sri-subject">${b.name}</div>
-        </div>
-        ${hasLink
-          ? `<a href="${b.link}" target="_blank" rel="noopener" class="sri-view-btn">📥 Open</a>`
-          : `<span class="sri-view-btn" style="opacity:0.4;cursor:default;">⏳ Soon</span>`}
-      </div>
-      ${shareAction}
-    </div>`;
-  }).join('');
-};
-
-window.clearSearch = function() {
+window.clearSearch = function () {
   const inp = document.getElementById('globalSearchInput');
-  if (inp) { inp.value = ''; window.handleGlobalSearch(''); }
-  document.getElementById('searchClearBtn')?.classList.remove('visible');
+  if (inp) inp.value = '';
+  window.handleGlobalSearch('');
 };
 
 // Keyframes
@@ -317,14 +149,18 @@ if (!document.getElementById('_bk-kf')) {
   document.head.appendChild(s);
 }
 
-// Init — wait for SheetsDB to be ready before first render
-function _booksInit() {
-  if (window.SheetsDB) {
-    window.selectBranch('cse');
-  } else {
-    // sheets.js not parsed yet — retry after a tick
-    setTimeout(_booksInit, 50);
+// Init — wait for SheetsDB to be ready, then load everything once
+async function _booksInit() {
+  if (!window.SheetsDB) {
+    setTimeout(_booksInit, 50); // sheets.js not parsed yet — retry after a tick
+    return;
   }
+  const grid = document.getElementById('booksGrid');
+  if (grid) grid.innerHTML = `<div style="padding:32px;text-align:center;color:var(--gray-400);grid-column:1/-1;">Loading books…</div>`;
+
+  const all = await _fetchAllBooks();
+  _filteredBooks = all;
+  _renderBooks(true);
 }
 
 if (document.readyState === 'loading') {
