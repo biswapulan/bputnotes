@@ -356,6 +356,41 @@
     *,*::before,*::after{animation:none !important; transition:none !important;}
     html{scroll-behavior:auto;}
   }
+
+
+  /* ── STUDENT CORNER PROMO POPUP ── */
+  .student-corner-overlay{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(16,23,43,.48);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility .35s ease;}
+  .student-corner-overlay.show{opacity:1;visibility:visible;pointer-events:auto;}
+  .student-corner-popup{position:relative;width:min(920px,100%);max-height:min(680px,calc(100vh - 48px));overflow:hidden;display:grid;grid-template-columns:.9fr 1.1fr;align-items:center;background:#fff;border:1px solid rgba(36,84,199,.12);border-radius:24px;box-shadow:0 35px 90px rgba(16,23,43,.30),0 10px 30px rgba(16,23,43,.12);transform:translateY(22px) scale(.97);transition:transform .45s cubic-bezier(.2,.8,.2,1);}
+  .student-corner-overlay.show .student-corner-popup{transform:translateY(0) scale(1);}
+  .student-corner-popup::before{content:"";position:absolute;width:330px;height:330px;border-radius:50%;background:#E9EFFC;top:-180px;left:-120px;pointer-events:none;}
+  .student-corner-popup::after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;background:#FFF3DD;bottom:-150px;right:-100px;pointer-events:none;}
+  .student-corner-close{position:absolute;top:16px;right:16px;z-index:5;width:40px;height:40px;border:1px solid #E3E7F0;border-radius:50%;background:rgba(255,255,255,.94);color:#5B6478;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:23px;line-height:1;box-shadow:0 5px 16px rgba(16,23,43,.10);transition:all .18s ease;}
+  .student-corner-close:hover{background:#10172B;color:#fff;transform:rotate(90deg);}
+  .student-corner-brand{position:relative;z-index:1;min-height:430px;padding:48px 35px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 40%,#fff 0%,#F5F7FB 62%,#EDF2FC 100%);border-right:1px solid #E3E7F0;}
+  .student-corner-brand::after{content:"";position:absolute;width:190px;height:190px;border:1px dashed rgba(36,84,199,.18);border-radius:50%;animation:scSpin 22s linear infinite;}
+  .student-corner-logo{position:relative;z-index:2;width:min(245px,75%);height:auto;object-fit:contain;filter:drop-shadow(0 18px 28px rgba(36,84,199,.15));animation:scLogoFloat 4s ease-in-out infinite;}
+  .student-corner-brand-tag{position:relative;z-index:3;margin-top:25px;padding:7px 13px;border-radius:100px;background:#fff;border:1px solid #E3E7F0;color:#2454C7;font-family:'Sora',sans-serif;font-size:.70rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+  .student-corner-content{position:relative;z-index:2;padding:54px 58px 52px;}
+  .student-corner-kicker{display:inline-flex;align-items:center;gap:8px;margin-bottom:17px;color:#2454C7;font-family:'Sora',sans-serif;font-size:.70rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+  .student-corner-kicker::before{content:"";width:7px;height:7px;border-radius:50%;background:#F59E0B;}
+  .student-corner-content h2{margin:0 0 17px;color:#10172B;font-family:'Sora',sans-serif;font-size:clamp(1.75rem,3vw,2.45rem);line-height:1.15;letter-spacing:-.025em;}
+  .student-corner-content h2 span{color:#2454C7;}
+  .student-corner-content p{margin:0 0 25px;color:#5B6478;font-size:.98rem;line-height:1.75;}
+  .student-corner-highlight{display:inline;color:#10172B;font-weight:700;}
+  .student-corner-url{display:flex;align-items:center;gap:10px;margin-bottom:28px;padding:13px 15px;width:max-content;max-width:100%;background:#F5F7FB;border:1px solid #E3E7F0;border-radius:11px;color:#2454C7;font-family:'Sora',sans-serif;font-size:.83rem;font-weight:600;}
+  .student-corner-url-dot{width:8px;height:8px;flex-shrink:0;border-radius:50%;background:#1E9E5A;box-shadow:0 0 0 4px rgba(30,158,90,.12);}
+  .student-corner-cta{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:14px 22px;border-radius:11px;background:#2454C7;color:#fff;text-decoration:none;font-family:'Sora',sans-serif;font-size:.88rem;font-weight:600;box-shadow:0 10px 25px rgba(36,84,199,.28);transition:transform .18s ease,background .18s ease,box-shadow .18s ease;}
+  .student-corner-cta:hover{background:#152B66;transform:translateY(-2px);box-shadow:0 14px 30px rgba(36,84,199,.35);}
+  .student-corner-cta-arrow{transition:transform .18s ease;}
+  .student-corner-cta:hover .student-corner-cta-arrow{transform:translateX(4px);}
+  .student-corner-note{margin-top:15px;color:#8A93A6;font-size:.72rem;}
+  @keyframes scLogoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  @keyframes scSpin{to{transform:rotate(360deg)}}
+  @media(max-width:760px){.student-corner-popup{grid-template-columns:1fr;max-height:calc(100vh - 32px);overflow-y:auto}.student-corner-brand{min-height:240px;padding:35px 25px 25px;border-right:none;border-bottom:1px solid #E3E7F0}.student-corner-logo{width:min(190px,55%)}.student-corner-brand::after{width:145px;height:145px}.student-corner-brand-tag{margin-top:16px}.student-corner-content{padding:32px 30px 35px}}
+  @media(max-width:480px){.student-corner-overlay{padding:14px}.student-corner-popup{border-radius:19px}.student-corner-brand{min-height:190px;padding:28px 20px 20px}.student-corner-logo{width:145px}.student-corner-brand-tag{font-size:.62rem;padding:6px 10px}.student-corner-content{padding:28px 22px 30px}.student-corner-content h2{font-size:1.65rem}.student-corner-content p{font-size:.90rem}.student-corner-url{width:100%;font-size:.72rem;overflow:hidden}.student-corner-cta{width:100%}.student-corner-close{top:10px;right:10px;width:36px;height:36px}}
+  @media(prefers-reduced-motion:reduce){.student-corner-brand::after,.student-corner-logo{animation:none}.student-corner-overlay,.student-corner-popup{transition:none}}
+
 </style>
 </head>
 <body class="is-loading">
@@ -375,6 +410,27 @@
     <path class="ll-underline" d="M4 88 Q90 98 170 86 T336 84" />
   </svg>
   <span class="visually-hidden">Loading BPUTNotes</span>
+</div>
+
+
+
+<!-- STUDENT CORNER PROMO -->
+<div class="student-corner-overlay" id="studentCornerPromo" role="dialog" aria-modal="true" aria-labelledby="studentCornerTitle">
+  <div class="student-corner-popup">
+    <button class="student-corner-close" id="studentCornerClose" aria-label="Close Student Corner promotion" type="button">×</button>
+    <div class="student-corner-brand">
+      <img src="student-corner-logo.png" alt="Student Corner" class="student-corner-logo">
+      <div class="student-corner-brand-tag">Your next step starts here</div>
+    </div>
+    <div class="student-corner-content">
+      <div class="student-corner-kicker">Placement Session Is Here</div>
+      <h2 id="studentCornerTitle">Don't just make a resume.<br><span>Make an impression.</span></h2>
+      <p>Stand out from the crowd by going beyond another resume generated with <span class="student-corner-highlight">AI, Canva or MS Word.</span> We are here to help you build something that actually represents <strong>you</strong>.</p>
+      <div class="student-corner-url"><span class="student-corner-url-dot"></span>student-corner.bputnotes.in</div>
+      <a href="https://student-corner.bputnotes.in" target="_blank" rel="noopener" class="student-corner-cta">Explore Student Corner <span class="student-corner-cta-arrow">→</span></a>
+      <div class="student-corner-note">Built to help BPUT students prepare for what comes next.</div>
+    </div>
+  </div>
 </div>
 
 <!-- NAV -->
@@ -705,16 +761,29 @@
 /* ── Logo loader (writing the logo, then fade out) ── */
 (function(){
   const loader=document.getElementById('logoLoader');
+  const promo=document.getElementById('studentCornerPromo');
+  const closeBtn=document.getElementById('studentCornerClose');
   if(!loader) return;
-  const MIN_VISIBLE_MS=2500; // give the pen-draw animation time to finish
+  const MIN_VISIBLE_MS=2500;
   const start=Date.now();
+  let promoShown=false;
+
+  function showStudentCorner(){
+    if(promoShown || !promo) return;
+    promoShown=true;
+    requestAnimationFrame(()=>{
+      setTimeout(()=>promo.classList.add('show'),120);
+    });
+  }
 
   function hideLoader(){
+    if(loader.classList.contains('loader-hidden')) return;
     const elapsed=Date.now()-start;
     const wait=Math.max(MIN_VISIBLE_MS-elapsed,0);
     setTimeout(()=>{
       loader.classList.add('loader-hidden');
       document.body.classList.remove('is-loading');
+      setTimeout(showStudentCorner,560);
       loader.addEventListener('transitionend',()=>loader.remove(),{once:true});
     },wait);
   }
@@ -723,9 +792,18 @@
     hideLoader();
   } else {
     window.addEventListener('load',hideLoader);
-    // safety net in case load never fires cleanly
     setTimeout(hideLoader,4000);
   }
+
+  function closePromo(){
+    if(!promo) return;
+    promo.classList.remove('show');
+    setTimeout(()=>promo.style.display='none',350);
+  }
+
+  if(closeBtn) closeBtn.addEventListener('click',closePromo);
+  if(promo) promo.addEventListener('click',e=>{ if(e.target===promo) closePromo(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape' && promo?.classList.contains('show')) closePromo(); });
 })();
 
 /* ── Mobile nav ── */
