@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Notes — BPUTNotes</title>
+  <meta name="description" content="Premium Segment Notes by BPUTNotes — descriptive explanations, diagrams, derivations and topic-wise PYQs.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/premium.css">
+
+  <script>
+    // Runs before paint: skip the loader on repeat visits this session, or if the
+    // user prefers reduced motion — avoids a flash of the loader disappearing.
+    (function () {
+      try {
+        var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var shown = sessionStorage.getItem('bputPremiumLoaderShown') === '1';
+        if (reduced || shown) {
+          document.documentElement.classList.add('no-loader');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+
+<body class="premium-page">
+
+<!-- PAGE LOADER: typewriter through Concept / Explanation / Derivation / Diagrams / PYQ -->
+<div class="page-loader" id="pageLoader" aria-hidden="true">
+  <div class="loader-inner">
+    <div class="loader-icon-stage">
+      <svg class="loader-icon" data-word="Concept" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5.5C4 4.67 4.67 4 5.5 4H11a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4V5.5Z"/>
+        <path d="M20 5.5c0-.83-.67-1.5-1.5-1.5H13a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h7V5.5Z"/>
+      </svg>
+      <svg class="loader-icon" data-word="Explanation" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18h6"/>
+        <path d="M10 21h4"/>
+        <path d="M12 3a6 6 0 0 0-4 10.5c.7.6 1 1.4 1 2.3V17h6v-1.2c0-.9.3-1.7 1-2.3A6 6 0 0 0 12 3Z"/>
+      </svg>
+      <svg class="loader-icon" data-word="Derivation" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 17.5c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/>
+        <path d="M14.5 4.5l5 5L11 18l-5.5 1.5L7 14l7.5-9.5Z"/>
+      </svg>
+      <svg class="loader-icon" data-word="Diagrams" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="7" cy="12" r="3"/>
+        <circle cx="17" cy="12" r="3"/>
+        <path d="M10 12h4"/>
+        <path d="M4 12H2M22 12h-2"/>
+      </svg>
+      <svg class="loader-icon" data-word="PYQ" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/>
+        <path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.7.3-1.4.9-1.4 1.7v.3"/>
+        <path d="M12 16.5h.01"/>
+      </svg>
+    </div>
+
+    <div class="loader-text-row">
+      <span class="loader-typed" id="loaderTyped"></span><span class="loader-cursor"></span>
+    </div>
+
+    <div class="loader-dots">
+      <span class="loader-dot" data-index="0"></span>
+      <span class="loader-dot" data-index="1"></span>
+      <span class="loader-dot" data-index="2"></span>
+      <span class="loader-dot" data-index="3"></span>
+      <span class="loader-dot" data-index="4"></span>
+    </div>
+  </div>
+</div>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+        <rect width="36" height="36" rx="10" fill="#2563eb"/>
+        <path d="M10 26V10h8.5c2 0 3.5.5 4.5 1.5S24.5 14 24.5 15.5c0 1-.3 1.8-.8 2.4-.5.6-1.1 1-1.8 1.2.9.2 1.7.7 2.2 1.4.6.7.9 1.6.9 2.7 0 1.6-.6 2.9-1.7 3.8-1.1.9-2.7 1-4.8 1H10zm3.5-9.5h4.7c1 0 1.8-.2 2.3-.7.5-.4.8-1 .8-1.8 0-.8-.3-1.4-.8-1.8-.5-.4-1.3-.7-2.3-.7h-4.7v5zm0 6.7h5.2c1.1 0 1.9-.3 2.5-.8.6-.5.8-1.2.8-2.1 0-.9-.3-1.6-.8-2.1-.6-.5-1.4-.7-2.5-.7h-5.2v5.7z" fill="white"/>
+      </svg>
+      <span class="nav-logo-text">BPUT<span>Notes</span></span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="notes.html">Notes</a></li>
+      <li><a href="pyq.html">PYQs</a></li>
+      <li><a href="books.html">Books</a></li>
+      <li><a href="scholarship.html">Scholarships</a></li>
+      <li><a href="premium.html" class="nav-premium-badge active"><span>✦</span> Premium</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="careers.html">Careers</a></li>
+      <li><a href="https://results.bputnotes.in/" target="_blank" rel="noopener">Results ↗</a></li>
+    </ul>
+
+    <a href="https://studio.bputnotes.in" class="nav-studio-lock" aria-label="Studio">
+      <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="10" fill="#2563eb"/>
+        <rect x="11" y="17" width="14" height="11" rx="2.5" fill="white"/>
+        <path d="M13.5 17v-3.5a4.5 4.5 0 0 1 9 0V17" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="18" cy="22" r="1.5" fill="#2563eb"/>
+      </svg>
+    </a>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- FLOATING PRICE BADGE -->
+<a href="#pricing" class="floating-price" id="floatingPrice">
+  <span class="fp-plan">
+    <span class="fp-plan-tag">1st Year</span>
+    <span class="fp-plan-amount"><sup>₹</sup>199</span>
+  </span>
+  <span class="fp-divider"></span>
+  <span class="fp-plan">
+    <span class="fp-plan-tag">2nd–4th</span>
+    <span class="fp-plan-amount"><sup>₹</sup>349</span>
+  </span>
+</a>
+
+<main>
+
+  <!-- HERO -->
+  <section class="premium-hero reveal">
+    <div class="premium-orb premium-orb-one"></div>
+    <div class="premium-orb premium-orb-two"></div>
+    <div class="premium-orb premium-orb-three"></div>
+
+    <div class="premium-hero-inner">
+      <div class="premium-kicker"><span class="kicker-dot"></span> PREMIUM SEGMENT NOTES</div>
+
+      <h1>
+        Study like the exam<br>
+        <span>is already in front of you.</span>
+      </h1>
+
+      <p class="hero-copy">
+        Premium notes are built around the way BPUT questions are actually asked —
+        <strong class="hero-typed-wrap"><span id="heroTyped"></span></strong>
+      </p>
+      <p class="hero-handwritten">no more jumping between 5 different PDFs before an exam</p>
+
+      <div class="hero-actions">
+        <button class="premium-primary" type="button" onclick="openSamples()">
+          Explore Sample Notes
+        </button>
+        <a class="premium-secondary" href="#pricing">View pricing <span>↓</span></a>
+      </div>
+
+      <div class="hero-proof">
+        <span><b>01</b> Descriptive theory</span>
+        <i></i>
+        <span><b>02</b> Clean diagrams</span>
+        <i></i>
+        <span><b>03</b> Topic-wise PYQs</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <section class="trust-strip reveal">
+    <div class="premium-container trust-inner">
+      <div class="trust-item">
+        <b>6</b>
+        <span>Subjects covered<br>in 1st year bundle</span>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-item">
+        <b>₹70</b>
+        <span>Starting price<br>per subject</span>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-item">
+        <b>WA</b>
+        <span>Delivered directly<br>on WhatsApp</span>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-item">
+        <b>PYQ</b>
+        <span>Topic-wise previous<br>year questions</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE PRODUCT -->
+  <section class="product-section">
+    <div class="premium-container">
+
+      <div class="section-heading reveal">
+        <div class="eyebrow">WHAT YOU ACTUALLY GET</div>
+        <h2>Not a decorated PDF.<br><em>A study system.</em></h2>
+        <p>Every page is designed to take you from understanding a topic to recognising exactly how it appears in the examination.</p>
+      </div>
+
+      <div class="note-showcase">
+
+        <!-- ACTUAL NOTE PAGE -->
+        <article class="note-paper reveal">
+          <span class="handwritten-tag">this is the actual layout ✓</span>
+          <div class="paper-top">
+            <div>
+              <span class="paper-course">BPUT • BASIC ELECTRICAL ENGINEERING</span>
+              <span class="paper-unit">UNIT 02 / NETWORK THEOREMS</span>
+            </div>
+            <span class="paper-page">04</span>
+          </div>
+
+          <div class="paper-rule"></div>
+
+          <div class="topic-label">TOPIC 2.4</div>
+          <h3>Thevenin's Theorem</h3>
+
+          <p class="paper-lead">
+            Any linear bilateral network containing sources and resistances can be replaced,
+            as viewed from two terminals, by a single equivalent voltage source
+            <strong>V<sub>TH</sub></strong> in series with an equivalent resistance
+            <strong>R<sub>TH</sub></strong>.
+          </p>
+
+          <div class="paper-grid">
+            <div class="paper-text">
+              <h4>Statement</h4>
+              <p>
+                The theorem simplifies a complicated network into a two-terminal
+                equivalent circuit. It is particularly useful when the load changes
+                repeatedly while the rest of the network remains unchanged.
+              </p>
+
+              <h4>Procedure</h4>
+              <ol>
+                <li>Remove the load resistance from the network.</li>
+                <li>Find the open-circuit voltage across the terminals.</li>
+                <li>Deactivate independent sources and calculate <strong>R<sub>TH</sub></strong>.</li>
+                <li>Reconnect the load to the Thevenin equivalent.</li>
+              </ol>
+            </div>
+
+            <!-- SVG DIAGRAM -->
+            <div class="circuit-wrap">
+              <div class="diagram-caption">EQUIVALENT NETWORK</div>
+              <svg class="circuit" viewBox="0 0 330 185" role="img" aria-label="Thevenin equivalent circuit diagram">
+                <defs>
+                  <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                    <path d="M0,0 L0,6 L7,3 z" fill="currentColor"/>
+                  </marker>
+                </defs>
+                <line x1="25" y1="35" x2="305" y2="35"/>
+                <line x1="25" y1="150" x2="305" y2="150"/>
+                <line x1="25" y1="35" x2="25" y2="150"/>
+                <line x1="305" y1="35" x2="305" y2="150"/>
+                <circle cx="76" cy="92" r="25"/>
+                <path d="M76 72 L76 112 M63 82 L89 102 M89 82 L63 102"/>
+                <polyline points="110,35 118,25 126,45 134,25 142,45 150,35"/>
+                <text x="129" y="20" text-anchor="middle">R₁</text>
+                <line x1="110" y1="150" x2="150" y2="150"/>
+                <polyline points="150,150 158,140 166,160 174,140 182,160 190,150"/>
+                <text x="170" y="178" text-anchor="middle">R₂</text>
+                <line x1="150" y1="35" x2="150" y2="65"/>
+                <line x1="150" y1="120" x2="150" y2="150"/>
+                <circle cx="150" cy="92" r="28" class="source-circle"/>
+                <text x="150" y="97" text-anchor="middle" class="source-text">V</text>
+                <line x1="208" y1="35" x2="208" y2="150"/>
+                <line x1="208" y1="92" x2="305" y2="92" marker-end="url(#arrow)"/>
+                <text x="235" y="82">a</text>
+                <text x="283" y="82">b</text>
+                <text x="165" y="120" class="small-label">Network</text>
+              </svg>
+            </div>
+          </div>
+
+          <div class="pyq-paper">
+            <div class="pyq-head">
+              <span class="pyq-badge">PYQ</span>
+              <span>Asked in BPUT • Previous Year</span>
+              <span class="pyq-frequency">Repeated topic</span>
+            </div>
+            <p><strong>Q.</strong> State and explain Thevenin's theorem. Find the current through the load using the Thevenin equivalent circuit.</p>
+            <div class="pyq-meta">
+              <span>✓ Exact topic covered above</span>
+              <span>✓ Answer format included</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- SIDE VALUE STACK -->
+        <div class="showcase-side reveal">
+          <div class="showcase-intro">
+            <span class="number">01</span>
+            <div>
+              <h3>One topic. One complete flow.</h3>
+              <p>Instead of making you jump between theory PDFs, diagrams and a separate PYQ file, the relevant material stays together.</p>
+            </div>
+          </div>
+
+          <div class="flow-card">
+            <div class="flow-line"></div>
+            <div class="flow-item active">
+              <span>01</span>
+              <div><b>Concept</b><small>What you need to understand</small></div>
+            </div>
+            <div class="flow-item">
+              <span>02</span>
+              <div><b>Explanation</b><small>Descriptive, exam-ready theory</small></div>
+            </div>
+            <div class="flow-item">
+              <span>03</span>
+              <div><b>Diagram / Derivation</b><small>Where the marks actually come from</small></div>
+            </div>
+            <div class="flow-item">
+              <span>04</span>
+              <div><b>PYQ</b><small>See how BPUT asks it</small></div>
+            </div>
+          </div>
+
+          <div class="micro-proof">
+            <span class="shield">✓</span>
+            <div><b>Built for revision</b><small>Everything important is visually separated and easy to scan.</small></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- DIFFERENCE -->
+  <section class="difference-section">
+    <div class="premium-container">
+      <div class="difference-head reveal">
+        <div>
+          <div class="eyebrow">WHY PREMIUM FEELS DIFFERENT</div>
+          <h2>Built from scratch.<br><em>Not just collected.</em></h2>
+        </div>
+        <p>The premium segment is meant to feel closer to a carefully prepared study book than a random collection of internet notes.</p>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card reveal">
+          <span class="feature-no">01</span>
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 5.5C4 4.67 4.67 4 5.5 4H11a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4V5.5Z"/>
+              <path d="M20 5.5c0-.83-.67-1.5-1.5-1.5H13a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h7V5.5Z"/>
+            </svg>
+          </div>
+          <h3>Descriptive theory</h3>
+          <p>Concepts are explained in complete, readable form instead of compressing everything into one-line definitions.</p>
+        </div>
+        <div class="feature-card feature-card-dark reveal">
+          <span class="feature-no">02</span>
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 17.5c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/>
+              <path d="M14.5 4.5l5 5L11 18l-5.5 1.5L7 14l7.5-9.5Z"/>
+            </svg>
+          </div>
+          <h3>Derivations that show the work</h3>
+          <p>Important derivations are structured step-by-step so you can reproduce them in the examination.</p>
+        </div>
+        <div class="feature-card reveal">
+          <span class="feature-no">03</span>
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="7" cy="12" r="3"/>
+              <circle cx="17" cy="12" r="3"/>
+              <path d="M10 12h4"/>
+              <path d="M4 12H2M22 12h-2"/>
+            </svg>
+          </div>
+          <h3>Clean diagrams</h3>
+          <p>Diagrams are placed alongside the concept they explain, not dumped at the end of the chapter.</p>
+        </div>
+        <div class="feature-card gold-feature reveal">
+          <span class="feature-no">04</span>
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/>
+              <path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.7.3-1.4.9-1.4 1.7v.3"/>
+              <path d="M12 16.5h.01"/>
+            </svg>
+          </div>
+          <h3>Topic-wise PYQs</h3>
+          <p>Finish a topic and immediately see the previous-year questions connected to it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAMPLES CTA -->
+  <section class="samples-section">
+    <div class="premium-container">
+      <div class="samples-banner reveal">
+        <div class="samples-glow"></div>
+        <div class="samples-copy">
+          <span class="eyebrow light">SEE BEFORE YOU BUY</span>
+          <h2>Don't take our word for it.<br><em>Open the samples.</em></h2>
+          <p>Explore six sample note PDFs and judge the structure, writing, diagrams and PYQ integration yourself.</p>
+        </div>
+        <button class="sample-cta" onclick="openSamples()">
+          View 6 Sample Notes
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHATSAPP CHANNEL -->
+  <section class="channel-section">
+    <div class="premium-container">
+      <a class="channel-banner reveal" href="https://whatsapp.com/channel/0029Vb7Jky0FHWpznvMaWI3k" target="_blank" rel="noopener">
+        <span class="channel-live"><span class="channel-live-dot"></span>OFFICIAL CHANNEL</span>
+        <span class="channel-pulse-wrap">
+          <span class="channel-icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+              <path d="M16 3C9 3 3.3 8.6 3.3 15.6c0 2.5.7 4.8 1.9 6.8L3 29l6.8-2.1c1.9 1.1 4.1 1.7 6.2 1.7 7 0 12.7-5.6 12.7-12.6C28.7 8.6 23 3 16 3z" fill="#25D366"/>
+              <path d="M11.8 10.3c-.3-.7-.6-.7-.9-.7h-.7c-.3 0-.7.1-1 .5-.4.4-1.4 1.3-1.4 3.2s1.4 3.7 1.6 4c.2.3 2.8 4.4 6.8 6 3.4 1.3 4.1 1.1 4.8 1 .7-.1 2.3-.9 2.6-1.9.3-.9.3-1.7.2-1.9-.1-.2-.4-.3-.8-.5-.4-.2-2.3-1.1-2.7-1.3-.4-.1-.6-.2-.9.2-.3.4-1 1.3-1.2 1.5-.2.3-.4.3-.8.1-.4-.2-1.6-.6-3.1-1.9-1.1-1-1.9-2.2-2.1-2.6-.2-.4 0-.6.2-.8.2-.2.4-.4.6-.7.2-.2.3-.4.4-.6.1-.3.1-.5 0-.7-.1-.2-.9-2.3-1.3-3.1z" fill="#fff"/>
+            </svg>
+          </span>
+        </span>
+        <span class="channel-text">
+          <b>Join our WhatsApp Channel</b>
+          <small>Offers, scholarships &amp; fresh notes — posted first, straight to you.</small>
+        </span>
+        <span class="channel-cta">Join Channel</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing-section" id="pricing">
+    <div class="premium-container">
+      <div class="section-heading centered reveal">
+        <div class="eyebrow">PREMIUM ACCESS</div>
+        <h2>Serious preparation.<br><em>Simple pricing.</em></h2>
+        <p>One-time purchase. No subscription. Orders taken only on WhatsApp.</p>
+      </div>
+
+      <div class="premium-pricing-grid">
+        <article class="premium-price-card featured-price reveal">
+          <div class="price-ribbon">Most popular</div>
+          <span class="price-year">1ST YEAR</span>
+          <h3>Complete Premium Bundle</h3>
+          <div class="price"><sup>₹</sup>199</div>
+          <span class="price-note">All 6 subjects • one-time</span>
+          <div class="price-rule"></div>
+          <ul>
+            <li>All 6 first-year subjects</li>
+            <li>Descriptive theory + derivations</li>
+            <li>Clean diagrams &amp; structured answers</li>
+            <li>Topic-wise PYQs</li>
+          </ul>
+          <a class="price-button" href="https://wa.me/918249185682?text=Hi%2C%20I%20want%20the%20Premium%20Notes%20for%201st%20Year%20(all%206%20subjects%2C%20%E2%82%B9199)" target="_blank" rel="noopener">Get Premium on WhatsApp</a>
+          <button class="price-sample-btn" type="button" onclick="openSamples()">View Sample Notes</button>
+        </article>
+
+        <article class="premium-price-card reveal">
+          <span class="price-year">2ND / 3RD / 4TH YEAR</span>
+          <h3>Choose Your Subjects</h3>
+          <div class="price"><sup>₹</sup>349</div>
+          <span class="price-note">For 6 Subjects • one-time</span>
+          <div class="price-or">
+            <i></i><span>or</span><i></i>
+          </div>
+          <div class="price-combo">
+            <b>₹70</b> for Single Subject <span>Cost you more</span>
+          </div>
+          <div class="price-rule"></div>
+          <ul>
+            <li>Choose only what you need</li>
+            <li>Descriptive theory + derivations</li>
+            <li>Clean diagrams &amp; structured answers</li>
+            <li>Topic-wise PYQs</li>
+          </ul>
+          <a class="price-button secondary-price" href="https://wa.me/918249185682?text=Hi%2C%20I%20want%20Premium%20Notes.%20My%20year%20and%20subject(s)%3A%20" target="_blank" rel="noopener">Order Now</a>
+          <button class="price-sample-btn" type="button" onclick="openSamples()">View Sample Notes</button>
+        </article>
+      </div>
+
+      <p class="whatsapp-only-note">
+        <svg width="15" height="15" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 3C9 3 3.3 8.6 3.3 15.6c0 2.5.7 4.8 1.9 6.8L3 29l6.8-2.1c1.9 1.1 4.1 1.7 6.2 1.7 7 0 12.7-5.6 12.7-12.6C28.7 8.6 23 3 16 3z" fill="#25D366"/></svg>
+        Orders are accepted only via WhatsApp — no other checkout right now.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="premium-container">
+      <div class="section-heading centered reveal">
+        <div class="eyebrow">GOOD TO KNOW</div>
+        <h2>Quick questions,<br><em>quick answers.</em></h2>
+      </div>
+
+      <div class="faq-list reveal">
+        <details class="faq-item" open>
+          <summary>How do I actually get the notes after paying?</summary>
+          <p>Once you message us on WhatsApp and complete the payment, the PDF notes for your selected subjects are sent to you directly on WhatsApp — no login, no app.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I buy just one subject instead of the full bundle?</summary>
+          <p>Yes. For 2nd, 3rd and 4th year, you can pick individual subjects at ₹70 each, or take the full-year combo pack for ₹349.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is this a one-time payment or a subscription?</summary>
+          <p>One-time only. You pay once for a subject or bundle and keep the notes — no recurring charges.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What if I'm not sure the notes are worth it?</summary>
+          <p>Open the 6 free sample notes above before buying — they use the exact same format, theory depth and PYQ layout as the paid notes.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="display:inline-flex; align-items:center; gap:10px; margin-bottom:12px;">
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none" aria-hidden="true"><rect width="36" height="36" rx="10" fill="#2563eb"/><path d="M10 26V10h8.5c2 0 3.5.5 4.5 1.5S24.5 14 24.5 15.5c0 1-.3 1.8-.8 2.4-.5.6-1.1 1-1.8 1.2.9.2 1.7.7 2.2 1.4.6.7.9 1.6.9 2.7 0 1.6-.6 2.9-1.7 3.8-1.1.9-2.7 1-4.8 1H10zm3.5-9.5h4.7c1 0 1.8-.2 2.3-.7.5-.4.8-1 .8-1.8 0-.8-.3-1.4-.8-1.8-.5-.4-1.3-.7-2.3-.7h-4.7v5zm0 6.7h5.2c1.1 0 1.9-.3 2.5-.8.6-.5.8-1.2.8-2.1 0-.9-.3-1.6-.8-2.1-.6-.5-1.4-.7-2.5-.7h-5.2v5.7z" fill="white"/></svg>
+          <span class="nav-logo-text" style="color:var(--white);">BPUT<span style="color:var(--accent);">Notes</span></span>
+        </a>
+        <p>Premium segment notes, built the way BPUT actually asks questions.</p>
+      </div>
+      <div class="footer-col"><h4>Premium</h4><a href="#pricing">Pricing</a><a href="javascript:void(0)" onclick="openSamples()">Sample notes</a><a href="https://whatsapp.com/channel/0029Vb7Jky0FHWpznvMaWI3k" target="_blank" rel="noopener">WhatsApp Channel</a></div>
+      <div class="footer-col"><h4>Resources</h4><a href="notes.html">Notes</a><a href="pyq.html">PYQs</a><a href="books.html">Books</a><a href="scholarship.html">Scholarships</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="about.html">About Us</a><a href="careers.html">Careers</a><a href="privacy.html">Privacy Policy</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 BPUTNotes.in</span><span>Not affiliated with BPUT University</span></div>
+  </div>
+</footer>
+
+<!-- SAMPLE MODAL -->
+<div class="sample-modal" id="sampleModal" aria-hidden="true">
+  <div class="modal-backdrop" onclick="closeSamples()"></div>
+  <div class="sample-dialog" role="dialog" aria-modal="true" aria-labelledby="sampleTitle">
+    <button class="modal-close" onclick="closeSamples()" aria-label="Close">×</button>
+    <div class="modal-top">
+      <span class="eyebrow">PREMIUM PREVIEW</span>
+      <h2 id="sampleTitle">Choose a sample note</h2>
+      <p>Open any sample to preview the PDF. Links are placeholders for now.</p>
+    </div>
+
+    <div class="sample-list">
+      <a href="#" class="sample-row">
+        <span class="sample-number">01</span>
+        <span><b>Basic Electrical Engineering</b><small>Network Theorems • Theory + Diagram + PYQ</small></span>
+        <span class="sample-open">Open PDF ↗</span>
+      </a>
+      <a href="#" class="sample-row">
+        <span class="sample-number">02</span>
+        <span><b>Engineering Mathematics</b><small>Differential Calculus • Worked derivation + PYQ</small></span>
+        <span class="sample-open">Open PDF ↗</span>
+      </a>
+      <a href="#" class="sample-row">
+        <span class="sample-number">03</span>
+        <span><b>Engineering Physics</b><small>Optics • Concept diagram + numerical PYQ</small></span>
+        <span class="sample-open">Open PDF ↗</span>
+      </a>
+      <a href="#" class="sample-row">
+        <span class="sample-number">04</span>
+        <span><b>Engineering Chemistry</b><small>Electrochemistry • Descriptive answer + PYQ</small></span>
+        <span class="sample-open">Open PDF ↗</span>
+      </a>
+      <a href="#" class="sample-row">
+        <span class="sample-number">05</span>
+        <span><b>Programming for Problem Solving</b><small>Control Structures • Explanation + code + PYQ</small></span>
+        <span class="sample-open">Open PDF ↗</span>
+      </a>
+      <a href="#" class="sample-row">
+        <span class="sample-number">06</span>
+        <span><b>Engineering Graphics</b><small>Projection • Visual explanation + exam question</small></span>
+        <span class="sample-open">Open PDF ↗</span>
+      </a>
+    </div>
+
+    <div class="modal-foot">PDF destinations are set to <strong>#</strong> for now.</div>
+  </div>
+</div>
+
+<script>
+  const sampleModal = document.getElementById('sampleModal');
+
+  function openSamples() {
+    sampleModal.classList.add('is-open');
+    sampleModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+  }
+
+  function closeSamples() {
+    sampleModal.classList.remove('is-open');
+    sampleModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeSamples();
+  });
+
+  document.querySelectorAll('.sample-row').forEach(link => {
+    link.addEventListener('click', (e) => {
+      if (link.getAttribute('href') === '#') e.preventDefault();
+      // Replace href="#" with the real PDF URL later.
+    });
+  });
+
+  // Floating price badge: show after hero, hide once real pricing is on screen,
+  // and reliably jump to the pricing section on click/tap.
+  const floatingPrice = document.getElementById('floatingPrice');
+  const pricingSection = document.getElementById('pricing');
+  const heroSection = document.querySelector('.premium-hero');
+
+  if (floatingPrice && pricingSection) {
+    floatingPrice.addEventListener('click', (e) => {
+      e.preventDefault();
+      const navbar = document.querySelector('.navbar');
+      const offset = (navbar ? navbar.offsetHeight : 80) + 16;
+      const top = pricingSection.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  }
+
+  if (floatingPrice && 'IntersectionObserver' in window) {
+    const heroIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        floatingPrice.classList.toggle('is-hidden', entry.isIntersecting);
+      });
+    }, { threshold: 0.25 });
+    if (heroSection) heroIO.observe(heroSection);
+
+    const pricingIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) floatingPrice.classList.add('is-hidden');
+      });
+    }, { threshold: 0.2 });
+    if (pricingSection) pricingIO.observe(pricingSection);
+  }
+
+  // Button ripple animation
+  document.querySelectorAll('.premium-primary, .price-button, .sample-cta, .price-sample-btn, .channel-cta').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      const rect = this.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'btn-ripple';
+      ripple.style.left = (e.clientX - rect.left) + 'px';
+      ripple.style.top = (e.clientY - rect.top) + 'px';
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 650);
+    });
+  });
+
+  // Scroll reveal animations
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0"></script>
+<script>
+  (function () {
+    var loader = document.getElementById('pageLoader');
+    var typedEl = document.getElementById('loaderTyped');
+    var icons = loader ? loader.querySelectorAll('.loader-icon') : [];
+    var dots = loader ? loader.querySelectorAll('.loader-dot') : [];
+    var words = ['Concept', 'Explanation', 'Derivation', 'Diagrams', 'PYQ'];
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var alreadyShown = (function () {
+      try { return sessionStorage.getItem('bputPremiumLoaderShown') === '1'; }
+      catch (e) { return false; }
+    })();
+
+    function markShown() {
+      try { sessionStorage.setItem('bputPremiumLoaderShown', '1'); } catch (e) {}
+    }
+
+    function initHeroTyped() {
+      var target = document.getElementById('heroTyped');
+      if (!target) return;
+      if (prefersReduced || typeof Typed === 'undefined') {
+        target.textContent = 'Concept → Explanation → Derivation → Diagrams → PYQ.';
+        return;
+      }
+      new Typed('#heroTyped', {
+        strings: ['Concept', 'Explanation', 'Derivation', 'Diagrams', 'PYQ.'],
+        typeSpeed: 70,
+        backSpeed: 35,
+        backDelay: 1200,
+        smartBackspace: true,
+        showCursor: true,
+        cursorChar: '|',
+        loop: false
+      });
+    }
+
+    function endLoader(skipAnimation) {
+      markShown();
+      document.body.classList.remove('loader-active');
+      if (loader) {
+        if (skipAnimation) {
+          loader.style.display = 'none';
+        } else {
+          loader.classList.add('is-hidden');
+          setTimeout(function () { loader.style.display = 'none'; }, 650);
+        }
+      }
+      initHeroTyped();
+    }
+
+    // Skip the animated loader entirely on repeat visits this session or reduced motion.
+    if (!loader || alreadyShown || prefersReduced) {
+      endLoader(true);
+      return;
+    }
+
+    document.body.classList.add('loader-active');
+
+    function setActiveIndex(i) {
+      icons.forEach(function (el, idx) { el.classList.toggle('is-active', idx === i); });
+      dots.forEach(function (el, idx) {
+        el.classList.toggle('is-active', idx === i);
+        el.classList.toggle('is-done', idx < i);
+      });
+    }
+
+    function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+    function typeWord(word) {
+      return new Promise(function (resolve) {
+        var i = 0;
+        (function step() {
+          typedEl.textContent = word.slice(0, i);
+          i++;
+          if (i <= word.length) setTimeout(step, 70);
+          else resolve();
+        })();
+      });
+    }
+
+    function deleteWord(word) {
+      return new Promise(function (resolve) {
+        var i = word.length;
+        (function step() {
+          typedEl.textContent = word.slice(0, i);
+          i--;
+          if (i >= 0) setTimeout(step, 35);
+          else resolve();
+        })();
+      });
+    }
+
+    async function runSequence() {
+      for (var i = 0; i < words.length; i++) {
+        setActiveIndex(i);
+        await typeWord(words[i]);
+        await wait(650);
+        if (i < words.length - 1) {
+          await deleteWord(words[i]);
+        } else {
+          await wait(500);
+        }
+      }
+      endLoader(false);
+    }
+
+    runSequence();
+  })();
+</script>
+
+</body>
+</html>

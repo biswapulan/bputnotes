@@ -174,6 +174,48 @@ a { text-decoration: none; color: inherit; }
   background: var(--primary-light);
 }
 
+/* Premium is deliberately styled as a small call-to-action so it remains
+   recognisable across every section of the site. */
+.nav-links a.nav-premium-badge {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #21190a !important;
+  background: linear-gradient(180deg, #f7df92 0%, #d9aa3d 52%, #b9811e 100%) !important;
+  border: 1px solid rgba(255, 221, 124, .9);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-weight: 800;
+  box-shadow: 0 4px 18px rgba(191, 139, 38, .25), inset 0 1px rgba(255, 255, 255, .65);
+  text-shadow: 0 1px rgba(255, 255, 255, .35);
+  isolation: isolate;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.nav-links a.nav-premium-badge::before {
+  content: "";
+  position: absolute;
+  inset: -80% -25%;
+  width: 38%;
+  transform: translateX(-180%) rotate(18deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .9), transparent);
+  animation: premiumShine 2.8s ease-in-out infinite;
+  z-index: -1;
+}
+.nav-links a.nav-premium-badge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 rgba(244, 199, 76, .7);
+  animation: premiumPulse 2.8s ease-out infinite;
+  pointer-events: none;
+}
+.nav-links a.nav-premium-badge:hover { transform: translateY(-1px); box-shadow: 0 7px 24px rgba(191, 139, 38, .34), inset 0 1px rgba(255, 255, 255, .7); }
+@keyframes premiumShine { 0%, 35% { transform: translateX(-180%) rotate(18deg); } 70%, 100% { transform: translateX(440%) rotate(18deg); } }
+@keyframes premiumPulse { 0%, 55% { box-shadow: 0 0 0 0 rgba(244, 199, 76, .5); } 80% { box-shadow: 0 0 0 8px rgba(244, 199, 76, 0); } 100% { box-shadow: 0 0 0 0 rgba(244, 199, 76, 0); } }
+
 .nav-cta {
   background: var(--primary) !important;
   color: #ffffff !important;
