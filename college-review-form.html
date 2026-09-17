@@ -1,0 +1,1304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BPUT Notes — College Review</title>
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-alt:#f4f5f6;
+    --text:#1a1d21;
+    --text-muted:#5b6169;
+    --border:#d8dbde;
+    --border-strong:#b9bec4;
+    --brand:#2563eb;
+    --brand-dark:#1d4ed8;
+    --brand-tint:#eaf1fe;
+    --error:#b3261e;
+    --success:#1e6b46;
+    --radius:6px;
+    --max-w:640px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:#eef1f6;
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  /* creative animated backdrop */
+  .bg-decor{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+    pointer-events:none;
+    background-image:radial-gradient(rgba(30,41,59,.05) 1px, transparent 1px);
+    background-size:24px 24px;
+  }
+  .bg-decor .blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(70px);
+  }
+  .bg-decor .blob-1{
+    width:440px;height:440px;
+    background:#2f5fdc;
+    opacity:.22;
+    top:-160px;left:-140px;
+    animation:float1 20s ease-in-out infinite;
+  }
+  .bg-decor .blob-2{
+    width:380px;height:380px;
+    background:#f5a623;
+    opacity:.20;
+    bottom:-160px;right:-120px;
+    animation:float2 24s ease-in-out infinite;
+  }
+  .bg-decor .blob-3{
+    width:300px;height:300px;
+    background:#2f5fdc;
+    opacity:.12;
+    top:38%;right:-140px;
+    animation:float3 27s ease-in-out infinite;
+  }
+  @keyframes float1{
+    0%,100%{ transform:translate(0,0) scale(1); }
+    50%{ transform:translate(50px,60px) scale(1.08); }
+  }
+  @keyframes float2{
+    0%,100%{ transform:translate(0,0) scale(1); }
+    50%{ transform:translate(-40px,-40px) scale(1.06); }
+  }
+  @keyframes float3{
+    0%,100%{ transform:translate(0,0); }
+    50%{ transform:translate(-40px,50px); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .bg-decor .blob{ animation:none; }
+  }
+
+  .page{
+    position:relative;
+    z-index:1;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:20px 16px 32px;
+  }
+  .brand-header{
+    width:100%;
+    max-width:var(--max-w);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .brand-header svg{flex-shrink:0;display:block;}
+  .brand-header .name{
+    font-weight:800;
+    font-size:19px;
+    letter-spacing:.1px;
+  }
+  .brand-header .name .b-blue{color:#2f5fdc;}
+  .brand-header .name .b-orange{color:#f5a623;}
+  .card{
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    width:100%;
+    max-width:var(--max-w);
+    padding:32px 28px;
+    position:relative;
+    z-index:1;
+  }
+  .screen-body{
+    animation:screenIn .35s ease both;
+  }
+  @keyframes screenIn{
+    from{ opacity:0; transform:translateY(10px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .screen-body{ animation:none; }
+  }
+  @media (max-width:480px){
+    .card{padding:22px 16px;}
+  }
+
+  /* progress */
+  .progress-track{
+    width:100%;
+    max-width:var(--max-w);
+    height:4px;
+    background:var(--border);
+    border-radius:2px;
+    overflow:hidden;
+    margin-bottom:10px;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--brand);
+    width:0%;
+    transition:width .25s ease;
+  }
+  .progress-label{
+    width:100%;
+    max-width:var(--max-w);
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    color:var(--text-muted);
+    margin-bottom:14px;
+  }
+
+  .section-label{
+    font-size:12px;
+    font-weight:600;
+    color:var(--brand);
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    margin-bottom:8px;
+  }
+  h1.q{
+    font-size:20px;
+    font-weight:600;
+    margin:0 0 6px;
+    line-height:1.35;
+  }
+  .helper{
+    font-size:13px;
+    color:var(--text-muted);
+    margin:0 0 18px;
+  }
+  .field-error{
+    font-size:12.5px;
+    color:var(--error);
+    margin-top:6px;
+    display:none;
+  }
+  .field-error.show{display:block;}
+
+  input[type=text], input[type=tel], input[type=email], input[type=number], select, textarea{
+    width:100%;
+    font-size:16px;
+    font-family:inherit;
+    padding:11px 12px;
+    border:1px solid var(--border-strong);
+    border-radius:var(--radius);
+    background:#fff;
+    color:var(--text);
+  }
+  input:focus, select:focus, textarea:focus, button:focus-visible{
+    outline:2px solid var(--brand);
+    outline-offset:1px;
+    border-color:var(--brand);
+  }
+  textarea{resize:vertical;min-height:90px;}
+
+  /* question blocks used inside grouped screens */
+  .qblock{
+    padding:16px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .qblock:first-child{padding-top:0;}
+  .qblock:last-child{border-bottom:none;padding-bottom:0;}
+  .qblock .qlabel{
+    font-size:14.5px;
+    font-weight:600;
+    margin:0 0 10px;
+    line-height:1.4;
+  }
+  .qblock .qhelper{
+    font-size:12.5px;
+    color:var(--text-muted);
+    margin:-6px 0 10px;
+  }
+  .qblock.invalid{
+    background:#fef4f3;
+    margin:0 -14px;
+    padding:16px 14px;
+    border-radius:6px;
+  }
+
+  .option-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:6px;
+  }
+  @media (max-width:420px){
+    .option-grid{grid-template-columns:repeat(5,1fr);gap:4px;}
+  }
+  .rating-btn{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+    padding:9px 2px;
+    border:1px solid var(--border-strong);
+    border-radius:var(--radius);
+    background:#fff;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .rating-btn .num{font-size:15px;font-weight:700;}
+  .rating-btn .lbl{font-size:8.8px;color:var(--text-muted);text-align:center;line-height:1.15;}
+  .rating-btn:hover{border-color:var(--brand);}
+  .rating-btn.selected{
+    border-color:var(--brand);
+    background:var(--brand-tint);
+  }
+  .rating-btn.selected .num, .rating-btn.selected .lbl{color:var(--brand-dark);}
+
+  .na-btn{
+    margin-top:8px;
+    width:100%;
+    padding:8px;
+    border:1px dashed var(--border-strong);
+    border-radius:var(--radius);
+    background:#fff;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:12.5px;
+    color:var(--text-muted);
+  }
+  .na-btn.selected{
+    border:1px solid var(--brand);
+    background:var(--brand-tint);
+    color:var(--brand-dark);
+  }
+
+  .choice-stack{display:flex;flex-wrap:wrap;gap:8px;}
+  .choice-btn{
+    text-align:center;
+    padding:10px 18px;
+    border:1px solid var(--border-strong);
+    border-radius:var(--radius);
+    background:#fff;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:14.5px;
+    flex:1;
+    min-width:90px;
+  }
+  .choice-btn:hover{border-color:var(--brand);}
+  .choice-btn.selected{
+    border-color:var(--brand);
+    background:var(--brand-tint);
+    color:var(--brand-dark);
+    font-weight:600;
+  }
+
+  .dk-row{display:flex;gap:8px;align-items:center;}
+  .dk-row input{flex:1;}
+  .dk-toggle{
+    white-space:nowrap;
+    padding:11px 12px;
+    border:1px solid var(--border-strong);
+    border-radius:var(--radius);
+    background:#fff;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:13px;
+    color:var(--text-muted);
+  }
+  .dk-toggle.selected{
+    border-color:var(--brand);
+    background:var(--brand-tint);
+    color:var(--brand-dark);
+  }
+
+  .checkbox-row{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:12px;
+    border:1px solid var(--border-strong);
+    border-radius:var(--radius);
+    cursor:pointer;
+  }
+  .checkbox-row input{margin-top:3px;width:16px;height:16px;flex-shrink:0;}
+  .checkbox-row span{font-size:14px;}
+
+  .file-drop{
+    border:1.5px dashed var(--border-strong);
+    border-radius:var(--radius);
+    padding:22px 16px;
+    text-align:center;
+    cursor:pointer;
+    display:block;
+  }
+  .file-drop:hover{border-color:var(--brand);}
+  .file-drop input{display:none;}
+  .file-drop .fd-title{font-size:14px;font-weight:600;}
+  .file-drop .fd-sub{font-size:12px;color:var(--text-muted);margin-top:4px;}
+  .file-name{
+    margin-top:10px;
+    font-size:13px;
+    color:var(--success);
+    font-weight:600;
+  }
+
+  .photo-counter{
+    margin-top:10px;
+    font-size:12.5px;
+    color:var(--text-muted);
+    font-weight:600;
+  }
+  .photo-counter.ok{color:var(--success);}
+  .photo-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(72px, 1fr));
+    gap:8px;
+    margin-top:10px;
+  }
+  .photo-thumb{
+    position:relative;
+    aspect-ratio:1/1;
+    border-radius:6px;
+    overflow:hidden;
+    border:1px solid var(--border);
+  }
+  .photo-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .photo-remove{
+    position:absolute;
+    top:3px;right:3px;
+    width:20px;height:20px;
+    border-radius:50%;
+    border:none;
+    background:rgba(0,0,0,.6);
+    color:#fff;
+    font-size:14px;
+    line-height:1;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .nav-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:24px;
+  }
+  button.nav-btn{
+    font-family:inherit;
+    font-size:15px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:var(--radius);
+    cursor:pointer;
+    border:1px solid transparent;
+  }
+  .btn-primary{
+    background:var(--brand);
+    color:#fff;
+    border-color:var(--brand);
+  }
+  .btn-primary:hover{background:var(--brand-dark);}
+  .btn-primary:disabled{
+    background:var(--border);
+    border-color:var(--border);
+    color:var(--text-muted);
+    cursor:not-allowed;
+  }
+  .btn-ghost{
+    background:transparent;
+    color:var(--text-muted);
+    border-color:var(--border-strong);
+  }
+  .btn-ghost:hover{color:var(--text);}
+  .btn-ghost:disabled{opacity:0;pointer-events:none;}
+
+  ul.crit{
+    padding-left:18px;
+    margin:0 0 22px;
+    font-size:14px;
+    color:var(--text);
+  }
+  ul.crit li{margin-bottom:6px;}
+
+  .landing-badge{
+    display:inline-block;
+    font-size:12px;
+    font-weight:700;
+    color:var(--brand-dark);
+    background:var(--brand-tint);
+    padding:5px 10px;
+    border-radius:20px;
+    margin-bottom:14px;
+  }
+
+  .center-icon{font-size:32px;margin-bottom:10px;}
+  .thankyou ol{font-size:14px;padding-left:20px;}
+  .thankyou ol li{margin-bottom:6px;}
+
+  .submit-error{
+    font-size:13.5px;
+    color:var(--error);
+    margin-top:14px;
+    display:none;
+  }
+  .submit-error.show{display:block;}
+
+  .privacy-note{
+    font-size:12px;
+    color:var(--text-muted);
+    margin-top:12px;
+  }
+
+  .site-footer{
+    text-align:center;
+    padding:22px 16px 26px;
+    font-size:12.5px;
+    color:var(--text-muted);
+  }
+  .site-footer a{color:var(--text-muted);text-decoration:underline;}
+
+  /* submitting overlay */
+  .loading-overlay{
+    position:fixed;
+    inset:0;
+    z-index:50;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(20,24,30,.45);
+    backdrop-filter:blur(2px);
+  }
+  .loading-overlay.show{display:flex;}
+  .loading-box{
+    background:#fff;
+    border-radius:var(--radius);
+    padding:28px 34px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
+    box-shadow:0 8px 30px rgba(0,0,0,.18);
+    max-width:260px;
+    text-align:center;
+  }
+  .spinner{
+    width:36px;height:36px;
+    border:3.5px solid var(--brand-tint);
+    border-top-color:var(--brand);
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .loading-box .lt-title{font-size:14.5px;font-weight:600;color:var(--text);}
+  .loading-box .lt-sub{font-size:12.5px;color:var(--text-muted);}
+</style>
+</head>
+<body>
+<div class="bg-decor">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+<div class="page">
+  <div class="brand-header">
+    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="16" fill="#2563eb"></rect><path d="M18 46V18h15c3.5 0 6.2.9 8 2.7 1.8 1.7 2.7 3.8 2.7 6.3 0 1.7-.5 3.2-1.5 4.4-.9 1.1-2 1.8-3.2 2.2 1.7.3 3 1.2 4 2.5 1 1.3 1.5 2.9 1.5 4.8 0 2.9-1 5.1-3 6.7-2 1.6-4.8 2.4-8.5 2.4H18zm6.2-17h8.3c1.9 0 3.3-.5 4.2-1.3.9-.8 1.4-1.9 1.4-3.2 0-1.4-.5-2.5-1.4-3.2-.9-.8-2.3-1.2-4.1-1.2h-8.4v8.9zm0 12h9.2c2 0 3.5-.5 4.5-1.5 1-.9 1.5-2.2 1.5-3.7s-.5-2.8-1.5-3.7c-1-1-2.5-1.4-4.5-1.4h-9.2v10.3z" fill="white"></path></svg>
+    <span class="name"><span class="b-blue">BPUT</span><span class="b-orange">Notes</span></span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-label">
+    <span id="sectionLabel">Getting started</span>
+    <span id="stepLabel"></span>
+  </div>
+  <div class="card" id="card"></div>
+</div>
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-box">
+    <div class="spinner"></div>
+    <div class="lt-title">Submitting your review…</div>
+    <div class="lt-sub">Uploading your photos, please don't close this tab.</div>
+  </div>
+</div>
+<div class="site-footer">
+  Designed with ❤ by <a href="https://studio.bputnotes.in" target="_blank" rel="noopener">studio.bputnotes.in</a><br>
+  © 2026 BPUT Notes
+</div>
+
+<script>
+(function(){
+
+  /* ---------------------------------------------------------
+     CONFIG — edit these before publishing
+     FORM_ENDPOINT is the Google Apps Script Web App URL — see setup guide.
+  --------------------------------------------------------- */
+  var FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbzxPIggZR2x-R7qLc3YU5zjjGs3saPguIN9ZIjepkwJjZ30mk6hpKAK9R4bqJhoVL1J5A/exec";
+  var REWARD_AMOUNT = "₹50";
+  var MIN_COLLEGE_PHOTOS = 5;
+  var MAX_COLLEGE_PHOTOS = 8;
+
+  /* ---------------------------------------------------------
+     Question builders
+  --------------------------------------------------------- */
+  function rating(id, label, helper){
+    return {id:id, type:"rating", label:label, helper:helper||"", required:true};
+  }
+  function ratingNA(id, label){
+    return {id:id, type:"rating_na", label:label, required:true};
+  }
+  function choiceQ(id, label, options, required){
+    return {id:id, type:"choice", label:label, options:options, required:required!==false};
+  }
+  function shortText(id, label, required){
+    return {id:id, type:"short_text", label:label, required:!!required};
+  }
+  function longText(id, label, required){
+    return {id:id, type:"long_text", label:label, required:!!required};
+  }
+  function percentDK(id, label){
+    return {id:id, type:"percent_dk", label:label, required:true};
+  }
+  function amountDK(id, label){
+    return {id:id, type:"amount_dk", label:label, required:true};
+  }
+  function distanceDK(id, label){
+    return {id:id, type:"distance_dk", label:label, required:true};
+  }
+  function numberDK(id, label){
+    return {id:id, type:"number_dk", label:label, required:true};
+  }
+
+  var RATING_LABELS = ["Very Poor","Poor","Average","Good","Excellent"];
+  var YES_NO_MAYBE = ["Yes","No","Maybe"];
+
+  /* ---------------------------------------------------------
+     Screens: landing / single (one field) / group (5-6 fields)
+  --------------------------------------------------------- */
+  var SCREENS = [];
+
+  SCREENS.push({type:"landing"});
+
+  SCREENS.push({
+    type:"single", section:"Eligibility", countable:true,
+    q:{id:"yearOfStudy", type:"select", label:"Which year are you currently in?", required:true,
+       options:["1st Year","2nd Year","3rd Year","4th Year","Graduated"]}
+  });
+
+  SCREENS.push({
+    type:"group", section:"Your Details", countable:true,
+    questions:[
+      {id:"fullName", type:"text", label:"Full name", required:true},
+      {id:"mobile", type:"tel", label:"Mobile number", helper:"10-digit number — we'll use this to verify your review and send your reward.", required:true},
+      {id:"email", type:"email", label:"Email address", required:true}
+    ]
+  });
+
+  SCREENS.push({
+    type:"group", section:"College Details", countable:true,
+    questions:[
+      {id:"collegeName", type:"text", label:"Name of your college", required:true},
+      {id:"branch", type:"select", label:"Course / Branch", required:true,
+        options:["CSE","IT","ECE","EE","EEE","Mechanical","Civil","Other"]},
+      {id:"semester", type:"semester", label:"Current semester", required:true},
+      {id:"affiliationConfirm", type:"checkbox", required:true,
+        label:"I confirm my college is affiliated to BPUT University."}
+    ]
+  });
+
+  SCREENS.push({
+    type:"single", section:"Verification", countable:true,
+    q:{id:"idCard", type:"file", label:"Upload your college ID card",
+       helper:"Temporary or permanent ID — JPG, PNG or PDF, up to 5MB. Used only to verify you're a genuine student, never shown publicly.", required:true}
+  });
+
+  SCREENS.push({
+    type:"single", section:"College Photos", countable:true,
+    q:{id:"collegePhotos", type:"multi_file", label:"Upload at least " + MIN_COLLEGE_PHOTOS + " photos of your college",
+       helper:"Classrooms, campus grounds, library, hostel, canteen, labs — 5 different locations around your college. No need to be professional, just clear phone photos. JPG or PNG, up to 4MB each, minimum " + MIN_COLLEGE_PHOTOS + " and up to " + MAX_COLLEGE_PHOTOS + ".", required:true, min:MIN_COLLEGE_PHOTOS, max:MAX_COLLEGE_PHOTOS}
+  });
+
+  function groupScreens(section, part, chunks){
+    chunks.forEach(function(chunk, i){
+      SCREENS.push({
+        type:"group",
+        section:section,
+        part: chunks.length > 1 ? (i+1)+" of "+chunks.length : null,
+        countable:true,
+        questions:chunk
+      });
+    });
+  }
+
+  /* Trimmed to 4 short sections (was 8). Each mixes quick ratings with a
+     couple of open text questions so reviews aren't just star-clicking. */
+
+  groupScreens("Academic Review", null, [
+    [
+      rating("acad_1","How would you rate the overall quality of teaching?"),
+      rating("acad_2","How relevant is the curriculum to current industry requirements?"),
+      choiceQ("acad_10","Would you recommend this college for its academic quality?", YES_NO_MAYBE),
+      longText("acad_text","What stands out (good or bad) about the teaching or academics here?", false)
+    ]
+  ]);
+
+  groupScreens("Placement & Career", null, [
+    [
+      rating("place_1","Does your college provide sufficient placement opportunities in your branch?"),
+      amountDK("place_8","Approximate average annual CTC offered in your branch (₹ LPA)?"),
+      shortText("place_11","Which companies recruited from your branch recently?", false),
+      rating("place_10","How satisfied are you with the overall placement support?")
+    ]
+  ]);
+
+  groupScreens("Campus & Facilities", null, [
+    [
+      rating("infra_1","How would you rate classrooms, labs and library resources?"),
+      rating("env_3","How safe do you feel on campus, including at night?"),
+      longText("campus_text","What's campus life, hostel or food like here? Anything students should know?", false),
+      shortText("events_8","Name any major fests, hackathons or events your college is known for.", false)
+    ]
+  ]);
+
+  groupScreens("Overall College Review", null, [
+    [
+      rating("overall_1","Overall, how would you rate your college?"),
+      choiceQ("overall_2","Would you recommend this college to a student seeking admission?", YES_NO_MAYBE),
+      longText("overall_3","What do you like most about your college?", false),
+      longText("overall_4","What is the biggest problem students face here, and what would you improve?", false)
+    ]
+  ]);
+
+  SCREENS.push({type:"consent", countable:true});
+  SCREENS.push({type:"thanks"});
+
+  /* ---------------------------------------------------------
+     State
+  --------------------------------------------------------- */
+  var answers = {};
+  var current = 0;
+  var totalCountable = SCREENS.filter(function(s){ return s.countable; }).length;
+
+  var card = document.getElementById("card");
+  var progressFill = document.getElementById("progressFill");
+  var sectionLabel = document.getElementById("sectionLabel");
+  var stepLabel = document.getElementById("stepLabel");
+
+  function el(tag, attrs, children){
+    var node = document.createElement(tag);
+    attrs = attrs || {};
+    Object.keys(attrs).forEach(function(k){
+      if(k === "class") node.className = attrs[k];
+      else if(k === "html") node.innerHTML = attrs[k];
+      else node.setAttribute(k, attrs[k]);
+    });
+    (children||[]).forEach(function(c){ if(c) node.appendChild(c); });
+    return node;
+  }
+  function text(t){ return document.createTextNode(t); }
+
+  function countableIndex(){
+    var n = 0;
+    for(var i=0;i<current;i++){ if(SCREENS[i].countable) n++; }
+    return n;
+  }
+  function updateProgress(){
+    var screen = SCREENS[current];
+    if(screen.type === "landing"){
+      progressFill.style.width = "0%";
+      sectionLabel.textContent = "Welcome";
+      stepLabel.textContent = "";
+      return;
+    }
+    if(screen.type === "thanks"){
+      progressFill.style.width = "100%";
+      sectionLabel.textContent = "Done";
+      stepLabel.textContent = "";
+      return;
+    }
+    var idx = countableIndex();
+    var pct = Math.round((idx / totalCountable) * 100);
+    progressFill.style.width = pct + "%";
+    var label = screen.section || (screen.type === "consent" ? "Review & submit" : "");
+    if(screen.part) label += " · Part " + screen.part;
+    sectionLabel.textContent = label;
+    stepLabel.textContent = (idx+1) + " of " + totalCountable;
+  }
+
+  /* ---------------------------------------------------------
+     Question block renderer (reused for single + group screens)
+  --------------------------------------------------------- */
+  function buildQuestionBlock(q, compact){
+    var block = el("div",{class:"qblock"});
+    var labelTag = compact ? "div" : "h1";
+    var labelClass = compact ? "qlabel" : "q";
+    block.appendChild(el(labelTag,{class:labelClass},[text(q.label)]));
+    if(q.helper){
+      block.appendChild(el("div",{class: compact ? "qhelper" : "helper"},[text(q.helper)]));
+    }
+    var errorNode = el("div",{class:"field-error"});
+    var control;
+
+    switch(q.type){
+      case "text": case "tel": case "email":
+        control = el("input",{type: q.type === "tel" ? "tel" : q.type, autocomplete:"off"});
+        if(answers[q.id]) control.value = answers[q.id];
+        control.addEventListener("input", function(){ answers[q.id] = control.value; clearBlockError(block, errorNode); });
+        break;
+
+      case "select":
+        control = buildSelect(q, q.options, errorNode, block);
+        break;
+
+      case "semester":
+        var opts = answers.yearOfStudy === "2nd Year" ? ["Semester 3","Semester 4"] : ["Semester 1","Semester 2"];
+        control = buildSelect(q, opts, errorNode, block);
+        break;
+
+      case "checkbox":
+        control = buildCheckbox(q, errorNode, block);
+        break;
+
+      case "file":
+        control = buildFile(q, errorNode, block);
+        break;
+
+      case "multi_file":
+        control = buildMultiFile(q, errorNode, block);
+        break;
+
+      case "rating":
+        control = buildRating(q, false, errorNode, block);
+        break;
+
+      case "rating_na":
+        control = buildRating(q, true, errorNode, block);
+        break;
+
+      case "choice":
+        control = buildChoiceList(q, q.options, errorNode, block);
+        break;
+
+      case "percent_dk":
+        control = buildDK(q, "%", "0-100", errorNode, block);
+        break;
+      case "amount_dk":
+        control = buildDK(q, "₹ LPA", "e.g. 4.5", errorNode, block);
+        break;
+      case "number_dk":
+        control = buildDK(q, "", "e.g. 12", errorNode, block);
+        break;
+      case "distance_dk":
+        control = buildSelect(q, ["Less than 1 km","1–3 km","3–5 km","5–10 km","More than 10 km","Don't know"], errorNode, block);
+        break;
+
+      case "short_text":
+        control = el("input",{type:"text", placeholder:"Optional"});
+        if(answers[q.id]) control.value = answers[q.id];
+        control.addEventListener("input", function(){ answers[q.id] = control.value; });
+        break;
+
+      case "long_text":
+        control = el("textarea",{placeholder:"Optional — write as much or as little as you like"});
+        if(answers[q.id]) control.value = answers[q.id];
+        control.addEventListener("input", function(){ answers[q.id] = control.value; });
+        break;
+    }
+
+    if(control && control.tagName) block.appendChild(control);
+    else if(control) block.appendChild(control);
+    block.appendChild(errorNode);
+
+    block._validate = function(){ return validateQuestion(q, block, errorNode); };
+    return block;
+  }
+
+  function clearBlockError(block, errorNode){
+    block.classList.remove("invalid");
+    errorNode.classList.remove("show");
+    errorNode.textContent = "";
+  }
+  function setBlockError(block, errorNode, msg){
+    block.classList.add("invalid");
+    errorNode.textContent = msg;
+    errorNode.classList.add("show");
+  }
+
+  function buildSelect(q, options, errorNode, block){
+    var sel = el("select",{});
+    sel.appendChild(el("option",{value:""},[text("Choose an option")]));
+    options.forEach(function(opt){
+      var o = el("option",{value:opt},[text(opt)]);
+      if(answers[q.id] === opt) o.selected = true;
+      sel.appendChild(o);
+    });
+    sel.addEventListener("change", function(){ answers[q.id] = sel.value; clearBlockError(block, errorNode); });
+    return sel;
+  }
+
+  function buildChoiceList(q, options, errorNode, block){
+    var wrap = el("div",{class:"choice-stack"});
+    options.forEach(function(opt){
+      var btn = el("button",{type:"button", class:"choice-btn"},[text(opt)]);
+      if(answers[q.id] === opt) btn.classList.add("selected");
+      btn.addEventListener("click", function(){
+        answers[q.id] = opt;
+        Array.prototype.forEach.call(wrap.querySelectorAll(".choice-btn"), function(b){ b.classList.remove("selected"); });
+        btn.classList.add("selected");
+        clearBlockError(block, errorNode);
+        if(q.id === "yearOfStudy") goNext();
+      });
+      wrap.appendChild(btn);
+    });
+    return wrap;
+  }
+
+  function buildRating(q, allowNA, errorNode, block){
+    var wrap = document.createElement("div");
+    var grid = el("div",{class:"option-grid"});
+    for(var i=1;i<=5;i++){
+      (function(n){
+        var btn = el("button",{type:"button", class:"rating-btn"},[
+          el("span",{class:"num"},[text(String(n))]),
+          el("span",{class:"lbl"},[text(RATING_LABELS[n-1])])
+        ]);
+        if(answers[q.id] === String(n)) btn.classList.add("selected");
+        btn.addEventListener("click", function(){
+          answers[q.id] = String(n);
+          clearSelections();
+          btn.classList.add("selected");
+          clearBlockError(block, errorNode);
+        });
+        grid.appendChild(btn);
+      })(i);
+    }
+    wrap.appendChild(grid);
+    var naBtn = null;
+    if(allowNA){
+      naBtn = el("button",{type:"button", class:"na-btn"},[text("Not applicable")]);
+      if(answers[q.id] === "Not applicable") naBtn.classList.add("selected");
+      naBtn.addEventListener("click", function(){
+        answers[q.id] = "Not applicable";
+        clearSelections();
+        naBtn.classList.add("selected");
+        clearBlockError(block, errorNode);
+      });
+      wrap.appendChild(naBtn);
+    }
+    function clearSelections(){
+      Array.prototype.forEach.call(grid.querySelectorAll(".rating-btn"), function(b){ b.classList.remove("selected"); });
+      if(naBtn) naBtn.classList.remove("selected");
+    }
+    return wrap;
+  }
+
+  function buildDK(q, suffix, placeholder, errorNode, block){
+    var wrap = document.createElement("div");
+    var row = el("div",{class:"dk-row"});
+    var input = el("input",{type:"number", min:"0", placeholder:placeholder||"", inputmode:"decimal"});
+    if(answers[q.id] && answers[q.id] !== "Don't know"){
+      var numOnly = String(answers[q.id]).replace(suffix,"").trim();
+      input.value = numOnly;
+    }
+    var dkBtn = el("button",{type:"button", class:"dk-toggle"},[text("Don't know")]);
+    if(answers[q.id] === "Don't know"){
+      dkBtn.classList.add("selected");
+      input.disabled = true;
+    }
+    input.addEventListener("input", function(){
+      answers[q.id] = input.value + (suffix ? " "+suffix : "");
+      clearBlockError(block, errorNode);
+    });
+    dkBtn.addEventListener("click", function(){
+      var nowSelected = !dkBtn.classList.contains("selected");
+      dkBtn.classList.toggle("selected", nowSelected);
+      input.disabled = nowSelected;
+      if(nowSelected){ answers[q.id] = "Don't know"; input.value = ""; }
+      else { answers[q.id] = ""; }
+      clearBlockError(block, errorNode);
+    });
+    row.appendChild(input);
+    row.appendChild(dkBtn);
+    wrap.appendChild(row);
+    return wrap;
+  }
+
+  function buildCheckbox(q, errorNode, block){
+    var label = el("label",{class:"checkbox-row"});
+    var cb = el("input",{type:"checkbox"});
+    if(answers[q.id]) cb.checked = true;
+    cb.addEventListener("change", function(){ answers[q.id] = cb.checked; clearBlockError(block, errorNode); });
+    label.appendChild(cb);
+    label.appendChild(el("span",{},[text(q.label)]));
+    return label;
+  }
+
+  function buildFile(q, errorNode, block){
+    var wrap = document.createElement("div");
+    var drop = el("label",{class:"file-drop"});
+    var input = el("input",{type:"file", accept:"image/png,image/jpeg,image/jpg,application/pdf"});
+    drop.appendChild(input);
+    drop.appendChild(el("div",{class:"fd-title"},[text("Tap to choose a file")]));
+    drop.appendChild(el("div",{class:"fd-sub"},[text("JPG, PNG or PDF · up to 5MB")]));
+    var fileNameNode = el("div",{class:"file-name"});
+    if(answers[q.id] && answers[q.id].name){ fileNameNode.textContent = "Selected: " + answers[q.id].name; }
+    input.addEventListener("change", function(){
+      var f = input.files[0];
+      if(!f) return;
+      if(f.size > 5*1024*1024){
+        setBlockError(block, errorNode, "That file is larger than 5MB — please choose a smaller one.");
+        input.value = "";
+        return;
+      }
+      answers[q.id] = f;
+      fileNameNode.textContent = "Selected: " + f.name;
+      clearBlockError(block, errorNode);
+    });
+    wrap.appendChild(drop);
+    wrap.appendChild(fileNameNode);
+    return wrap;
+  }
+
+  function buildMultiFile(q, errorNode, block){
+    if(!answers[q.id]) answers[q.id] = [];
+    var min = q.min || 5;
+    var max = q.max || 8;
+    var wrap = document.createElement("div");
+    var drop = el("label",{class:"file-drop"});
+    var input = el("input",{type:"file", accept:"image/png,image/jpeg,image/jpg", multiple:"multiple"});
+    drop.appendChild(input);
+    drop.appendChild(el("div",{class:"fd-title"},[text("Tap to add photos")]));
+    drop.appendChild(el("div",{class:"fd-sub"},[text("JPG or PNG · up to 4MB each")]));
+    var counter = el("div",{class:"photo-counter"});
+    var grid = el("div",{class:"photo-grid"});
+
+    function refresh(){
+      var count = answers[q.id].length;
+      counter.textContent = count + " of " + min + " minimum added" + (count >= min ? " ✓" : "");
+      counter.classList.toggle("ok", count >= min);
+      grid.innerHTML = "";
+      answers[q.id].forEach(function(f, idx){
+        var thumb = el("div",{class:"photo-thumb"});
+        var img = el("img",{src:URL.createObjectURL(f), alt:""});
+        var removeBtn = el("button",{type:"button", class:"photo-remove"},[text("×")]);
+        removeBtn.addEventListener("click", function(){
+          answers[q.id].splice(idx,1);
+          refresh();
+          clearBlockError(block, errorNode);
+        });
+        thumb.appendChild(img);
+        thumb.appendChild(removeBtn);
+        grid.appendChild(thumb);
+      });
+    }
+
+    input.addEventListener("change", function(){
+      var incoming = Array.prototype.slice.call(input.files);
+      var rejectedSize = false;
+      incoming.forEach(function(f){
+        if(answers[q.id].length >= max) return;
+        if(f.size > 4*1024*1024){ rejectedSize = true; return; }
+        answers[q.id].push(f);
+      });
+      input.value = "";
+      if(rejectedSize){ setBlockError(block, errorNode, "Some photos were over 4MB and were skipped."); }
+      else { clearBlockError(block, errorNode); }
+      refresh();
+    });
+
+    wrap.appendChild(drop);
+    wrap.appendChild(counter);
+    wrap.appendChild(grid);
+    refresh();
+    return wrap;
+  }
+
+  /* ---------------------------------------------------------
+     Validation
+  --------------------------------------------------------- */
+  function validateQuestion(q, block, errorNode){
+    if(q.id === "yearOfStudy"){
+      if(!answers.yearOfStudy){ setBlockError(block, errorNode, "Please select an option."); return false; }
+      return true;
+    }
+    if(!q.required) return true;
+    switch(q.type){
+      case "text":
+        if(!answers[q.id] || !answers[q.id].trim()){ setBlockError(block, errorNode, "This field can't be empty."); return false; }
+        return true;
+      case "tel":
+        if(!/^[6-9]\d{9}$/.test((answers[q.id]||"").trim())){ setBlockError(block, errorNode, "Enter a valid 10-digit mobile number."); return false; }
+        return true;
+      case "email":
+        if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((answers[q.id]||"").trim())){ setBlockError(block, errorNode, "Enter a valid email address."); return false; }
+        return true;
+      case "select": case "semester": case "distance_dk":
+        if(!answers[q.id]){ setBlockError(block, errorNode, "Please select an option."); return false; }
+        return true;
+      case "checkbox":
+        if(!answers[q.id]){ setBlockError(block, errorNode, "Please check the box to continue."); return false; }
+        return true;
+      case "file":
+        if(!answers[q.id]){ setBlockError(block, errorNode, "Please upload your ID card to continue."); return false; }
+        return true;
+      case "multi_file":
+        var min = q.min || 5;
+        if(!answers[q.id] || answers[q.id].length < min){
+          setBlockError(block, errorNode, "Please add at least " + min + " photos (" + (answers[q.id] ? answers[q.id].length : 0) + " added so far).");
+          return false;
+        }
+        return true;
+      case "rating": case "rating_na": case "choice":
+        if(!answers[q.id]){ setBlockError(block, errorNode, "Please choose an option."); return false; }
+        return true;
+      case "percent_dk": case "amount_dk": case "number_dk":
+        if(!answers[q.id] || !String(answers[q.id]).trim()){ setBlockError(block, errorNode, "Enter a value, or choose \"Don't know\"."); return false; }
+        return true;
+      default:
+        return true;
+    }
+  }
+
+  function checkYearEligibility(){
+    var v = answers.yearOfStudy;
+    if(v === "3rd Year" || v === "4th Year" || v === "Graduated") return "ineligible";
+    return true;
+  }
+
+  /* ---------------------------------------------------------
+     Screen rendering
+  --------------------------------------------------------- */
+  function labelFor(id){
+    var found = null;
+    SCREENS.forEach(function(s){
+      if(s.q && s.q.id === id) found = s.q.label;
+      if(s.questions) s.questions.forEach(function(q){ if(q.id === id) found = q.label; });
+    });
+    return found || id;
+  }
+
+  var currentValidators = [];
+
+  function renderScreen(){
+    card.innerHTML = "";
+    currentValidators = [];
+    updateProgress();
+    var screen = SCREENS[current];
+
+    if(screen.type === "landing"){
+      renderLanding();
+      return;
+    }
+    if(screen.type === "thanks"){
+      renderThanks();
+      return;
+    }
+    if(screen.type === "consent"){
+      renderConsent();
+      return;
+    }
+
+    var body = document.createElement("div"); body.className = "screen-body";
+    if(screen.type === "single"){
+      var block = buildQuestionBlock(screen.q, false);
+      block.classList.remove("qblock");
+      currentValidators.push(block._validate);
+      body.appendChild(block);
+    } else if(screen.type === "group"){
+      body.appendChild(el("div",{class:"section-label"},[text(screen.section + (screen.part ? " · Part " + screen.part : ""))]));
+      screen.questions.forEach(function(q){
+        var block = buildQuestionBlock(q, true);
+        currentValidators.push(block._validate);
+        body.appendChild(block);
+      });
+    }
+    card.appendChild(body);
+    renderNav(screen, false);
+  }
+
+  function renderLanding(){
+    var body = document.createElement("div"); body.className = "screen-body";
+    body.appendChild(el("span",{class:"landing-badge"},[text("Earn " + REWARD_AMOUNT + " per verified review")]));
+    body.appendChild(el("h1",{class:"q"},[text("Tell us about your college")]));
+    body.appendChild(el("p",{class:"helper"},[text("Your honest review helps thousands of students choose the right BPUT-affiliated college. It takes about 10 minutes, split into short sections so it's easy to finish.")]));
+    var ul = el("ul",{class:"crit"},[
+      el("li",{},[text("Open to 1st and 2nd year students only")]),
+      el("li",{},[text("Your college must be affiliated to BPUT University")]),
+      el("li",{},[text("Keep ready: your ID card (temporary or permanent) and 5 photos of your college from different locations — no need to be professional, just 5 different location photos")]),
+      el("li",{},[text("We'll verify your details, then send " + REWARD_AMOUNT + " via UPI")]),
+      el("li",{},[text("Your identity is never published — only your answers are")])
+    ]);
+    body.appendChild(ul);
+    card.appendChild(body);
+
+    var row = el("div",{class:"nav-row"});
+    var spacer = el("span",{});
+    var startBtn = el("button",{type:"button", class:"nav-btn btn-primary"},[text("Give Review Now")]);
+    startBtn.addEventListener("click", function(){ current++; renderScreen(); });
+    row.appendChild(spacer);
+    row.appendChild(startBtn);
+    card.appendChild(row);
+  }
+
+  function renderConsent(){
+    var body = document.createElement("div"); body.className = "screen-body";
+    body.appendChild(el("div",{class:"section-label"},[text("Almost done")]));
+    body.appendChild(el("h1",{class:"q"},[text("Review & submit")]));
+    body.appendChild(el("p",{class:"helper"},[text("We'll contact you on the mobile number you provided to verify your review before sending your " + REWARD_AMOUNT + " reward.")]));
+    var block = document.createElement("div");
+    var errorNode = el("div",{class:"field-error"});
+    var cb = buildCheckbox({id:"finalConsent", label:"I confirm the information I've provided is accurate and honest, to the best of my knowledge."}, errorNode, block);
+    block.appendChild(cb);
+    block.appendChild(errorNode);
+    body.appendChild(block);
+    currentValidators.push(function(){
+      if(!answers.finalConsent){ setBlockError(block, errorNode, "Please check the box to submit."); return false; }
+      return true;
+    });
+    var submitErr = el("div",{class:"submit-error", id:"submitErr"},[text("Something went wrong sending your review. Please check your connection and try again.")]);
+    body.appendChild(submitErr);
+    body.appendChild(el("p",{class:"privacy-note"},[text("Your mobile number and ID card are used only for verification and are never published.")]));
+    card.appendChild(body);
+    renderNav({type:"consent"}, true);
+  }
+
+  function renderThanks(){
+    var body = el("div",{class:"thankyou screen-body"},[
+      el("div",{class:"center-icon"},[text("✅")]),
+      el("h1",{class:"q"},[text("Thanks — your review is in!")]),
+      el("p",{class:"helper"},[text("Here's what happens next:")]),
+      el("ol",{},[
+        el("li",{},[text("We'll call or message you on your mobile number to verify a few details.")]),
+        el("li",{},[text("Once verified, we'll ask for a UPI QR code to send your " + REWARD_AMOUNT + " reward.")]),
+        el("li",{},[text("Your review will then be published anonymously on the portal.")])
+      ])
+    ]);
+    card.appendChild(body);
+  }
+
+  function renderNav(screen, isConsent){
+    var row = el("div",{class:"nav-row"});
+    var backBtn = el("button",{type:"button", class:"nav-btn btn-ghost"},[text("Back")]);
+    backBtn.disabled = current === 0;
+    backBtn.addEventListener("click", function(){ if(current > 0){ current--; renderScreen(); } });
+
+    var nextBtn = el("button",{type:"button", class:"nav-btn btn-primary"},[text(isConsent ? "Submit review" : "Next")]);
+    nextBtn.addEventListener("click", function(){
+      if(isConsent){ submitReview(nextBtn); return; }
+      goNext();
+    });
+
+    row.appendChild(backBtn);
+    row.appendChild(nextBtn);
+    card.appendChild(row);
+  }
+
+  function goNext(){
+    var allValid = true;
+    var firstInvalid = null;
+    currentValidators.forEach(function(v){
+      var ok = v();
+      if(!ok && allValid){ allValid = false; }
+    });
+    if(!allValid){
+      var invalidBlock = card.querySelector(".qblock.invalid, .invalid");
+      if(invalidBlock) invalidBlock.scrollIntoView({behavior:"smooth", block:"center"});
+      return;
+    }
+    if(SCREENS[current].q && SCREENS[current].q.id === "yearOfStudy"){
+      var elig = checkYearEligibility();
+      if(elig === "ineligible"){ renderIneligible(); return; }
+    }
+    if(current < SCREENS.length - 1){
+      current++;
+      renderScreen();
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+  }
+
+  function renderIneligible(){
+    card.innerHTML = "";
+    progressFill.style.width = "0%";
+    sectionLabel.textContent = "Not eligible";
+    stepLabel.textContent = "";
+    var body = el("div",{class:"screen-body"},[
+      el("div",{class:"center-icon"},[text("🙏")]),
+      el("h1",{class:"q"},[text("This review is open to 1st and 2nd year students only")]),
+      el("p",{class:"helper"},[text("Thanks for your interest. Right now we're only collecting reviews from 1st and 2nd year students, since they've most recently gone through admissions and orientation. Please check back later.")])
+    ]);
+    var row = el("div",{class:"nav-row"});
+    var backBtn = el("button",{type:"button", class:"nav-btn btn-ghost"},[text("Go back")]);
+    backBtn.addEventListener("click", function(){ renderScreen(); });
+    row.appendChild(backBtn);
+    body.appendChild(row);
+    card.appendChild(body);
+  }
+
+  /* ---------------------------------------------------------
+     Submit
+  --------------------------------------------------------- */
+  function submitReview(btn){
+    var allValid = true;
+    currentValidators.forEach(function(v){ if(!v()) allValid = false; });
+    if(!allValid) return;
+
+    btn.disabled = true;
+    var originalText = btn.textContent;
+    btn.textContent = "Submitting…";
+    var overlay = document.getElementById("loadingOverlay");
+    if(overlay) overlay.classList.add("show");
+
+    // FormData keys use each question's short id (fullName, mobile, acad_1, ...).
+    // The Apps Script backend maps these straight onto matching Sheet column headers.
+    var fd = new FormData();
+
+    Object.keys(answers).forEach(function(key){
+      if(key === "idCard" || key === "collegePhotos") return;
+      if(key === "finalConsent" || key === "affiliationConfirm"){
+        fd.append(key, answers[key] ? "Yes" : "No");
+        return;
+      }
+      fd.append(key, answers[key]);
+    });
+    if(answers.idCard){ fd.append("idCard", answers.idCard, answers.idCard.name); }
+    if(answers.collegePhotos){
+      answers.collegePhotos.forEach(function(f, i){
+        fd.append("collegePhoto_" + (i+1), f, f.name);
+      });
+    }
+
+    fetch(FORM_ENDPOINT, { method:"POST", body:fd })
+      .then(function(res){
+        if(!res.ok) throw new Error("Bad response");
+        return res.json().catch(function(){ return {result:"success"}; });
+      })
+      .then(function(data){
+        if(data && data.result === "error") throw new Error(data.message || "Server error");
+        if(overlay) overlay.classList.remove("show");
+        current = SCREENS.length - 1;
+        renderScreen();
+        window.scrollTo({top:0, behavior:"smooth"});
+      })
+      .catch(function(){
+        if(overlay) overlay.classList.remove("show");
+        btn.disabled = false;
+        btn.textContent = originalText;
+        var errNode = document.getElementById("submitErr");
+        if(errNode) errNode.classList.add("show");
+      });
+  }
+
+  /* ---------------------------------------------------------
+     Init
+  --------------------------------------------------------- */
+  renderScreen();
+})();
+</script>
+</body>
+</html>
