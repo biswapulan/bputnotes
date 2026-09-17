@@ -137,13 +137,13 @@
 
   @media(max-width:860px){
     .nav-links{
-      position:fixed; inset:64px 0 auto 0; flex-direction:column; align-items:stretch; gap:0;
+      position:fixed; inset:64px 0 auto 0; flex-direction:column; align-items:center; gap:0;
       background:var(--white); border-bottom:1px solid var(--line);
       padding:8px 24px 18px; transform:translateY(-8px); opacity:0; pointer-events:none;
       transition:transform 0.2s ease, opacity 0.2s ease;
     }
     .nav-links.open{transform:translateY(0); opacity:1; pointer-events:auto;}
-    .nav-links li{border-bottom:1px solid var(--line);}
+    .nav-links li{border-bottom:1px solid var(--line); width:100%; text-align:center;}
     .nav-links a{display:block; padding:14px 4px;}
     .hamburger{display:flex;}
   }
@@ -450,6 +450,7 @@
       <li><a href="notes.html">Notes</a></li>
       <li><a href="pyq.html">PYQs</a></li>
       <li><a href="books.html">Books</a></li>
+      <li><a href="syllabus.html">Syllabus</a></li>
       <li><a href="scholarship.html">Scholarships</a></li>
       <li><a href="premium.html" class="nav-premium-badge"><span>✦</span> Premium</a></li>
       <li><a href="about.html">About</a></li>

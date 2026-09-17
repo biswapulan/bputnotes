@@ -379,6 +379,17 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           <span class="drawer-results-arrow">↗</span>
         </a>
+        <a href="premium.html" class="drawer-item-premium">
+          <span class="drawer-item-premium-left">
+            <span class="drawer-item-premium-badge">✦ PREMIUM</span>
+            <span class="drawer-item-premium-title">Go Premium</span>
+          </span>
+          <span class="drawer-item-premium-arrow">↗</span>
+        </a>
+        <a href="syllabus.html" class="drawer-item">
+          <span class="drawer-item-icon">📄</span>
+          <span class="drawer-item-label">Syllabus</span>
+        </a>
         <a href="scholarship.html" class="drawer-item">
           <span class="drawer-item-icon">🏛️</span>
           <span class="drawer-item-label">Scholarships</span>

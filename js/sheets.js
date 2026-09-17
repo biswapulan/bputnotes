@@ -27,6 +27,15 @@
  *         footer_text, cta_text, cta_link
  *         card_1_icon, card_1_title, card_1_desc, card_1_link, card_1_color, card_1_badge, card_1_enabled
  *         card_2_... card_3_... (up to 5 cards)
+ *
+ * Tab: Syllabus  ⚡ one row per UNIQUE syllabus document (not per branch!)
+ *   A: syllabus_id  B: title  C: applicable_to (label shown to students, e.g. "All Branches" or "CSE, IT")
+ *   D: drive_link   E: tags   F: status
+ *   Multiple branches/semesters that share the exact same syllabus PDF point to the
+ *   SAME syllabus_id from the SyllabusMap tab below — the file is only stored/updated once.
+ *
+ * Tab: SyllabusMap  ⚡ the branch+semester → syllabus_id lookup (many-to-one)
+ *   A: branch  B: semester  C: syllabus_id  D: status
  */
 
 const SHEETS_CONFIG = {
@@ -38,6 +47,8 @@ const SHEETS_CONFIG = {
     books:        'Books',
     scholarships: 'Scholarships',
     popup:        'Popup',
+    syllabus:     'Syllabus',
+    syllabusMap:  'SyllabusMap',
   },
 };
 
@@ -171,6 +182,54 @@ async function getScholarships(category) {
     }));
 }
 
+// ── Syllabus (branch+sem → syllabus_id → document, via SyllabusMap join) ──
+async function getSyllabus(branch, semester) {
+  const [mapRows, docRows] = await Promise.all([
+    fetchSheetRows(SHEETS_CONFIG.TABS.syllabusMap),
+    fetchSheetRows(SHEETS_CONFIG.TABS.syllabus),
+  ]);
+
+  const mapRow = mapRows.find(r =>
+    r[0] === branch && parseInt(r[1]) === parseInt(semester) && r[3] !== 'hidden'
+  );
+  if (!mapRow) return null;
+  const syllabusId = mapRow[2];
+
+  const docRow = docRows.find(r => r[0] === syllabusId && r[5] !== 'hidden');
+  if (!docRow) return null;
+
+  // Find every other branch+sem sharing this same document (for the "also covers" note)
+  const sharedWith = mapRows
+    .filter(r => r[2] === syllabusId && r[3] !== 'hidden')
+    .map(r => ({ branch: r[0], semester: parseInt(r[1]) }));
+
+  return {
+    id:        syllabusId,
+    title:     docRow[1] || 'Syllabus',
+    scope:     docRow[2] || '',
+    link:      docRow[3] || '#',
+    tags:      docRow[4] ? docRow[4].split(',').map(t => t.trim()).filter(Boolean) : ['Syllabus'],
+    status:    docRow[5] || 'active',
+    sharedWith,
+  };
+}
+
+// For admin — flat views of both tabs
+async function getAllSyllabusDocs() {
+  const rows = await fetchSheetRows(SHEETS_CONFIG.TABS.syllabus);
+  return rows.map((r, i) => ({
+    rowIndex: i + 2, syllabus_id: r[0] || '', title: r[1] || '',
+    applicable_to: r[2] || '', drive_link: r[3] || '#', tags: r[4] || '', status: r[5] || 'active',
+  }));
+}
+async function getAllSyllabusMap() {
+  const rows = await fetchSheetRows(SHEETS_CONFIG.TABS.syllabusMap);
+  return rows.map((r, i) => ({
+    rowIndex: i + 2, branch: r[0] || '', semester: parseInt(r[1]) || 1,
+    syllabus_id: r[2] || '', status: r[3] || 'active',
+  }));
+}
+
 // ── Popup ──
 async function getPopupConfig() {
   const rows = await fetchSheetRows(SHEETS_CONFIG.TABS.popup);
@@ -271,7 +330,8 @@ window.SheetsDB = {
   SHEETS_CONFIG, TABS: SHEETS_CONFIG.TABS,
   fetchSheetRows, clearSheetCache,
   getNotesForSem, getPYQs, getAllPYQs, getBooksForSem,
-  getScholarships, getPopupConfig,
+  getScholarships, getPopupConfig, getSyllabus,
   getAllNotes, getAllBooks, getAllScholarships, getPopupRows,
+  getAllSyllabusDocs, getAllSyllabusMap,
   adminWrite,
 };
