@@ -101,6 +101,12 @@ header{transition:background .3s,border-color .3s}header.sc{background:rgba(255,
 .sf{position:absolute;top:-30px;color:#b6c2ff;opacity:.6;pointer-events:none;animation:fall linear infinite}@keyframes fall{to{transform:translateY(900px) rotate(180deg)}}
 @media(prefers-reduced-motion:reduce){.sf{display:none}}
 .mp{width:100%;max-width:240px;height:auto;aspect-ratio:1;object-fit:cover;border-radius:24px;box-shadow:0 18px 36px -14px rgba(76,29,149,.5);border:4px solid #fff}
+.ov{position:fixed;inset:0;background:rgba(20,23,47,.6);display:grid;place-items:center;padding:16px;z-index:100;overflow-y:auto;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}.ov[hidden]{display:none}
+.md{position:relative;background:#fff;border-radius:24px;width:100%;max-width:480px;max-height:calc(100dvh - 32px);overflow-y:auto;padding:30px 28px 26px;box-shadow:0 30px 70px -20px rgba(43,29,110,.6);animation:pp .3s ease-out}@keyframes pp{from{opacity:0;transform:translateY(16px) scale(.97)}}
+.md h3{font-size:1.5rem;margin:6px 0 12px;padding-right:36px}.md p{color:var(--mut);margin:0 0 12px}.md .rf{background:var(--grnbg);color:#065f46;font-weight:600;border-radius:12px;padding:12px 14px}
+.x{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:50%;border:0;background:var(--alt);font-size:1.6rem;line-height:1;cursor:pointer;color:var(--ink)}.x:hover{background:var(--line)}
+@media(max-width:480px){.md{padding:24px 18px 20px;border-radius:20px}.md h3{font-size:1.25rem}.md .cta .btn{flex:1 1 100%;text-align:center}}
+@media(prefers-reduced-motion:reduce){.md{animation:none}}
 </style></head><body><div id="pgb"></div>
 <div class="ann">WINTER BOOTCAMP 2026 | STARTS 5 OCTOBER | ONLY 6 STUDENTS PER BATCH | REGISTER BY 3 OCT, 11:59 PM</div>
 <header><div class="w nav">
@@ -116,7 +122,7 @@ header{transition:background .3s,border-color .3s}header.sc{background:rgba(255,
 <h1>Your first year.<br><span>Your first real coding skill.</span></h1>
 <div class="ps">Winter Bootcamp: Python Programming & Mentorship</div>
 <p class="sub">A one-month, hands-on online Python program designed exclusively for first-year engineering students across Odisha — from every engineering branch.</p>
-<div class="badges"><b><i data-ic="cal"></i>5 OCTOBER 2026</b><b>₹2,499</b><b><i data-ic="users"></i>ONLY 6 STUDENTS/BATCH</b><b><i data-ic="code"></i>12 LIVE CLASSES</b><b><i data-ic="clock"></i>24 LIVE HOURS</b></div>
+<div class="badges"><b><i data-ic="cal"></i>5 OCTOBER 2026</b><b>₹1,499</b><b><i data-ic="users"></i>ONLY 6 STUDENTS/BATCH</b><b><i data-ic="code"></i>12 LIVE CLASSES</b><b><i data-ic="clock"></i>24 LIVE HOURS</b></div>
 <div class="cta"><a class="btn" href="#register">Register Now</a><a class="btn o" href="#offer">Explore the Program</a><a class="btn o" href="Python_Bootcamp_Broucher.pdf" download>Download Brochure</a></div>
 <div class="cd" style="margin-top:22px"><small><i data-ic="clock"></i> Registration closes in</small><div class="cdv"></div></div></div>
 <div><div class="code" aria-hidden="true"><i>first_project.py</i><pre><span class="ln" style="--i:0"><span class="c"># guess the output</span></span>
@@ -181,7 +187,7 @@ header{transition:background .3s,border-color .3s}header.sc{background:rgba(255,
 <p>If a student's admission cannot be accommodated under the published allocation policy, the applicable refund policy will be followed.</p></div></section>
 
 <section class="pu" id="fee"><div class="w"><h2 style="text-align:center">One fee. Everything included.</h2>
-<div class="price"><div class="n">₹2,499</div><ul><li>12 Live Classes</li><li>24 Live Learning Hours</li><li>Personal Mentor</li><li>WhatsApp Support</li><li>Weekly Tests</li><li>Live Test Analysis</li><li>Class Notes</li><li>Hands-on Project</li><li>Project Guidance</li><li>Multilingual Learning</li><li>Final Project Review</li></ul>
+<div class="price"><div class="n">₹1,499</div><ul><li>12 Live Classes</li><li>24 Live Learning Hours</li><li>Personal Mentor</li><li>WhatsApp Support</li><li>Weekly Tests</li><li>Live Test Analysis</li><li>Class Notes</li><li>Hands-on Project</li><li>Project Guidance</li><li>Multilingual Learning</li><li>Final Project Review</li></ul>
 <a class="btn" style="display:block;text-align:center" href="#register">RESERVE YOUR SEAT</a><p style="text-align:center;margin:12px 0 0;font-size:.85rem">Only 6 students per batch</p></div></div></section>
 
 <section id="register"><div class="w two"><div><h2>Ready to start?</h2>
@@ -197,7 +203,7 @@ header{transition:background .3s,border-color .3s}header.sc{background:rgba(255,
 <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
 <div class="card"><h3>What you can expect</h3><ul class="t"><li>12 live online classes, 2 hours each, 3 days a week</li><li>A small batch of only 6 students</li><li>A personal mentor on WhatsApp</li><li>A weekly test with live discussion</li><li>A hands-on project with a final review</li></ul></div>
 <div class="card"><h3>What we do not promise</h3><ul class="t"><li>No guaranteed job, internship or placement</li><li>No guaranteed salary or paid work</li><li>No claim that Python alone makes you an expert in AI or Data Science</li></ul></div>
-<div class="card"><h3>For parents</h3><ul class="t"><li>Fee is fixed at ₹2,499, stated openly on this page</li><li>Fully online, so no travel needed</li><li>Female students can request a female mentor, subject to availability</li><li>You can message us directly on WhatsApp: +91 82491 85682</li></ul></div></div></div></section>
+<div class="card"><h3>For parents</h3><ul class="t"><li>Fee is fixed at ₹1,499, stated openly on this page</li><li>Fully online, so no travel needed</li><li>Female students can request a female mentor, subject to availability</li><li>You can message us directly on WhatsApp: +91 82491 85682</li></ul></div></div></div></section>
 
 <section class="alt" id="faq"><div class="w"><h2>Frequently asked questions</h2><div id="fq" style="margin-top:24px"></div></div></section>
 </main>
@@ -206,6 +212,13 @@ header{transition:background .3s,border-color .3s}header.sc{background:rgba(255,
 <div><h3>Links</h3><ul><li><a href="#home">Home</a></li><li><a href="#offer">Program</a></li><li><a href="#curriculum">Curriculum</a></li><li><a href="#mentorship">Mentorship</a></li><li><a href="#trust">Before you register</a></li><li><a href="#faq">FAQ</a></li><li><a href="#register">Register</a></li></ul></div>
 <div><h3>Contact</h3><ul><li><a class="wa" href="#" target="_blank" rel="noopener">WhatsApp: +91 82491 85682</a></li><li><a href="mailto:community@bputnotes.in">community@bputnotes.in</a></li><li><a href="https://bputnotes.in" target="_blank" rel="noopener">bputnotes.in</a></li><li><a href="Python_Bootcamp_Broucher.pdf" download>Download brochure (PDF)</a></li></ul></div></div>
 <p class="disc">This program is an educational training program. Participation does not guarantee employment, internship, placement, salary or paid work. Paid part-time opportunities, where available, are subject to selection and organizational requirements.</p></div></footer>
+<div id="pop" class="ov" role="dialog" aria-modal="true" aria-labelledby="pt" hidden><div class="md">
+<button class="x" id="px" type="button" aria-label="Close notice">&times;</button>
+<span class="wb">PRICE UPDATE</span>
+<h3 id="pt">Bootcamp fee is now only ₹1,499</h3>
+<p>Due to the high number of participants, the organising cost is covered, and we can now provide this bootcamp at only <b>₹1,499</b>.</p>
+<p class="rf">Students who have already paid ₹2,499 will get a refund of ₹1,000 within 72 hours.</p>
+<div class="cta"><a class="btn" href="#register" id="pr">Register Now</a><button class="btn o" type="button" id="pc">Close</button></div></div></div>
 <button id="up" aria-label="Back to top"></button>
 <script>
 const $=id=>document.getElementById(id);
@@ -221,8 +234,8 @@ const C=[["Week 1","Python Fundamentals",[["5 Oct","Introduction, Python setup/o
 ["Final project period","Project completion, mentoring and review",[["2 Nov","Project development + mentor support."],["3 Nov","Debugging + code review + submission preparation."],["4 Nov","Final project review/presentation + feedback + program completion."]],""]];
 $('cur').innerHTML=C.map((w,i)=>`<details${i?'':' open'}><summary><span><span class="wk">${w[0]}</span>${w[1]}</span></summary><div>${w[2].map(d=>`<p><b>${d[0]}</b> — ${d[1]}</p>`).join('')}${w[3]?`<p><b>Test:</b> ${w[3]}</p>`:'<p><em>These are project, mentoring, review and assessment days, not regular 2-hour classes.</em></p>'}</div></details>`).join('');
 $('tl').innerHTML=[["5 Oct 2026","Bootcamp start"],["5–9 Oct","Python fundamentals"],["12–16 Oct","Data structures + functions"],["19–23 Oct","Advanced Python foundations"],["26–30 Oct","OOP + project"],["2–4 Nov","Project completion + final review"],["4 Nov 2026","Program ends"]].map((t,i)=>`<div><span class="ti">${ic(["flag","code","code","code","code","clip","cal"][i])}</span><b>${t[0]}</b>${t[1]}</div>`).join('');
-$('gl').innerHTML=[["Duration","1 Month"],["Start","5 October 2026"],["End","4 November 2026"],["Classes","3 days/week"],["Class duration","2 hours"],["Live classes","12"],["Live hours","24"],["Batch size","6 students"],["Weekly tests","4"],["Project","1"],["Mode","Online"],["Fee","₹2,499"]].map(r=>`<dt>${r[0]}</dt><dd>${r[1]}</dd>`).join('');
-const Q=[["Who can join?","Only first-year B.Tech/engineering students from colleges across Odisha."],["Is this only for CSE students?","No. Students from all engineering branches can participate."],["When does the batch start?","5 October 2026."],["When does the program end?","4 November 2026."],["How many classes are there?","12 live classes, 3 days per week, 2 hours per class."],["How many students are in one batch?","Only 6 students."],["What is the fee?","₹2,499."],["Are classes online?","Yes, the program is completely online."],["Do I need a laptop?","A laptop is useful for a smoother project-development experience, but the core lessons and coding exercises are designed to be accessible using a smartphone and online Python compiler."],["What languages are used?","Odia, English and Hindi according to batch language preferences."],["Will I get a personal mentor?","Yes. Students receive personal mentor support and one-to-one WhatsApp communication."],["Are there weekly tests?","Yes. One test is conducted each week, followed by live analysis."],["Is there a project?","Yes. Students complete a hands-on Python project during the final stage."],["Is a job guaranteed?","No. The bootcamp does not guarantee a job or placement."],["Is paid work possible after the bootcamp?","High-performing students may be considered for paid part-time website maintenance work with the organization, subject to performance and available opportunities."],["Can female students request a female mentor?","Yes, subject to mentor availability."],["Do I need another Python course after this?","The bootcamp is designed to provide a comprehensive foundation from Python fundamentals through OOP and project work, so students should not need another beginner course simply to repeat the same material. Additional resources may still be useful for advanced specialization."]];
+$('gl').innerHTML=[["Duration","1 Month"],["Start","5 October 2026"],["End","4 November 2026"],["Classes","3 days/week"],["Class duration","2 hours"],["Live classes","12"],["Live hours","24"],["Batch size","6 students"],["Weekly tests","4"],["Project","1"],["Mode","Online"],["Fee","₹1,499"]].map(r=>`<dt>${r[0]}</dt><dd>${r[1]}</dd>`).join('');
+const Q=[["Who can join?","Only first-year B.Tech/engineering students from colleges across Odisha."],["Is this only for CSE students?","No. Students from all engineering branches can participate."],["When does the batch start?","5 October 2026."],["When does the program end?","4 November 2026."],["How many classes are there?","12 live classes, 3 days per week, 2 hours per class."],["How many students are in one batch?","Only 6 students."],["What is the fee?","₹1,499."],["Are classes online?","Yes, the program is completely online."],["Do I need a laptop?","A laptop is useful for a smoother project-development experience, but the core lessons and coding exercises are designed to be accessible using a smartphone and online Python compiler."],["What languages are used?","Odia, English and Hindi according to batch language preferences."],["Will I get a personal mentor?","Yes. Students receive personal mentor support and one-to-one WhatsApp communication."],["Are there weekly tests?","Yes. One test is conducted each week, followed by live analysis."],["Is there a project?","Yes. Students complete a hands-on Python project during the final stage."],["Is a job guaranteed?","No. The bootcamp does not guarantee a job or placement."],["Is paid work possible after the bootcamp?","High-performing students may be considered for paid part-time website maintenance work with the organization, subject to performance and available opportunities."],["Can female students request a female mentor?","Yes, subject to mentor availability."],["Do I need another Python course after this?","The bootcamp is designed to provide a comprehensive foundation from Python fundamentals through OOP and project work, so students should not need another beginner course simply to repeat the same material. Additional resources may still be useful for advanced specialization."]];
 $('fq').innerHTML=Q.map(q=>`<details><summary>${q[0]}</summary><div><p>${q[1]}</p></div></details>`).join('');
 const mb=$('mb'),nv=$('nv');const setM=o=>{nv.classList.toggle('open',o);mb.setAttribute('aria-expanded',o);mb.setAttribute('aria-label',o?'Close menu':'Open menu')};mb.onclick=()=>setM(!nv.classList.contains('open'));addEventListener('keydown',e=>{if(e.key=='Escape')setM(false)});
 nv.onclick=e=>{if(e.target.closest('a'))setM(false)};
@@ -255,4 +268,10 @@ const up=$('up');const hd=document.querySelector('header');const tg=()=>{const y
 up.innerHTML=ic('up');
 const hs=document.querySelector('.hero');for(let i=0;i<10;i++){const e=document.createElement('span');e.className='sf';e.setAttribute('aria-hidden','true');e.style.cssText=`left:${i*10+Math.random()*6}%;font-size:${12+Math.random()*14}px;animation-duration:${12+Math.random()*10}s;animation-delay:-${Math.random()*14}s`;e.innerHTML=ic('snow');hs.prepend(e)}
 up.onclick=()=>{$('home').scrollIntoView({behavior:'smooth'});scrollTo({top:0,behavior:'smooth'})};
+const pop=$('pop');let lf=null;
+function cp(){pop.hidden=true;document.body.style.overflow='';if(lf&&lf.focus)lf.focus()}
+setTimeout(()=>{lf=document.activeElement;pop.hidden=false;document.body.style.overflow='hidden';$('px').focus()},500);
+$('px').onclick=cp;$('pc').onclick=cp;$('pr').onclick=cp;
+pop.onclick=e=>{if(e.target===pop)cp()};
+addEventListener('keydown',e=>{if(e.key=='Escape'&&!pop.hidden)cp()});
 </script></body></html>
