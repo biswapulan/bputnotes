@@ -540,23 +540,7 @@
 
 
 
-<!-- STUDENT CORNER PROMO -->
-<div class="student-corner-overlay" id="studentCornerPromo" role="dialog" aria-modal="true" aria-labelledby="studentCornerTitle">
-  <div class="student-corner-popup">
-    <button class="student-corner-close" id="studentCornerClose" aria-label="Close Student Corner promotion" type="button">×</button>
-    <div class="student-corner-brand">
-      <img src="student-corner-logo.png" alt="Student Corner" class="student-corner-logo">
-    </div>
-    <div class="student-corner-content">
-      <div class="student-corner-kicker">Placement Session Is Here</div>
-      <h2 id="studentCornerTitle">Don't just make a resume.<br><span>Make an impression.</span></h2>
-      <p>Stand out from the crowd by going beyond another resume generated with <span class="student-corner-highlight">AI, Canva or MS Word.</span> We are here to help you build something that actually represents <strong>you</strong>.</p>
-      <div class="student-corner-url"><span class="student-corner-url-dot"></span>student-corner.bputnotes.in</div>
-      <a href="https://student-corner.bputnotes.in" target="_blank" rel="noopener" class="student-corner-cta">Explore Student Corner <span class="student-corner-cta-arrow">→</span></a>
-      <div class="student-corner-note">Built to help BPUT students prepare for what comes next.</div>
-    </div>
-  </div>
-</div>
+
 
 <!-- OTHER SITES POPUP -->
 <div class="site-popup-overlay" id="otherSitesPopup" role="dialog" aria-modal="true" aria-labelledby="otherSitesTitle">
@@ -656,6 +640,9 @@
     </div>
   </div>
 </section>
+
+<!-- Winter Python Bootcamp promo section (filled by js/winter-promo.js) -->
+<div data-wbp-section></div>
 
 <!-- SERVICES -->
 <section class="section" style="padding:64px 0 56px;">
@@ -1067,5 +1054,6 @@ document.querySelectorAll('.faq-item').forEach(item=>{
   document.addEventListener('keydown',e=>{ if(e.key==='Escape' && overlay.classList.contains('show')) closePopup(); });
 })();
 </script>
+<script src="js/winter-promo.js?v=2" defer></script>
 </body>
 </html>
